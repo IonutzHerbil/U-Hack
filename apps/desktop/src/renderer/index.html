@@ -27,6 +27,9 @@
         <li class="nav-item" data-view="comparison">
           Player Comparison
         </li>
+        <li class="nav-item" data-view="recruitment">
+          Recruitment
+        </li>
       </ul>
       <div class="api-status">
         <div class="status-indicator" id="apiStatus"></div>
@@ -345,6 +348,39 @@
             <h3>Metrics Breakdown</h3>
             <div id="comparisonBars" class="comparison-bars loading">Select two players to compare.</div>
           </div>
+        </div>
+      </div>
+
+      <!-- Recruitment View -->
+      <div id="recruitmentView" class="view">
+        <header class="view-header">
+          <h2>Recruitment</h2>
+          <button class="btn-refresh" onclick="app.loadRecruitment()">Refresh</button>
+        </header>
+
+        <div class="recruitment-controls">
+          <label for="shortlistLimit">Candidates per need</label>
+          <select id="shortlistLimit">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+          </select>
+          <button class="btn-refresh" onclick="app.loadRecruitment()">Apply</button>
+        </div>
+
+        <div id="recruitmentStatus" class="loading">Load recruitment insights to start.</div>
+
+        <div class="recruitment-grid">
+          <section class="card recruitment-card">
+            <h3>Priority Needs</h3>
+            <div id="recruitmentNeeds" class="loading">No data yet.</div>
+          </section>
+          <section class="card recruitment-card">
+            <h3>Shortlist</h3>
+            <div id="recruitmentShortlist" class="loading">No data yet.</div>
+          </section>
         </div>
       </div>
     </main>

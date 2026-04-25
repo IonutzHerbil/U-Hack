@@ -64,3 +64,46 @@ export interface APIConfig {
   baseURL: string;
   timeout: number;
 }
+
+export interface RecruitmentNeed {
+  position: string;
+  priority: string;
+  reason: string;
+  desired_traits: string[];
+  min_minutes: number;
+  age_max: number;
+  target_metrics: string[];
+}
+
+export interface RecruitmentRecommendationResponse {
+  priority_needs: RecruitmentNeed[];
+}
+
+export interface RecruitmentFitMetric {
+  metric: string;
+  value: number;
+}
+
+export interface RecruitmentCandidate {
+  player_id: number;
+  name: string;
+  team_slug: string;
+  position: string;
+  position_group: string;
+  age_max_rule: number;
+  minutes: number;
+  overall: number;
+  strengths?: string[] | string;
+  verdict?: string;
+  fit_score: number;
+  fit_metrics: RecruitmentFitMetric[];
+}
+
+export interface RecruitmentShortlistItem extends RecruitmentNeed {
+  candidates: RecruitmentCandidate[];
+}
+
+export interface RecruitmentShortlistResponse {
+  priority_needs: RecruitmentNeed[];
+  shortlist: RecruitmentShortlistItem[];
+}
