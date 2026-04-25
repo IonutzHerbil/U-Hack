@@ -24,6 +24,9 @@
         <li class="nav-item" data-view="matches">
           Match Stats
         </li>
+        <li class="nav-item" data-view="comparison">
+          Player Comparison
+        </li>
       </ul>
       <div class="api-status">
         <div class="status-indicator" id="apiStatus"></div>
@@ -109,6 +112,79 @@
               </tr>
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <!-- Player Comparison View -->
+      <div id="comparisonView" class="view">
+        <header class="view-header">
+          <h2>Player Comparison</h2>
+        </header>
+
+        <!-- Position tabs -->
+        <div class="pos-tabs" id="posTabs">
+          <button class="pos-tab active" data-pos="ALL">ALL</button>
+          <button class="pos-tab" data-pos="GK">GK</button>
+          <button class="pos-tab" data-pos="CB">CB</button>
+          <button class="pos-tab" data-pos="FB">FB</button>
+          <button class="pos-tab" data-pos="CM">CM</button>
+          <button class="pos-tab" data-pos="FW">FW</button>
+          <button class="pos-tab" data-pos="ST">ST</button>
+        </div>
+
+        <!-- Player selectors -->
+        <div class="comparison-controls">
+          <div class="comparison-select-group">
+            <label>
+              <span class="cmp-team-badge cmp-team-badge--a">U CLUJ</span>
+              Player A
+            </label>
+            <input class="cmp-search" id="searchA" placeholder="Search U Cluj player…" autocomplete="off" />
+            <div class="cmp-dropdown" id="dropdownA"></div>
+            <div class="cmp-selected" id="selectedA">—</div>
+          </div>
+          <div class="comparison-vs">VS</div>
+          <div class="comparison-select-group">
+            <label>
+              <span class="cmp-team-badge cmp-team-badge--b">OPPONENT</span>
+              Player B
+            </label>
+            <input class="cmp-search" id="searchB" placeholder="Search Liga 1 opponent…" autocomplete="off" />
+            <div class="cmp-dropdown" id="dropdownB"></div>
+            <div class="cmp-selected" id="selectedB">—</div>
+          </div>
+        </div>
+
+        <!-- Scout Section -->
+        <div id="scoutSection" class="scout-section">
+          <div class="scout-header">
+            <div class="scout-header-text">
+              <span class="scout-title">Profile Scout</span>
+              <span class="scout-subtitle">Drag any axis vertex to set your target profile — best matching Liga 1 players appear instantly</span>
+            </div>
+            <button id="scoutResetBtn" class="btn-refresh">↺ Reset to Player A</button>
+          </div>
+          <div class="scout-grid">
+            <div class="card scout-radar-wrap">
+              <canvas id="scoutRadar" width="560" height="440"></canvas>
+            </div>
+            <div class="card scout-results-wrap">
+              <div id="scoutResults" class="scout-results">
+                <div class="scout-prompt">Select a U Cluj Player A to start scouting.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="comparison-grid">
+          <div class="card comparison-card">
+            <h3>Radar Comparison</h3>
+            <canvas id="comparisonRadar" width="680" height="480"></canvas>
+          </div>
+          <div class="card comparison-card">
+            <h3>Metrics Breakdown</h3>
+            <div id="comparisonBars" class="comparison-bars loading">Select two players to compare.</div>
+          </div>
         </div>
       </div>
     </main>

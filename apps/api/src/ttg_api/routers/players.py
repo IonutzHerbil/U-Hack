@@ -17,7 +17,21 @@ from fastapi import APIRouter, HTTPException
 router = APIRouter(prefix="/api/v1/players", tags=["players"])
 
 ROOT = Path(__file__).resolve().parents[5]
-DATA_DIR = ROOT / "Date-meciuri"
+
+
+def _resolve_data_dir() -> Path:
+    candidates = [
+        ROOT / "analytics" / "Data" / "Date - meciuri",
+        ROOT / "Date-meciuri",
+        ROOT / "Data" / "Date - meciuri",
+    ]
+    for candidate in candidates:
+        if candidate.exists() and candidate.is_dir():
+            return candidate
+    return candidates[0]
+
+
+DATA_DIR = _resolve_data_dir()
 META_FILE = DATA_DIR / "players (1).json"
 
 PLAYER_FILE_PATTERN = "*_players_stats.json"

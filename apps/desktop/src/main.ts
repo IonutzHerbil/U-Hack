@@ -15,7 +15,7 @@ function createWindow(): void {
     backgroundColor: '#1a1a1a',
   });
 
-  mainWindow.loadFile(path.join(__dirname, 'renderer/index.html'));
+  mainWindow.loadFile(path.join(__dirname, 'renderer', 'index.html'));
 
   if (process.argv.includes('--dev')) {
     mainWindow.webContents.openDevTools();
