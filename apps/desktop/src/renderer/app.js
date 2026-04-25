@@ -191,76 +191,89 @@ class App {
   }
 
   renderMatchRecord(record) {
-    const element = document.getElementById('matchRecord');
-    element.className = '';
-    element.innerHTML = `
-      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
-        <div>
-          <div class="stat-value">${record.played}</div>
-          <div class="stat-label">Played</div>
-        </div>
-        <div>
-          <div class="stat-value" style="color: var(--success);">${record.wins}</div>
-          <div class="stat-label">Wins</div>
-        </div>
-        <div>
-          <div class="stat-value" style="color: var(--warning);">${record.draws}</div>
-          <div class="stat-label">Draws</div>
-        </div>
-        <div>
-          <div class="stat-value" style="color: var(--danger);">${record.losses}</div>
-          <div class="stat-label">Losses</div>
-        </div>
-      </div>
+    // Hero strip
+    document.getElementById('heroPlayed').textContent  = record.played;
+    document.getElementById('heroWins').textContent    = record.wins;
+    document.getElementById('heroDraws').textContent   = record.draws;
+    document.getElementById('heroLosses').textContent  = record.losses;
+    document.getElementById('heroGF').textContent      = record.goals_for;
+    document.getElementById('heroGA').textContent      = record.goals_against;
+    document.getElementById('heroPts').textContent     = record.points ?? (record.wins * 3 + record.draws);
+    document.getElementById('heroWinRate').textContent =
+      `${record.win_rate_pct != null ? record.win_rate_pct : Math.round(record.wins / Math.max(record.played, 1) * 100)}%`;
+
+    // Animated W/D/L result bar
+    const n = record.played || 1;
+    const wp = (record.wins   / n * 100).toFixed(1);
+    const dp = (record.draws  / n * 100).toFixed(1);
+    const lp = (record.losses / n * 100).toFixed(1);
+    const bar = document.getElementById('resultBar');
+    bar.innerHTML = `
+      <div class="ov-rb-seg ov-rb-win"  style="width:${wp}%" title="Wins ${wp}%"></div>
+      <div class="ov-rb-seg ov-rb-draw" style="width:${dp}%" title="Draws ${dp}%"></div>
+      <div class="ov-rb-seg ov-rb-loss" style="width:${lp}%" title="Losses ${lp}%"></div>
     `;
+    bar.title = `W ${wp}% · D ${dp}% · L ${lp}%`;
+
   }
 
   renderStrengths(strengths) {
-    const element = document.getElementById('topStrengths');
-    element.className = '';
-    element.innerHTML = strengths.map(s => `
-      <div style="margin-bottom: 8px;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-          <span>${s.label}</span>
-          <span style="font-weight: 600; color: var(--success);">${s.score.toFixed(1)}</span>
-        </div>
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: ${(s.score / 10) * 100}%;"></div>
-        </div>
-      </div>
-    `).join('');
+    const el = document.getElementById('topStrengths');
+    el.className = '';
+    el.innerHTML = strengths.map((s, i) => {
+      const pct = Math.min((s.score / 100) * 100, 100);
+      return `
+        <div class="ov-metric-row">
+          <span class="ov-metric-rank ov-rank-str">${i + 1}</span>
+          <span class="ov-metric-name">${s.label}</span>
+          <div class="ov-metric-track">
+            <div class="ov-metric-fill ov-fill-str" style="width:${pct}%"></div>
+          </div>
+          <span class="ov-metric-score ov-score-str">${s.score.toFixed(0)}</span>
+        </div>`;
+    }).join('');
   }
 
   renderWeaknesses(weaknesses) {
-    const element = document.getElementById('topWeaknesses');
-    element.className = '';
-    element.innerHTML = weaknesses.map(w => `
-      <div style="margin-bottom: 8px;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
-          <span>${w.label}</span>
-          <span style="font-weight: 600; color: var(--danger);">${w.score.toFixed(1)}</span>
-        </div>
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: ${(w.score / 10) * 100}%; background-color: var(--danger);"></div>
-        </div>
-      </div>
-    `).join('');
+    const el = document.getElementById('topWeaknesses');
+    el.className = '';
+    el.innerHTML = weaknesses.map((w, i) => {
+      const pct = Math.min((w.score / 100) * 100, 100);
+      return `
+        <div class="ov-metric-row">
+          <span class="ov-metric-rank ov-rank-wk">${i + 1}</span>
+          <span class="ov-metric-name">${w.label}</span>
+          <div class="ov-metric-track">
+            <div class="ov-metric-fill ov-fill-wk" style="width:${pct}%"></div>
+          </div>
+          <span class="ov-metric-score ov-score-wk">${w.score.toFixed(0)}</span>
+        </div>`;
+    }).join('');
   }
 
   renderTacticalProfile(profile) {
-    const element = document.getElementById('tacticalProfile');
-    element.className = '';
-    element.innerHTML = profile.map(dim => `
-      <div class="profile-bar">
-        <div class="profile-label">${dim.label}</div>
-        <div class="profile-value">
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: ${(dim.score / 10) * 100}%;"></div>
+    const el = document.getElementById('tacticalProfile');
+    el.className = 'ov-profile-grid';
+    el.innerHTML = profile.map(dim => {
+      const pct = Math.min(dim.score, 100);
+      const tier = dim.tier || (pct >= 65 ? 'FORTE' : pct >= 45 ? 'OK' : 'SLAB');
+      const tierColor = tier === 'FORTE' ? '#4ade80' : tier === 'OK' ? '#facc15' : '#f87171';
+      const tierLabel = tier === 'FORTE' ? 'STRONG' : tier === 'OK' ? 'OK' : 'WEAK';
+      return `
+        <div class="ov-dim-card">
+          <div class="ov-dim-top">
+            <span class="ov-dim-name">${dim.label_en || dim.label}</span>
+            <span class="ov-dim-tier" style="color:${tierColor}">${tierLabel}</span>
           </div>
-          <div class="progress-score">${dim.score.toFixed(1)}</div>
-        </div>
-      </div>
-    `).join('');
+          <div class="ov-dim-score-row">
+            <span class="ov-dim-num" style="color:${tierColor}">${pct.toFixed(0)}</span>
+            <span class="ov-dim-denom">/100</span>
+          </div>
+          <div class="ov-dim-track">
+            <div class="ov-dim-fill" style="width:${pct}%;background:${tierColor}"></div>
+          </div>
+        </div>`;
+    }).join('');
   }
 
   async loadPlayers() {
@@ -410,17 +423,19 @@ class App {
       if (this.uclujPlayers.length === 0) {
         const squad = await apiClient.getSquad();
         // Normalize U Cluj squad to a common shape
-        this.uclujPlayers = squad.map(p => ({
-          ...p,
-          position_meta: p.position,
-          stats: p.raw || {},
-          team_label: 'U Cluj',
-        }));
+        this.uclujPlayers = squad
+          .filter(p => (p.apps || 0) >= 5)
+          .map(p => ({
+            ...p,
+            position_meta: p.position,
+            stats: p.raw || {},
+            team_label: 'U Cluj',
+          }));
       }
       if (this.allPlayers.length === 0) {
         const uclujIds = new Set(this.uclujPlayers.map(p => p.player_id));
         const allFetched = await apiClient.getAllPlayers();
-        this.allPlayers = allFetched.filter(p => !uclujIds.has(p.player_id));
+        this.allPlayers = allFetched.filter(p => !uclujIds.has(p.player_id) && (p.apps || p.match_count || 0) >= 5);
       }
       this.populateComparisonSelectors();
       this.renderComparison();
@@ -1010,7 +1025,7 @@ class App {
 
     const scored = this.allPlayers.map(p => ({ player: p, score: this.scorePlayer(p) }));
     scored.sort((a, b) => b.score - a.score);
-    const top = scored.slice(0, 8);
+    const top = scored.slice(0, 4);
 
     const pPerc = this.computeLeaguePercentiles();
 
