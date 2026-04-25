@@ -7,6 +7,11 @@ dependencies = [
     "uvicorn",
     "structlog",
     "hatchling>=1.29.0",
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+    "lxml>=5.0.0",
+    "playwright>=1.42.0",
+    "cloudscraper>=1.2.71",
 ]
 
 [tool.uv]
