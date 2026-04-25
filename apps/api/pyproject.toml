@@ -6,6 +6,9 @@ dependencies = [
     "fastapi",
     "uvicorn",
     "structlog",
+    "langchain",
+    "langchain-google-genai",
+    "pydantic",
     "hatchling>=1.29.0",
 ]
 
