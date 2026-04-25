@@ -3,6 +3,9 @@ from __future__ import annotations
 import json
 import os
 from typing import Literal
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_google_genai import ChatGoogleGenerativeAI
