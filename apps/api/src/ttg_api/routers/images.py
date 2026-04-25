@@ -1,11 +1,13 @@
 """
-routers/images.py — Player image scraper.
+routers/images.py — Player image scraper with server-side cache.
 
-Searches for a player and returns their profile picture directly.
+Each unique player name is scraped at most once per server session;
+subsequent requests are served instantly from the in-memory cache.
 """
 
 from __future__ import annotations
 
+import asyncio
 import re
 from typing import Optional
 
@@ -16,28 +18,30 @@ from ttg_api.services.transfermarkt import AsyncPlaywrightHelper, BASE_URL
 
 router = APIRouter(prefix="/api/images", tags=["Player Images"])
 
-@router.get("/player")
-async def get_player_photo(
-    name: str = Query(..., description="Full player name, e.g. 'Lionel Messi'")
-):
-    """
-    Search for a player by name and return their profile picture directly.
-    """
+# ── Server-side cache: name (lowercased) → raw image bytes + content-type ──
+_photo_cache: dict[str, tuple[bytes, str]] = {}
+# In-flight lock per name so concurrent requests for the same player don't
+# all fire Playwright scrapes simultaneously.
+_in_flight: dict[str, asyncio.Event] = {}
+
+
+async def _fetch_photo(name: str) -> Optional[tuple[bytes, str]]:
+    """Scrape Transfermarkt and return (image_bytes, content_type), or None."""
     search_url = f"{BASE_URL}/schnellsuche/ergebnis/schnellsuche?query={name.replace(' ', '+')}"
     soup = await AsyncPlaywrightHelper.get_soup(search_url)
     if not soup:
-        raise HTTPException(status_code=503, detail="Transfermarkt search failed or blocked")
+        return None
 
-    img_url = None
+    img_url: Optional[str] = None
 
-    # 1. Check if we were redirected directly to a profile page
+    # Direct profile redirect
     header_container = soup.find("div", class_="data-header__profile-container")
     if header_container:
         img_tag = header_container.find("img")
         if img_tag and img_tag.get("src"):
             img_url = img_tag.get("src")
 
-    # 2. Otherwise, look for the first player result in search table
+    # Search result table
     if not img_url:
         player_table = soup.find("table", class_="items")
         if player_table:
@@ -50,35 +54,66 @@ async def get_player_photo(
                         profile_url = f"{BASE_URL}{a_tag.get('href')}"
                         profile_soup = await AsyncPlaywrightHelper.get_soup(profile_url)
                         if profile_soup:
-                            portrait_img = (
-                                profile_soup.find("div", class_="data-header__profile-container")
-                                and profile_soup.find("div", class_="data-header__profile-container").find("img")
-                            ) or profile_soup.find("img", class_="data-header__profile-image")
-                            if portrait_img and portrait_img.get("src"):
-                                img_url = portrait_img.get("src")
-
-                # Fallback to search result thumbnail if profile fetch failed
+                            container = profile_soup.find("div", class_="data-header__profile-container")
+                            portrait = (container.find("img") if container else None) or \
+                                       profile_soup.find("img", class_="data-header__profile-image")
+                            if portrait and portrait.get("src"):
+                                img_url = portrait.get("src")
                 if not img_url:
-                    small_img = first_row.find("img")
-                    if small_img and small_img.get("src"):
-                        img_url = small_img.get("src")
+                    small = first_row.find("img")
+                    if small and small.get("src"):
+                        img_url = small.get("src")
 
     if not img_url:
-        raise HTTPException(status_code=404, detail=f"No player/photo found for '{name}'")
+        return None
 
-    # Proxy the image through our server to avoid CORS/Hotlinking issues
     try:
-        # Transfermarkt CDN usually doesn't block simple requests if the URL is precise
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-            "Referer": "https://www.transfermarkt.com/"
+            "Referer": "https://www.transfermarkt.com/",
         }
         img_res = requests.get(img_url, headers=headers, timeout=10)
         img_res.raise_for_status()
-        
-        content_type = img_res.headers.get("Content-Type", "image/jpeg")
-        return Response(content=img_res.content, media_type=content_type)
-        
-    except Exception as e:
-        # If proxying fails, try one last time with a direct redirect (unlikely to work if we are here)
-        return RedirectResponse(img_url)
+        return img_res.content, img_res.headers.get("Content-Type", "image/jpeg")
+    except Exception:
+        return None
+
+
+@router.get("/player")
+async def get_player_photo(
+    name: str = Query(..., description="Full player name, e.g. 'Lionel Messi'")
+):
+    """
+    Return a player's profile photo, served from cache after the first fetch.
+    """
+    key = name.strip().lower()
+
+    # Cache hit — instant return
+    if key in _photo_cache:
+        data, ct = _photo_cache[key]
+        return Response(content=data, media_type=ct,
+                        headers={"X-Photo-Cache": "HIT"})
+
+    # If another request for this name is already in-flight, wait for it
+    if key in _in_flight:
+        await _in_flight[key].wait()
+        if key in _photo_cache:
+            data, ct = _photo_cache[key]
+            return Response(content=data, media_type=ct,
+                            headers={"X-Photo-Cache": "HIT"})
+        raise HTTPException(status_code=404, detail=f"No photo found for '{name}'")
+
+    # First request for this name — scrape and populate cache
+    event = asyncio.Event()
+    _in_flight[key] = event
+    try:
+        result = await _fetch_photo(name.strip())
+        if result:
+            _photo_cache[key] = result
+            data, ct = result
+            return Response(content=data, media_type=ct,
+                            headers={"X-Photo-Cache": "MISS"})
+        raise HTTPException(status_code=404, detail=f"No photo found for '{name}'")
+    finally:
+        event.set()
+        _in_flight.pop(key, None)

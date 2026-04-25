@@ -1,13 +1,13 @@
 """
-routers/players.py — Endpoints for player metadata and aggregated player stats from Date-meciuri.
-Reads the raw match files and player metadata from the repository database.
+routers/players.py — Endpoints for player metadata and aggregated player stats.
+Prefers the pre-generated all_players_except_ucluj.json; falls back to raw aggregation
+from the Date-meciuri match files if that JSON is unavailable.
 """
 
 from __future__ import annotations
 
 import json
 import re
-from collections import defaultdict
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
@@ -17,6 +17,9 @@ from fastapi import APIRouter, HTTPException
 router = APIRouter(prefix="/api/v1/players", tags=["players"])
 
 ROOT = Path(__file__).resolve().parents[5]
+
+# Pre-generated snapshot produced by generate_liga1_analyses.py
+PREBUILT_JSON = Path(__file__).resolve().parents[3] / "team_analyses" / "all_players_except_ucluj.json"
 
 
 def _resolve_data_dir() -> Path:
@@ -215,8 +218,47 @@ def load_database() -> dict[str, Any]:
     }
 
 
+@lru_cache(maxsize=1)
+def _fullname_map() -> dict[int, str]:
+    """Build {wyId -> 'FirstName LastName'} from the raw players metadata."""
+    candidates = [
+        ROOT / "Data" / "Date - meciuri" / "players (1).json",
+        ROOT / "analytics" / "Data" / "Date - meciuri" / "players (1).json",
+        ROOT / "Date-meciuri" / "players (1).json",
+    ]
+    for path in candidates:
+        if path.exists():
+            try:
+                data = json.loads(path.read_text(encoding="utf-8"))
+                players = data.get("players", data) if isinstance(data, dict) else data
+                return {
+                    int(p["wyId"]): f"{p.get('firstName','').strip()} {p.get('lastName','').strip()}".strip()
+                    for p in players if p.get("wyId")
+                }
+            except Exception:
+                pass
+    return {}
+
+
+@lru_cache(maxsize=1)
+def _load_prebuilt() -> list[dict[str, Any]]:
+    data = json.loads(PREBUILT_JSON.read_text(encoding="utf-8"))
+    players = data.get("players", []) if isinstance(data, dict) else data
+    fm = _fullname_map()
+    for p in players:
+        pid = p.get("player_id")
+        full = fm.get(pid, "")
+        p["full_name"] = full if full else p.get("name", "")
+    return players
+
+
 @router.get("/")
 def all_players() -> list[dict[str, Any]]:
+    # Fast path: serve pre-generated snapshot if available
+    if PREBUILT_JSON.exists():
+        return _load_prebuilt()
+
+    # Slow path: aggregate from raw match files
     data = load_database()
     return sorted(
         [

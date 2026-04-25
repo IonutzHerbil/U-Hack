@@ -548,11 +548,40 @@ body {
 .cmp-legend {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 8px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--border-color);
-  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #222;
+}
+
+.cmp-legend-player {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.cmp-legend-player--right {
+  justify-content: flex-end;
+}
+
+.cmp-legend-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cmp-legend-info--right {
+  text-align: right;
+}
+
+.cmp-legend-vs {
+  font-size: 11px;
+  font-weight: 700;
+  color: #444;
+  letter-spacing: 0.1em;
+  flex-shrink: 0;
 }
 
 .cmp-legend-dot {
@@ -563,13 +592,37 @@ body {
 }
 
 .cmp-legend-name {
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .cmp-legend-pos {
   font-size: 11px;
   color: var(--text-secondary);
+}
+
+/* Player avatar (photo with initials fallback) */
+.player-avatar {
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-avatar-initials {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  pointer-events: none;
 }
 
 .cmp-bar-block {
