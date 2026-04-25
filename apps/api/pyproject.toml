@@ -7,6 +7,9 @@ dependencies = [
     "uvicorn",
     "structlog",
     "hatchling>=1.29.0",
+    "beautifulsoup4",
+    "requests",
+    "lxml",
 ]
 
 [tool.uv]
