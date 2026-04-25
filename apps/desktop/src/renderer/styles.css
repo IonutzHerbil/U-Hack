@@ -1724,6 +1724,185 @@ body {
   margin-right: 8px;
 }
 
+/* Recruitment */
+.recruitment-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.recruitment-controls label {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.recruitment-controls select {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+#recruitmentStatus {
+  margin-bottom: 14px;
+}
+
+.recruitment-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 16px;
+}
+
+.recruitment-card {
+  min-height: 440px;
+}
+
+.need-card,
+.shortlist-group {
+  border: 1px solid #2b2b2b;
+  border-radius: 10px;
+  padding: 12px;
+  background: #101010;
+  margin-bottom: 12px;
+}
+
+.need-card-header,
+.shortlist-group-header,
+.candidate-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.need-position {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-primary);
+}
+
+.need-priority {
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.priority-high {
+  background: rgba(248, 113, 113, 0.2);
+  color: #f87171;
+}
+
+.priority-medium {
+  background: rgba(250, 204, 21, 0.2);
+  color: #facc15;
+}
+
+.priority-low {
+  background: rgba(74, 222, 128, 0.2);
+  color: #4ade80;
+}
+
+.need-reason {
+  margin: 10px 0;
+  color: #c8c8c8;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.need-meta {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.need-section-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #777;
+  margin-bottom: 6px;
+}
+
+.need-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.need-tag {
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #1d1d1d;
+  border: 1px solid #303030;
+  font-size: 11px;
+  color: #d7d7d7;
+}
+
+.metric-tag {
+  color: #9cd9ff;
+}
+
+.candidate-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.candidate-card {
+  border: 1px solid #292929;
+  border-radius: 8px;
+  padding: 10px;
+  background: #151515;
+}
+
+.candidate-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.candidate-meta,
+.candidate-rating {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.candidate-score {
+  font-size: 16px;
+  font-weight: 700;
+  color: #8df5e6;
+}
+
+.candidate-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.metric-item {
+  font-size: 11px;
+  color: #cfcfcf;
+  background: #1f1f1f;
+  border: 1px solid #2f2f2f;
+  padding: 3px 6px;
+  border-radius: 6px;
+}
+
+.candidate-verdict {
+  font-size: 12px;
+  color: #b9b9b9;
+  border-top: 1px solid #262626;
+  padding-top: 8px;
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
   .pitch-controls {
@@ -1770,5 +1949,9 @@ body {
 
   .player-detail-stats-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .recruitment-grid {
+    grid-template-columns: 1fr;
   }
 }

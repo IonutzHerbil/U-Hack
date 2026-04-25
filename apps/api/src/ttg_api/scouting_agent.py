@@ -107,14 +107,136 @@ def _build_chain() -> ChatPromptTemplate:
     return PROMPT | llm.with_structured_output(RecruitmentNeeds)
 
 
-def generate_recruitment_needs(weaknesses_payload: dict) -> RecruitmentNeeds:
-    chain = _build_chain()
-    return chain.invoke(
-        {
-            "weaknesses_json": json.dumps(
-                weaknesses_payload,
-                ensure_ascii=False,
-                indent=2,
-            )
-        }
+def _fallback_recruitment_needs(weaknesses_payload: dict) -> RecruitmentNeeds:
+    tactical = weaknesses_payload.get("tactical_weaknesses", []) or []
+    underperformers = weaknesses_payload.get("underperforming_players", []) or []
+
+    tactical_text = " ".join(
+        f"{item.get('label', '')} {item.get('description', '')}".lower()
+        for item in tactical
     )
+
+    needs: list[RecruitmentNeed] = []
+    seen_positions: set[str] = set()
+
+    def add_need(need: RecruitmentNeed) -> None:
+        if need.position in seen_positions:
+            return
+        seen_positions.add(need.position)
+        needs.append(need)
+
+    # Tactical-signal based defaults (no LLM dependency).
+    if any(k in tactical_text for k in ["duel", "aerial", "block", "defens", "apărare", "aparare"]):
+        add_need(
+            RecruitmentNeed(
+                position="CB",
+                priority="high",
+                reason="Defensive indicators suggest the back line needs stronger duel and aerial stability.",
+                desired_traits=["Defensive duel dominance", "Aerial strength", "Positional awareness"],
+                min_minutes=900,
+                age_max=31,
+                target_metrics=[
+                    "subscores.Apărare",
+                    "pct.def_duels_won",
+                    "pct.aerial_won",
+                    "per90.interceptions",
+                    "subscores.Fizic",
+                ],
+            )
+        )
+
+    if any(k in tactical_text for k in ["attack", "atac", "finishing", "xg", "box", "chance"]):
+        add_need(
+            RecruitmentNeed(
+                position="ST",
+                priority="high",
+                reason="Attacking output trends indicate a need for a more productive focal striker.",
+                desired_traits=["Clinical finishing", "Box presence", "Creative link-up"],
+                min_minutes=700,
+                age_max=29,
+                target_metrics=[
+                    "subscores.Atac",
+                    "per90.goals",
+                    "per90.xg",
+                    "per90.touches_box",
+                    "subscores.Creativitate",
+                ],
+            )
+        )
+
+    if any(k in tactical_text for k in ["press", "recovery", "loss", "midfield", "transition"]):
+        add_need(
+            RecruitmentNeed(
+                position="DM",
+                priority="medium",
+                reason="Transition and ball-recovery signals suggest adding a stronger defensive screen.",
+                desired_traits=["Ball recovery", "Passing reliability", "Tactical discipline"],
+                min_minutes=800,
+                age_max=30,
+                target_metrics=[
+                    "subscores.Pressing",
+                    "per90.interceptions",
+                    "pct.pass_accuracy",
+                    "per90.prog_passes",
+                    "subscores.Apărare",
+                ],
+            )
+        )
+
+    # Underperformer-signal fallback if tactical text did not provide enough roles.
+    position_map = {
+        "gk": "GK", "cb": "CB", "lcb": "CB", "rcb": "CB", "lb": "LB", "rb": "RB",
+        "dmf": "DM", "cdm": "DM", "cm": "CM", "amf": "AM", "cf": "ST", "st": "ST",
+        "lw": "LW", "rw": "RW", "lwf": "LW", "rwf": "RW",
+    }
+    for p in underperformers:
+        raw_pos = str(p.get("position", "")).lower().strip()
+        pos = position_map.get(raw_pos)
+        if not pos:
+            continue
+        if pos in {"CB", "LB", "RB", "DM", "CM", "AM", "ST", "LW", "RW", "GK"} and pos not in seen_positions:
+            add_need(
+                RecruitmentNeed(
+                    position=pos,
+                    priority="medium",
+                    reason=f"Current options in {pos} include underperforming profiles and need reinforcement.",
+                    desired_traits=["Consistency", "Role fit", "Reliable execution"],
+                    min_minutes=600,
+                    age_max=30,
+                    target_metrics=["overall", "subscores.Apărare", "subscores.Pressing"],
+                )
+            )
+        if len(needs) >= 3:
+            break
+
+    if not needs:
+        add_need(
+            RecruitmentNeed(
+                position="CM",
+                priority="medium",
+                reason="Fallback baseline: reinforce central stability when model generation is unavailable.",
+                desired_traits=["Ball progression", "Press resistance", "Defensive work rate"],
+                min_minutes=700,
+                age_max=30,
+                target_metrics=["subscores.Pasare", "subscores.Pressing", "per90.prog_passes"],
+            )
+        )
+
+    return RecruitmentNeeds(priority_needs=needs[:4])
+
+
+def generate_recruitment_needs(weaknesses_payload: dict) -> RecruitmentNeeds:
+    try:
+        chain = _build_chain()
+        return chain.invoke(
+            {
+                "weaknesses_json": json.dumps(
+                    weaknesses_payload,
+                    ensure_ascii=False,
+                    indent=2,
+                )
+            }
+        )
+    except Exception:
+        # Graceful degradation for quota/rate-limit/provider outages.
+        return _fallback_recruitment_needs(weaknesses_payload)
