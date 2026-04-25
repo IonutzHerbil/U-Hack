@@ -1868,6 +1868,17 @@ body {
   font-weight: 600;
 }
 
+.candidate-identity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.candidate-identity > div {
+  min-width: 0;
+}
+
 .candidate-meta,
 .candidate-rating {
   font-size: 12px;

@@ -1940,9 +1940,12 @@ class App {
             return `
               <article class="candidate-card">
                 <div class="candidate-main">
-                  <div>
+                  <div class="candidate-identity">
+                    ${this._playerAvatar(candidate, '#8df5e6', 40)}
+                    <div>
                     <div class="candidate-name">${candidate.name || 'Unknown'}</div>
                     <div class="candidate-meta">${candidate.team_slug || 'Unknown team'} · ${(candidate.position || '-').toUpperCase()} · ${candidate.minutes || 0} mins</div>
+                    </div>
                   </div>
                   <div class="candidate-score">${this.formatMetricValue(candidate.fit_score)}</div>
                 </div>
