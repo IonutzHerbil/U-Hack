@@ -572,6 +572,57 @@ class App {
     return normalized;
   }
 
+  // Client-side photo cache: full_name → blob URL (avoids re-fetching on re-renders)
+  _photoCache = {};
+
+  _playerName(player) {
+    return (typeof player === 'object')
+      ? (player.full_name || player.name || '').trim()
+      : (player || '').trim();
+  }
+
+  _playerAvatar(player, color, size = 52) {
+    const name = this._playerName(player);
+    const initials = name.split(' ').map(w => w[0]).filter(Boolean).join('').slice(0, 2).toUpperCase();
+    const uid = `av-${name.replace(/\s+/g, '-').toLowerCase()}-${size}`;
+
+    // If already cached, return an img pointing at the blob URL directly
+    if (this._photoCache[name]) {
+      return `
+        <div class="player-avatar" style="width:${size}px;height:${size}px;border:2px solid ${color}">
+          <img src="${this._photoCache[name]}" alt="${name}"
+               style="width:100%;height:100%;object-fit:cover;object-position:top;position:absolute;inset:0">
+        </div>`;
+    }
+
+    // Otherwise lazy-fetch once, store as blob URL, then swap the img src in-place
+    const apiUrl = `http://localhost:8000/api/images/player?name=${encodeURIComponent(name)}`;
+    // Kick off the fetch in the background after the element is in the DOM
+    setTimeout(() => {
+      if (this._photoCache[name]) return; // another render already fetched it
+      const img = document.getElementById(uid);
+      if (!img) return;
+      fetch(apiUrl)
+        .then(r => r.ok ? r.blob() : Promise.reject())
+        .then(blob => {
+          const blobUrl = URL.createObjectURL(blob);
+          this._photoCache[name] = blobUrl;
+          img.src = blobUrl;
+          img.style.opacity = '1';
+          const ini = document.getElementById(`ini-${uid}`);
+          if (ini) ini.style.display = 'none';
+        })
+        .catch(() => { /* keep initials visible */ });
+    }, 0);
+
+    return `
+      <div class="player-avatar" style="width:${size}px;height:${size}px;border:2px solid ${color}">
+        <span class="player-avatar-initials" id="ini-${uid}" style="font-size:${Math.round(size*0.3)}px">${initials}</span>
+        <img id="${uid}" alt="${name}"
+             style="opacity:0;transition:opacity .3s;width:100%;height:100%;object-fit:cover;object-position:top;position:absolute;inset:0">
+      </div>`;
+  }
+
   renderComparison() {
     const bars = document.getElementById('comparisonBars');
     if (!bars) return;
@@ -590,20 +641,31 @@ class App {
     const bStats = this.getPlayerComparisonStats(playerB);
     const normalized = this.normalizeMetricValues(aStats, bStats);
 
-    const nameA = playerA.name || 'Player A';
-    const nameB = playerB.name || 'Player B';
+    const nameA = playerA.full_name || playerA.name || 'Player A';
+    const nameB = playerB.full_name || playerB.name || 'Player B';
     const posA = (playerA.position_meta || '-').toUpperCase();
     const posB = (playerB.position_meta || '-').toUpperCase();
+    const teamA = playerA.team_label || 'U Cluj';
+    const teamB = playerB.team_label || '';
 
     bars.className = 'comparison-bars';
     bars.innerHTML = `
       <div class="cmp-legend">
-        <span class="cmp-legend-dot" style="background:${this.COLOR_A}"></span>
-        <span class="cmp-legend-name" style="color:${this.COLOR_A}">${nameA}</span>
-        <span class="cmp-legend-pos">${posA}</span>
-        <span class="cmp-legend-dot" style="background:${this.COLOR_B};margin-left:16px"></span>
-        <span class="cmp-legend-name" style="color:${this.COLOR_B}">${nameB}</span>
-        <span class="cmp-legend-pos">${posB}</span>
+        <div class="cmp-legend-player">
+          ${this._playerAvatar(playerA, this.COLOR_A, 56)}
+          <div class="cmp-legend-info">
+            <span class="cmp-legend-name" style="color:${this.COLOR_A}">${nameA}</span>
+            <span class="cmp-legend-pos">${posA} · ${teamA}</span>
+          </div>
+        </div>
+        <div class="cmp-legend-vs">VS</div>
+        <div class="cmp-legend-player cmp-legend-player--right">
+          <div class="cmp-legend-info cmp-legend-info--right">
+            <span class="cmp-legend-name" style="color:${this.COLOR_B}">${nameB}</span>
+            <span class="cmp-legend-pos">${posB}${teamB ? ' · ' + teamB : ''}</span>
+          </div>
+          ${this._playerAvatar(playerB, this.COLOR_B, 56)}
+        </div>
       </div>
       ${this.comparisonMetrics.map(metric => {
         const item = normalized[metric.key];
@@ -1045,9 +1107,10 @@ class App {
         return `
           <div class="scout-candidate">
             <div class="scout-cand-top">
+              ${this._playerAvatar(player, this.COLOR_B, 40)}
               <span class="scout-cand-rank">#${rank + 1}</span>
               <span class="scout-cand-pos">${pos}</span>
-              <span class="scout-cand-name">${player.name || 'Unknown'}</span>
+              <span class="scout-cand-name">${player.full_name || player.name || 'Unknown'}</span>
               <span class="scout-cand-score" style="color:${scoreColor}">${score}%</span>
               <button class="scout-cand-btn" data-id="${player.player_id}">Compare →</button>
             </div>

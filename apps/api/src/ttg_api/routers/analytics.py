@@ -5,6 +5,7 @@ Fast — no DB needed for these reads.
 """
 
 import json
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -14,7 +15,42 @@ from fastapi import APIRouter, HTTPException
 log = structlog.get_logger()
 router = APIRouter(prefix="/api/v1/ucluj", tags=["analytics"])
 
+ROOT = Path(__file__).resolve().parents[5]
 ANALYSIS_FILE = Path("ucluj_analysis.json")
+
+# ── Full-name lookup from raw player metadata ──────────────────────────────
+
+@lru_cache(maxsize=1)
+def _load_fullname_map() -> dict[int, str]:
+    """Build {wyId -> 'FirstName LastName'} from the raw players metadata file."""
+    candidates = [
+        ROOT / "Data" / "Date - meciuri" / "players (1).json",
+        ROOT / "analytics" / "Data" / "Date - meciuri" / "players (1).json",
+        ROOT / "Date-meciuri" / "players (1).json",
+    ]
+    for path in candidates:
+        if path.exists():
+            try:
+                data = json.loads(path.read_text(encoding="utf-8"))
+                players = data.get("players", data) if isinstance(data, dict) else data
+                return {
+                    int(p["wyId"]): f"{p.get('firstName','').strip()} {p.get('lastName','').strip()}".strip()
+                    for p in players
+                    if p.get("wyId")
+                }
+            except Exception:
+                pass
+    return {}
+
+
+def _enrich_squad(squad: list) -> list:
+    """Attach full_name to each squad player using the metadata lookup."""
+    fm = _load_fullname_map()
+    for p in squad:
+        pid = p.get("player_id")
+        full = fm.get(pid, "")
+        p["full_name"] = full if full else p.get("name", "")
+    return squad
 
 
 def _load() -> dict:
@@ -48,9 +84,10 @@ def overview() -> dict:
 
 @router.get("/squad")
 def squad() -> list:
-    """Full squad with ratings, per-90 stats, and verdicts."""
+    """Full squad with ratings, per-90 stats, verdicts, and full_name."""
     data = _load()
-    return sorted(data["squad"], key=lambda p: -p["overall"])
+    enriched = _enrich_squad([dict(p) for p in data["squad"]])
+    return sorted(enriched, key=lambda p: -p["overall"])
 
 
 @router.get("/squad/{player_id}")
@@ -59,7 +96,8 @@ def player_detail(player_id: int) -> dict:
     p = next((p for p in data["squad"] if p["player_id"] == player_id), None)
     if not p:
         raise HTTPException(status_code=404, detail=f"Player {player_id} not in U Cluj squad")
-    return p
+    enriched = _enrich_squad([dict(p)])
+    return enriched[0]
 
 
 @router.get("/team-profile")
