@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run build && electron .",
     "dev": "npm run build && electron . --dev",
-    "build": "tsc",
+    "build": "tsc && node scripts/copy-renderer.cjs",
     "watch": "tsc --watch",
     "package": "electron-builder"
   },
