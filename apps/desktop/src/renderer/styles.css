@@ -843,3 +843,256 @@ body {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
+
+/* =====================================================
+   TEAM OVERVIEW – VISUAL REDESIGN
+   ===================================================== */
+
+/* Hero stat strip */
+.ov-hero-strip {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: #111;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 24px 32px;
+  margin-bottom: 8px;
+}
+
+.ov-hero-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  gap: 4px;
+}
+
+.ov-hero-num {
+  font-size: 40px;
+  font-weight: 500;
+  letter-spacing: -1px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.ov-hero-label {
+  font-size: 11px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.ov-hero-divider {
+  width: 1px;
+  height: 52px;
+  background: #2a2a2a;
+  margin: 0 16px;
+  flex: none;
+}
+
+.ov-win  { color: #4ade80; }
+.ov-draw { color: #facc15; }
+.ov-loss { color: #f87171; }
+
+/* Result bar */
+.ov-result-bar {
+  display: flex;
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.ov-rb-seg {
+  transition: width 0.6s ease;
+}
+.ov-rb-win  { background: #4ade80; }
+.ov-rb-draw { background: #facc15; }
+.ov-rb-loss { background: #f87171; }
+
+/* Season form chips */
+.ov-form-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #444;
+  margin-bottom: 6px;
+  text-align: right;
+}
+
+.ov-form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-bottom: 20px;
+  justify-content: flex-end;
+}
+
+.ov-chip {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 500;
+  cursor: default;
+}
+.ov-chip-w { background: rgba(74,222,128,.15);  color: #4ade80; border: 1px solid rgba(74,222,128,.4); }
+.ov-chip-d { background: rgba(250,204,21,.15);  color: #facc15; border: 1px solid rgba(250,204,21,.4); }
+.ov-chip-l { background: rgba(248,113,113,.15); color: #f87171; border: 1px solid rgba(248,113,113,.4); }
+
+/* Cards row */
+.ov-cards-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.ov-card {
+  padding: 20px 24px;
+}
+
+.ov-card-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #555;
+  margin-bottom: 16px;
+}
+
+/* Strengths / weaknesses metric rows */
+.ov-metric-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.ov-metric-rank {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+.ov-rank-str { background: rgba(74,222,128,.15); color: #4ade80; }
+.ov-rank-wk  { background: rgba(248,113,113,.15); color: #f87171; }
+
+.ov-metric-name {
+  font-size: 13px;
+  color: #ccc;
+  min-width: 120px;
+  flex-shrink: 0;
+}
+
+.ov-metric-track {
+  flex: 1;
+  height: 5px;
+  background: #222;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.ov-metric-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+.ov-fill-str { background: linear-gradient(90deg, #22c55e, #4ade80); }
+.ov-fill-wk  { background: linear-gradient(90deg, #dc2626, #f87171); }
+
+.ov-metric-score {
+  font-size: 12px;
+  font-weight: 400;
+  min-width: 32px;
+  text-align: right;
+}
+.ov-score-str { color: #4ade80; }
+.ov-score-wk  { color: #f87171; }
+
+/* Tactical profile card */
+.ov-profile-card {
+  padding: 20px 24px;
+}
+
+.ov-profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+}
+
+/* Individual dimension tile */
+.ov-dim-card {
+  background: #111;
+  border: 1px solid #222;
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ov-dim-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.ov-dim-name {
+  font-size: 12px;
+  color: #aaa;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ov-dim-tier {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+.ov-dim-score-row {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.ov-dim-num {
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.ov-dim-denom {
+  font-size: 13px;
+  color: #444;
+}
+
+.ov-dim-track {
+  height: 4px;
+  background: #222;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.ov-dim-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.5s ease;
+  opacity: 0.85;
+}

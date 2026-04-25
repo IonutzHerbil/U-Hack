@@ -41,22 +41,64 @@
           <h2>Team Overview</h2>
           <button class="btn-refresh" onclick="app.loadOverview()">Refresh</button>
         </header>
-        <div class="cards-grid">
-          <div class="card">
-            <h3>Match Record</h3>
-            <div id="matchRecord" class="loading">Loading...</div>
+
+        <!-- Hero stat strip -->
+        <div class="ov-hero-strip" id="heroStrip">
+          <div class="ov-hero-stat">
+            <span class="ov-hero-num" id="heroPlayed">—</span>
+            <span class="ov-hero-label">Played</span>
           </div>
-          <div class="card">
-            <h3>Top Strengths</h3>
+          <div class="ov-hero-divider"></div>
+          <div class="ov-hero-stat">
+            <span class="ov-hero-num ov-win" id="heroWins">—</span>
+            <span class="ov-hero-label">Wins</span>
+          </div>
+          <div class="ov-hero-stat">
+            <span class="ov-hero-num ov-draw" id="heroDraws">—</span>
+            <span class="ov-hero-label">Draws</span>
+          </div>
+          <div class="ov-hero-stat">
+            <span class="ov-hero-num ov-loss" id="heroLosses">—</span>
+            <span class="ov-hero-label">Losses</span>
+          </div>
+          <div class="ov-hero-divider"></div>
+          <div class="ov-hero-stat">
+            <span class="ov-hero-num" id="heroGF">—</span>
+            <span class="ov-hero-label">Goals For</span>
+          </div>
+          <div class="ov-hero-stat">
+            <span class="ov-hero-num" id="heroGA">—</span>
+            <span class="ov-hero-label">Conceded</span>
+          </div>
+          <div class="ov-hero-divider"></div>
+          <div class="ov-hero-stat">
+            <span class="ov-hero-num ov-win" id="heroPts">—</span>
+            <span class="ov-hero-label">Points</span>
+          </div>
+          <div class="ov-hero-stat">
+            <span class="ov-hero-num" id="heroWinRate">—</span>
+            <span class="ov-hero-label">Win Rate</span>
+          </div>
+        </div>
+
+        <!-- Result bar -->
+        <div class="ov-result-bar" id="resultBar"></div>
+
+        <!-- Cards row -->
+        <div class="ov-cards-row">
+          <div class="card ov-card">
+            <div class="ov-card-label">Top Strengths</div>
             <div id="topStrengths" class="loading">Loading...</div>
           </div>
-          <div class="card">
-            <h3>Top Weaknesses</h3>
+          <div class="card ov-card">
+            <div class="ov-card-label">Top Weaknesses</div>
             <div id="topWeaknesses" class="loading">Loading...</div>
           </div>
         </div>
-        <div class="card full-width">
-          <h3>Tactical Profile</h3>
+
+        <!-- Tactical profile -->
+        <div class="card ov-profile-card">
+          <div class="ov-card-label">Tactical Profile</div>
           <div id="tacticalProfile" class="loading">Loading...</div>
         </div>
       </div>
