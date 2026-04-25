@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>U Cluj Analytics</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <nav class="sidebar">
+      <div class="logo">
+        <img src="../../../../resources/logo.png" alt="U Cluj Logo" style="width: 100px; height: auto; margin-bottom: 10px;">
+        <h1>U Cluj</h1>
+        <p>Analytics Dashboard</p>
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item active" data-view="overview">
+          Team Overview
+        </li>
+        <li class="nav-item" data-view="players">
+          Players
+        </li>
+        <li class="nav-item" data-view="matches">
+          Match Stats
+        </li>
+      </ul>
+      <div class="api-status">
+        <div class="status-indicator" id="apiStatus"></div>
+        <span id="apiStatusText">Connecting...</span>
+      </div>
+    </nav>
+
+    <main class="content">
+      <!-- Team Overview View -->
+      <div id="overviewView" class="view active">
+        <header class="view-header">
+          <h2>Team Overview</h2>
+          <button class="btn-refresh" onclick="app.loadOverview()">Refresh</button>
+        </header>
+        <div class="cards-grid">
+          <div class="card">
+            <h3>Match Record</h3>
+            <div id="matchRecord" class="loading">Loading...</div>
+          </div>
+          <div class="card">
+            <h3>Top Strengths</h3>
+            <div id="topStrengths" class="loading">Loading...</div>
+          </div>
+          <div class="card">
+            <h3>Top Weaknesses</h3>
+            <div id="topWeaknesses" class="loading">Loading...</div>
+          </div>
+        </div>
+        <div class="card full-width">
+          <h3>Tactical Profile</h3>
+          <div id="tacticalProfile" class="loading">Loading...</div>
+        </div>
+      </div>
+
+      <!-- Players View -->
+      <div id="playersView" class="view">
+        <header class="view-header">
+          <h2>Squad Players</h2>
+          <button class="btn-refresh" onclick="app.loadPlayers()">Refresh</button>
+        </header>
+        <div class="search-bar">
+          <input type="text" id="playerSearch" placeholder="Search players..." />
+        </div>
+        <div class="table-container">
+          <table class="data-table" id="playersTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Rating</th>
+                <th>Apps</th>
+                <th>Goals</th>
+                <th>Assists</th>
+                <th>Minutes</th>
+              </tr>
+            </thead>
+            <tbody id="playersTableBody">
+              <tr>
+                <td colspan="7" class="loading">Loading players...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Matches View -->
+      <div id="matchesView" class="view">
+        <header class="view-header">
+          <h2>Match Statistics</h2>
+          <button class="btn-refresh" onclick="app.loadMatches()">Refresh</button>
+        </header>
+        <div class="table-container">
+          <table class="data-table" id="matchesTable">
+            <thead>
+              <tr>
+                <th>Statistic</th>
+                <th colspan="4">Value</th>
+              </tr>
+            </thead>
+            <tbody id="matchesTableBody">
+              <tr>
+                <td colspan="5" class="loading">Loading match data...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
