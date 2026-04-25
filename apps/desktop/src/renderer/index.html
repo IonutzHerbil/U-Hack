@@ -107,30 +107,148 @@
       <div id="playersView" class="view">
         <header class="view-header">
           <h2>Squad Players</h2>
-          <button class="btn-refresh" onclick="app.loadPlayers()">Refresh</button>
+          <div class="view-header-controls">
+            <button class="btn-toggle" id="pitchViewToggle" onclick="app.togglePitchView()">
+              <span id="toggleIcon">⚽</span> <span id="toggleText">Pitch View</span>
+            </button>
+            <button class="btn-refresh" onclick="app.loadPlayers()">Refresh</button>
+          </div>
         </header>
-        <div class="search-bar">
-          <input type="text" id="playerSearch" placeholder="Search players..." />
+
+        <!-- Pitch View Container -->
+        <div id="pitchViewContainer" class="pitch-view-container">
+          <!-- Controls Panel -->
+          <div class="pitch-controls">
+            <div class="control-group">
+              <label>Formation</label>
+              <select id="formationSelect" onchange="app.changeFormation(this.value)">
+                <option value="4-3-3">4-3-3</option>
+                <option value="4-4-2">4-4-2</option>
+                <option value="3-5-2">3-5-2</option>
+                <option value="4-2-3-1">4-2-3-1</option>
+                <option value="3-4-3">3-4-3</option>
+                <option value="4-1-4-1">4-1-4-1</option>
+                <option value="5-3-2">5-3-2</option>
+                <option value="custom">Custom</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <label>Filter by Position</label>
+              <select id="positionFilter" onchange="app.filterByPosition(this.value)">
+                <option value="ALL">All Positions</option>
+                <option value="GK">Goalkeeper</option>
+                <option value="DEF">Defenders</option>
+                <option value="MID">Midfielders</option>
+                <option value="FWD">Forwards</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <label>
+                <input type="checkbox" id="showStatsOnPitch" onchange="app.togglePitchStats()" checked>
+                Show Stats on Pitch
+              </label>
+            </div>
+            <div class="control-group">
+              <label>
+                <input type="checkbox" id="enableDragDrop" onchange="app.toggleDragDrop()">
+                Enable Drag & Drop
+              </label>
+            </div>
+          </div>
+
+          <!-- Football Pitch -->
+          <div class="pitch-container">
+            <svg class="football-pitch" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet">
+              <!-- Grass Pattern -->
+              <defs>
+                <pattern id="grassPattern" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+                  <rect width="40" height="80" fill="#0d3b1a" />
+                  <rect x="40" width="40" height="80" fill="#0f4520" />
+                </pattern>
+              </defs>
+
+              <!-- Pitch Background -->
+              <rect width="1200" height="800" fill="url(#grassPattern)" />
+
+              <!-- Outer Border -->
+              <rect x="40" y="40" width="1120" height="720" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+
+              <!-- Half Line -->
+              <line x1="600" y1="40" x2="600" y2="760" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+
+              <!-- Center Circle -->
+              <circle cx="600" cy="400" r="70" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+              <circle cx="600" cy="400" r="3" fill="rgba(255,255,255,0.6)" />
+
+              <!-- Left Penalty Area -->
+              <rect x="40" y="220" width="130" height="360" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+              <rect x="40" y="310" width="50" height="180" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+              <path d="M 170 290 A 70 70 0 0 0 170 510" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+              <circle cx="120" cy="400" r="3" fill="rgba(255,255,255,0.6)" />
+
+              <!-- Right Penalty Area -->
+              <rect x="1030" y="220" width="130" height="360" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+              <rect x="1110" y="310" width="50" height="180" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+              <path d="M 1030 290 A 70 70 0 0 1 1030 510" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+              <circle cx="1080" cy="400" r="3" fill="rgba(255,255,255,0.6)" />
+
+              <!-- Corner Arcs -->
+              <path d="M 40 55 Q 47 47 55 40" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+              <path d="M 1145 40 Q 1153 47 1160 55" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+              <path d="M 40 745 Q 47 753 55 760" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+              <path d="M 1145 760 Q 1153 753 1160 745" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+
+              <!-- Goals -->
+              <rect x="30" y="355" width="15" height="90" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" />
+              <rect x="1155" y="355" width="15" height="90" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" />
+            </svg>
+
+            <!-- Player Cards on Pitch (dynamically populated) -->
+            <div id="pitchPlayers" class="pitch-players"></div>
+          </div>
+
+          <!-- Substitutes Bench -->
+          <div class="subs-bench">
+            <h3>Substitutes & Reserves</h3>
+            <div id="subsList" class="subs-list">
+              <div class="loading">Loading substitutes...</div>
+            </div>
+          </div>
         </div>
-        <div class="table-container">
-          <table class="data-table" id="playersTable">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Rating</th>
-                <th>Apps</th>
-                <th>Goals</th>
-                <th>Assists</th>
-                <th>Minutes</th>
-              </tr>
-            </thead>
-            <tbody id="playersTableBody">
-              <tr>
-                <td colspan="7" class="loading">Loading players...</td>
-              </tr>
-            </tbody>
-          </table>
+
+        <!-- Traditional Table View -->
+        <div id="tableViewContainer" class="table-view-container" style="display: none;">
+          <div class="search-bar">
+            <input type="text" id="playerSearch" placeholder="Search players..." />
+          </div>
+          <div class="table-container">
+            <table class="data-table" id="playersTable">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Position</th>
+                  <th>Rating</th>
+                  <th>Apps</th>
+                  <th>Goals</th>
+                  <th>Assists</th>
+                  <th>Minutes</th>
+                </tr>
+              </thead>
+              <tbody id="playersTableBody">
+                <tr>
+                  <td colspan="7" class="loading">Loading players...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Player Detail Panel (Modal) -->
+        <div id="playerDetailPanel" class="player-detail-panel" style="display: none;">
+          <div class="player-detail-content">
+            <button class="detail-close" onclick="app.closePlayerDetail()">×</button>
+            <div id="playerDetailBody"></div>
+          </div>
         </div>
       </div>
 

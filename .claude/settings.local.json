@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm start)",
+      "Bash(cat:*)",
+      "Bash(npm run build:*)",
+      "Bash(python -m json.tool:*)",
+      "Bash(python:*)"
+    ]
+  }
+}

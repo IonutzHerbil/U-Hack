@@ -19,6 +19,16 @@ class App {
     this.selectedB = null;
     this.activePos = 'ALL';
 
+    // Pitch View State
+    this.isPitchView = true;
+    this.currentFormation = '4-3-3';
+    this.showPitchStats = true;
+    this.dragDropEnabled = false;
+    this.startingEleven = [];
+    this.substitutes = [];
+    this.draggedPlayer = null;
+    this.playerPositions = {};
+
     // Position group → position codes from the API
     this.POS_MAP = {
       ALL: null,
@@ -277,12 +287,26 @@ class App {
   }
 
   async loadPlayers() {
+    console.log('=== loadPlayers START ===');
     const tbody = document.getElementById('playersTableBody');
     tbody.innerHTML = '<tr><td colspan="7" class="loading">Loading players...</td></tr>';
 
     try {
       this.players = await apiClient.getSquad();
+      console.log('Players loaded from API:', this.players.length);
+      if (this.players.length > 0) {
+        console.log('First player sample:', this.players[0]);
+      }
       this.renderPlayers(this.players);
+
+      // Initialize pitch view if active
+      console.log('isPitchView:', this.isPitchView);
+      if (this.isPitchView) {
+        this.selectStartingEleven();
+        this.assignPlayersToFormation();
+        this.renderPitchView();
+        this.renderSubstitutes();
+      }
     } catch (error) {
       console.error('Failed to load players:', error);
       tbody.innerHTML = '<tr><td colspan="7" style="color: var(--danger);">Failed to load players</td></tr>';
@@ -315,6 +339,641 @@ class App {
       (p.position && p.position.toLowerCase().includes(query.toLowerCase()))
     );
     this.renderPlayers(filtered);
+  }
+
+  // ===== PITCH VIEW METHODS =====
+
+  getFormationPositions(formation) {
+    // Horizontal pitch - left to right (GK on left, attackers on right)
+    const formations = {
+      '4-3-3': [
+        { x: 10, y: 50, pos: 'GK' },
+        // Defense
+        { x: 25, y: 15, pos: 'LB' }, { x: 25, y: 38, pos: 'CB' }, { x: 25, y: 62, pos: 'CB' }, { x: 25, y: 85, pos: 'RB' },
+        // Midfield
+        { x: 50, y: 30, pos: 'CM' }, { x: 50, y: 50, pos: 'CM' }, { x: 50, y: 70, pos: 'CM' },
+        // Attack
+        { x: 75, y: 15, pos: 'LW' }, { x: 80, y: 50, pos: 'ST' }, { x: 75, y: 85, pos: 'RW' }
+      ],
+      '4-4-2': [
+        { x: 10, y: 50, pos: 'GK' },
+        { x: 25, y: 15, pos: 'LB' }, { x: 25, y: 38, pos: 'CB' }, { x: 25, y: 62, pos: 'CB' }, { x: 25, y: 85, pos: 'RB' },
+        { x: 50, y: 15, pos: 'LM' }, { x: 50, y: 38, pos: 'CM' }, { x: 50, y: 62, pos: 'CM' }, { x: 50, y: 85, pos: 'RM' },
+        { x: 78, y: 38, pos: 'ST' }, { x: 78, y: 62, pos: 'ST' }
+      ],
+      '3-5-2': [
+        { x: 10, y: 50, pos: 'GK' },
+        { x: 25, y: 25, pos: 'CB' }, { x: 25, y: 50, pos: 'CB' }, { x: 25, y: 75, pos: 'CB' },
+        { x: 45, y: 10, pos: 'LWB' }, { x: 45, y: 33, pos: 'CM' }, { x: 45, y: 50, pos: 'CDM' }, { x: 45, y: 67, pos: 'CM' }, { x: 45, y: 90, pos: 'RWB' },
+        { x: 75, y: 38, pos: 'ST' }, { x: 75, y: 62, pos: 'ST' }
+      ],
+      '4-2-3-1': [
+        { x: 10, y: 50, pos: 'GK' },
+        { x: 25, y: 15, pos: 'LB' }, { x: 25, y: 38, pos: 'CB' }, { x: 25, y: 62, pos: 'CB' }, { x: 25, y: 85, pos: 'RB' },
+        { x: 42, y: 38, pos: 'CDM' }, { x: 42, y: 62, pos: 'CDM' },
+        { x: 60, y: 15, pos: 'LW' }, { x: 60, y: 50, pos: 'CAM' }, { x: 60, y: 85, pos: 'RW' },
+        { x: 80, y: 50, pos: 'ST' }
+      ],
+      '3-4-3': [
+        { x: 10, y: 50, pos: 'GK' },
+        { x: 25, y: 25, pos: 'CB' }, { x: 25, y: 50, pos: 'CB' }, { x: 25, y: 75, pos: 'CB' },
+        { x: 48, y: 18, pos: 'LM' }, { x: 48, y: 42, pos: 'CM' }, { x: 48, y: 58, pos: 'CM' }, { x: 48, y: 82, pos: 'RM' },
+        { x: 75, y: 20, pos: 'LW' }, { x: 80, y: 50, pos: 'ST' }, { x: 75, y: 80, pos: 'RW' }
+      ],
+      '4-1-4-1': [
+        { x: 10, y: 50, pos: 'GK' },
+        { x: 25, y: 15, pos: 'LB' }, { x: 25, y: 38, pos: 'CB' }, { x: 25, y: 62, pos: 'CB' }, { x: 25, y: 85, pos: 'RB' },
+        { x: 42, y: 50, pos: 'CDM' },
+        { x: 58, y: 15, pos: 'LM' }, { x: 58, y: 38, pos: 'CM' }, { x: 58, y: 62, pos: 'CM' }, { x: 58, y: 85, pos: 'RM' },
+        { x: 80, y: 50, pos: 'ST' }
+      ],
+      '5-3-2': [
+        { x: 10, y: 50, pos: 'GK' },
+        { x: 25, y: 10, pos: 'LWB' }, { x: 25, y: 30, pos: 'CB' }, { x: 25, y: 50, pos: 'CB' }, { x: 25, y: 70, pos: 'CB' }, { x: 25, y: 90, pos: 'RWB' },
+        { x: 52, y: 30, pos: 'CM' }, { x: 52, y: 50, pos: 'CM' }, { x: 52, y: 70, pos: 'CM' },
+        { x: 78, y: 38, pos: 'ST' }, { x: 78, y: 62, pos: 'ST' }
+      ]
+    };
+    return formations[formation] || formations['4-3-3'];
+  }
+
+  selectStartingEleven() {
+    console.log('=== selectStartingEleven START ===');
+    if (!this.players || this.players.length === 0) {
+      console.error('No players available!');
+      return;
+    }
+
+    console.log('Total players:', this.players.length);
+
+    // Sort ALL players by overall rating
+    const sorted = [...this.players].sort((a, b) => (b.overall || 0) - (a.overall || 0));
+
+    // Initialize with top 11 as starting lineup
+    this.startingEleven = sorted.slice(0, 11);
+
+    // ALL remaining players are available as substitutes
+    this.substitutes = sorted.slice(11);
+
+    console.log('Starting eleven selected:', this.startingEleven.length);
+    console.log('Substitutes available:', this.substitutes.length);
+  }
+
+  assignPlayersToFormation() {
+    console.log('=== assignPlayersToFormation START ===');
+    console.log('Formation:', this.currentFormation);
+    console.log('All U Cluj players:', this.players.length);
+
+    const positions = this.getFormationPositions(this.currentFormation);
+    console.log('Formation positions:', positions);
+    this.playerPositions = {};
+
+    // Sort players by: 1) apps (most matches), 2) minutes, 3) overall rating
+    // This gives us the "average starting 11" - players who actually play regularly
+    const sorted = [...this.players].sort((a, b) => {
+      const appsA = a.apps || 0;
+      const appsB = b.apps || 0;
+
+      if (appsB !== appsA) {
+        return appsB - appsA; // More apps = higher priority
+      }
+
+      const minsA = a.minutes || 0;
+      const minsB = b.minutes || 0;
+
+      if (minsB !== minsA) {
+        return minsB - minsA; // More minutes = higher priority
+      }
+
+      return (b.overall || 0) - (a.overall || 0); // Higher rating = higher priority
+    });
+
+    const availablePlayers = [...sorted];
+    console.log('Available players count:', availablePlayers.length);
+    console.log('Top 5 by playing time:', sorted.slice(0, 5).map(p => ({
+      name: p.name,
+      apps: p.apps,
+      minutes: p.minutes,
+      rating: p.overall?.toFixed(1)
+    })));
+
+    // Helper to match player to formation position
+    const matchesPosition = (player, formationPos) => {
+      if (!player.position) return false;
+      const pos = player.position.toLowerCase();
+
+      if (formationPos === 'GK') {
+        return pos === 'gk';
+      } else if (/CB|LB|RB|LWB|RWB/.test(formationPos)) {
+        // Defenders
+        return /^(cb|lcb|rcb|lb|rb|lwb|rwb|lb|rb)$/.test(pos);
+      } else if (/CM|CDM|CAM|LM|RM/.test(formationPos)) {
+        // Midfielders - include all variants: amf, lamf, ramf, dmf, ldmf, rdmf, etc
+        return /^(cm|cdm|lcm|rcm|cam|lam|ram|amf|lamf|ramf|lm|rm|dmf|ldmf|rdmf|lcmf|rcmf)$/.test(pos);
+      } else {
+        // Forwards: ST, LW, RW
+        return /^(st|cf|lw|rw|lwf|rwf|ss)$/.test(pos);
+      }
+    };
+
+    // TWO-PASS ASSIGNMENT for better position matching
+
+    // PASS 1: Assign players with exact position matches only
+    positions.forEach((formationPos) => {
+      const playerIndex = availablePlayers.findIndex(p => matchesPosition(p, formationPos.pos));
+
+      if (playerIndex >= 0) {
+        const player = availablePlayers.splice(playerIndex, 1)[0];
+        console.log(`[EXACT] Assigned ${player.name} (${player.position}/${player.position_group}) to ${formationPos.pos}`);
+        this.playerPositions[player.player_id] = { ...formationPos, player };
+      }
+    });
+
+    console.log('After exact matching:', Object.keys(this.playerPositions).length, 'players assigned');
+    console.log('Remaining players:', availablePlayers.length);
+
+    // PASS 2: Fill remaining positions using position_group
+    positions.forEach((formationPos) => {
+      // Skip if already assigned
+      const alreadyAssigned = Object.values(this.playerPositions).some(
+        p => p.x === formationPos.x && p.y === formationPos.y
+      );
+      if (alreadyAssigned) return;
+
+      let playerIndex = -1;
+
+      if (formationPos.pos === 'GK') {
+        playerIndex = availablePlayers.findIndex(p => p.position_group === 'GK');
+      } else if (/CB|LB|RB|LWB|RWB/.test(formationPos.pos)) {
+        playerIndex = availablePlayers.findIndex(p => p.position_group === 'DEF');
+      } else if (/CM|CDM|CAM|LM|RM/.test(formationPos.pos)) {
+        playerIndex = availablePlayers.findIndex(p => p.position_group === 'MID');
+      } else {
+        playerIndex = availablePlayers.findIndex(p => p.position_group === 'ATT' || p.position_group === 'FWD');
+      }
+
+      if (playerIndex >= 0) {
+        const player = availablePlayers.splice(playerIndex, 1)[0];
+        console.log(`[GROUP] Assigned ${player.name} (${player.position}/${player.position_group}) to ${formationPos.pos}`);
+        this.playerPositions[player.player_id] = { ...formationPos, player };
+      } else if (availablePlayers.length > 0) {
+        // Last resort: take any available player
+        const player = availablePlayers.shift();
+        console.log(`[FALLBACK] Assigned ${player.name} (${player.position}/${player.position_group}) to ${formationPos.pos}`);
+        this.playerPositions[player.player_id] = { ...formationPos, player };
+      }
+    });
+
+    console.log('Final playerPositions:', Object.keys(this.playerPositions).length, 'players assigned');
+    console.log('Remaining available players:', availablePlayers.length);
+    console.log('=== assignPlayersToFormation END ===');
+  }
+
+  renderPitchView() {
+    console.log('=== renderPitchView START ===');
+    const pitchPlayers = document.getElementById('pitchPlayers');
+    if (!pitchPlayers) {
+      console.error('pitchPlayers element not found');
+      return;
+    }
+
+    // Clear existing
+    pitchPlayers.innerHTML = '';
+
+    // Get pitch container and SVG dimensions
+    const pitchContainer = document.querySelector('.pitch-container');
+    const svg = document.querySelector('.football-pitch');
+    if (!pitchContainer || !svg) {
+      console.error('pitch-container or football-pitch not found');
+      return;
+    }
+
+    console.log('Rendering', Object.keys(this.playerPositions).length, 'players on pitch');
+
+    Object.values(this.playerPositions).forEach(({ x, y, player }) => {
+      const playerCard = document.createElement('div');
+      playerCard.className = 'player-card' + (this.dragDropEnabled ? ' draggable' : '');
+      playerCard.dataset.playerId = player.player_id;
+
+      // Position directly on the pitch using percentages
+      playerCard.style.left = x + '%';
+      playerCard.style.top = y + '%';
+
+      const rating = player.overall ? player.overall.toFixed(1) : '-';
+      const goals = player.raw?.goals || 0;
+      const assists = player.raw?.assists || 0;
+      const apps = player.apps || 0;
+
+      // Get strengths and weaknesses
+      const strengths = player.strengths || [];
+      const weaknesses = player.weaknesses || [];
+
+      playerCard.innerHTML = `
+        <div class="player-card-inner">
+          <div class="player-card-rating">${rating}</div>
+          <div class="player-card-name" title="${player.name || 'Unknown'}">${player.name || 'Unknown'}</div>
+          <div class="player-card-position">${player.position || '-'}</div>
+          ${this.showPitchStats ? `
+            <div class="player-card-stats">
+              <div class="player-stat">
+                <span class="player-stat-label">G:</span>
+                <span class="player-stat-value">${goals}</span>
+              </div>
+              <div class="player-stat">
+                <span class="player-stat-label">A:</span>
+                <span class="player-stat-value">${assists}</span>
+              </div>
+              <div class="player-stat">
+                <span class="player-stat-label">Apps:</span>
+                <span class="player-stat-value">${apps}</span>
+              </div>
+            </div>
+            ${strengths.length > 0 ? `
+              <div class="player-card-traits">
+                <div class="player-strengths" title="${strengths.join(', ')}">
+                  <span class="trait-icon">💪</span> ${strengths.slice(0, 2).join(', ')}
+                </div>
+              </div>
+            ` : ''}
+            ${weaknesses.length > 0 ? `
+              <div class="player-card-traits">
+                <div class="player-weaknesses" title="${weaknesses.join(', ')}">
+                  <span class="trait-icon">⚠️</span> ${weaknesses.slice(0, 2).join(', ')}
+                </div>
+              </div>
+            ` : ''}
+          ` : ''}
+        </div>
+      `;
+
+      // Store player for click handler
+      let clickStartTime = 0;
+      let clickStartX = 0;
+      let clickStartY = 0;
+
+      playerCard.addEventListener('mousedown', (e) => {
+        clickStartTime = Date.now();
+        clickStartX = e.clientX;
+        clickStartY = e.clientY;
+      });
+
+      playerCard.addEventListener('click', (e) => {
+        const clickDuration = Date.now() - clickStartTime;
+        const clickDeltaX = Math.abs(e.clientX - clickStartX);
+        const clickDeltaY = Math.abs(e.clientY - clickStartY);
+
+        // Only show detail if it wasn't a drag (quick click with minimal movement)
+        if (clickDuration < 300 && clickDeltaX < 5 && clickDeltaY < 5) {
+          e.stopPropagation();
+          this.showPlayerDetail(player);
+        }
+      });
+
+      if (this.dragDropEnabled) {
+        this.makeDraggable(playerCard);
+        this.makeDroppable(playerCard, player);
+      }
+
+      pitchPlayers.appendChild(playerCard);
+    });
+  }
+
+  renderSubstitutes() {
+    const subsList = document.getElementById('subsList');
+    if (!subsList) return;
+
+    // Get all players NOT currently on the pitch
+    const playersOnPitch = new Set(Object.keys(this.playerPositions).map(id => parseInt(id)));
+    const availablePlayers = this.players.filter(p => !playersOnPitch.has(p.player_id));
+
+    // Sort by: 1) apps, 2) minutes, 3) overall rating (same as starting 11)
+    availablePlayers.sort((a, b) => {
+      const appsA = a.apps || 0;
+      const appsB = b.apps || 0;
+      if (appsB !== appsA) return appsB - appsA;
+
+      const minsA = a.minutes || 0;
+      const minsB = b.minutes || 0;
+      if (minsB !== minsA) return minsB - minsA;
+
+      return (b.overall || 0) - (a.overall || 0);
+    });
+
+    if (availablePlayers.length === 0) {
+      subsList.innerHTML = '<div class="loading">All players are on the pitch</div>';
+      return;
+    }
+
+    subsList.innerHTML = '';
+
+    availablePlayers.forEach(player => {
+      const initials = player.name ? player.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : '?';
+      const rating = player.overall ? player.overall.toFixed(1) : '-';
+
+      const subCard = document.createElement('div');
+      subCard.className = 'sub-card';
+      subCard.dataset.playerId = player.player_id;
+      subCard.dataset.playerData = JSON.stringify(player);
+
+      // Show substitution button when drag-drop is enabled
+      const subButton = this.dragDropEnabled ? '<div class="sub-action">↔️</div>' : '';
+
+      subCard.innerHTML = `
+        <div class="sub-card-avatar">${initials}</div>
+        <div class="sub-card-info">
+          <div class="sub-card-name">${player.name || 'Unknown'}</div>
+          <div class="sub-card-position">${player.position || '-'}</div>
+        </div>
+        <div class="sub-card-rating">${rating}</div>
+        ${subButton}
+      `;
+
+      // Click to view details (not when drag-drop enabled)
+      if (!this.dragDropEnabled) {
+        subCard.addEventListener('click', () => this.showPlayerDetail(player));
+      } else {
+        // When drag-drop enabled, make substitutes draggable
+        subCard.classList.add('sub-draggable');
+        subCard.draggable = true;
+
+        subCard.addEventListener('dragstart', (e) => {
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/plain', player.player_id);
+          e.dataTransfer.setData('source', 'bench');
+          subCard.classList.add('dragging');
+        });
+
+        subCard.addEventListener('dragend', () => {
+          subCard.classList.remove('dragging');
+        });
+      }
+
+      subsList.appendChild(subCard);
+    });
+  }
+
+  togglePitchView() {
+    this.isPitchView = !this.isPitchView;
+    const pitchContainer = document.getElementById('pitchViewContainer');
+    const tableContainer = document.getElementById('tableViewContainer');
+    const toggleBtn = document.getElementById('pitchViewToggle');
+    const toggleText = document.getElementById('toggleText');
+    const toggleIcon = document.getElementById('toggleIcon');
+
+    if (this.isPitchView) {
+      pitchContainer.style.display = 'block';
+      tableContainer.style.display = 'none';
+      toggleBtn.classList.add('active');
+      toggleText.textContent = 'Table View';
+      toggleIcon.textContent = '📊';
+
+      // Render pitch view
+      this.selectStartingEleven();
+      this.assignPlayersToFormation();
+      this.renderPitchView();
+      this.renderSubstitutes();
+    } else {
+      pitchContainer.style.display = 'none';
+      tableContainer.style.display = 'block';
+      toggleBtn.classList.remove('active');
+      toggleText.textContent = 'Pitch View';
+      toggleIcon.textContent = '⚽';
+    }
+  }
+
+  changeFormation(formation) {
+    this.currentFormation = formation;
+    this.assignPlayersToFormation();
+    this.renderPitchView();
+  }
+
+  filterByPosition(posFilter) {
+    if (posFilter === 'ALL') {
+      this.selectStartingEleven();
+    } else {
+      // Filter players and show them in subs
+      const filtered = this.players.filter(p => {
+        if (!p.position) return false;
+        const pos = p.position.toUpperCase();
+        if (posFilter === 'GK') return pos.includes('GK');
+        if (posFilter === 'DEF') return /CB|LB|RB|LWB|RWB/.test(pos);
+        if (posFilter === 'MID') return /CM|CDM|CAM|LM|RM|AM/.test(pos);
+        if (posFilter === 'FWD') return /ST|CF|LW|RW|FW/.test(pos);
+        return true;
+      });
+      this.substitutes = filtered;
+    }
+    this.assignPlayersToFormation();
+    this.renderPitchView();
+    this.renderSubstitutes();
+  }
+
+  togglePitchStats() {
+    this.showPitchStats = document.getElementById('showStatsOnPitch').checked;
+    this.renderPitchView();
+  }
+
+  toggleDragDrop() {
+    this.dragDropEnabled = document.getElementById('enableDragDrop').checked;
+    this.renderPitchView();
+    this.renderSubstitutes(); // Re-render subs to enable/disable dragging
+  }
+
+  makeDraggable(element) {
+    let isDragging = false;
+    let hasMoved = false;
+    let startX, startY, initialLeft, initialTop;
+
+    const onMouseDown = (e) => {
+      if (!this.dragDropEnabled) return;
+      if (e.button !== 0) return;
+
+      isDragging = true;
+      hasMoved = false;
+      element.classList.add('dragging');
+
+      startX = e.clientX;
+      startY = e.clientY;
+      initialLeft = parseFloat(element.style.left);
+      initialTop = parseFloat(element.style.top);
+
+      e.preventDefault();
+      e.stopPropagation();
+    };
+
+    const onMouseMove = (e) => {
+      if (!isDragging) return;
+
+      const deltaX = Math.abs(e.clientX - startX);
+      const deltaY = Math.abs(e.clientY - startY);
+
+      // Consider it a drag if moved more than 5 pixels
+      if (deltaX > 5 || deltaY > 5) {
+        hasMoved = true;
+      }
+
+      const svg = document.querySelector('.football-pitch');
+      if (!svg) return;
+
+      const svgRect = svg.getBoundingClientRect();
+      const newLeft = initialLeft + ((e.clientX - startX) / svgRect.width * 100);
+      const newTop = initialTop + ((e.clientY - startY) / svgRect.height * 100);
+
+      element.style.left = Math.max(5, Math.min(95, newLeft)) + '%';
+      element.style.top = Math.max(5, Math.min(95, newTop)) + '%';
+    };
+
+    const onMouseUp = () => {
+      if (isDragging) {
+        isDragging = false;
+        element.classList.remove('dragging');
+
+        if (hasMoved) {
+          // Save new position
+          const playerId = element.dataset.playerId;
+          if (this.playerPositions[playerId]) {
+            this.playerPositions[playerId].x = parseFloat(element.style.left);
+            this.playerPositions[playerId].y = parseFloat(element.style.top);
+          }
+        }
+      }
+    };
+
+    element.addEventListener('mousedown', onMouseDown);
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+
+    // Store flag to prevent click event
+    element.dataset.isDraggable = 'true';
+    element.dataset.hasMoved = 'false';
+  }
+
+  makeDroppable(element, currentPlayer) {
+    element.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      element.classList.add('drop-target');
+    });
+
+    element.addEventListener('dragleave', () => {
+      element.classList.remove('drop-target');
+    });
+
+    element.addEventListener('drop', (e) => {
+      e.preventDefault();
+      element.classList.remove('drop-target');
+
+      const droppedPlayerId = parseInt(e.dataTransfer.getData('text/plain'));
+      const source = e.dataTransfer.getData('source');
+
+      if (source === 'bench') {
+        // Substitute: swap bench player with pitch player
+        const benchPlayer = this.players.find(p => p.player_id === droppedPlayerId);
+        if (!benchPlayer) return;
+
+        console.log(`Substituting ${currentPlayer.name} with ${benchPlayer.name}`);
+
+        // Find the position slot
+        const positionSlot = Object.values(this.playerPositions).find(
+          pos => pos.player.player_id === currentPlayer.player_id
+        );
+
+        if (positionSlot) {
+          // Replace player in the slot
+          positionSlot.player = benchPlayer;
+          delete this.playerPositions[currentPlayer.player_id];
+          this.playerPositions[benchPlayer.player_id] = positionSlot;
+
+          // Re-render both pitch and bench
+          this.renderPitchView();
+          this.renderSubstitutes();
+        }
+      }
+    });
+  }
+
+  showPlayerDetail(player) {
+    const panel = document.getElementById('playerDetailPanel');
+    const body = document.getElementById('playerDetailBody');
+
+    const initials = player.name ? player.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : '?';
+    const rating = player.overall ? player.overall.toFixed(1) : '-';
+    const goals = player.raw?.goals || 0;
+    const assists = player.raw?.assists || 0;
+    const apps = player.apps || player.games_played || 0;
+    const minutes = player.minutes || 0;
+    const goalsP90 = player.goals_per90 ? player.goals_per90.toFixed(2) : '-';
+    const assistsP90 = player.assists_per90 ? player.assists_per90.toFixed(2) : '-';
+
+    body.innerHTML = `
+      <div class="player-detail-header">
+        <div class="player-detail-avatar">${initials}</div>
+        <div class="player-detail-name">${player.name || 'Unknown Player'}</div>
+        <div class="player-detail-position">${player.position || 'Position Unknown'}</div>
+        <div class="player-detail-rating">${rating}</div>
+      </div>
+
+      <div class="player-detail-stats-grid">
+        <div class="player-detail-stat">
+          <div class="player-detail-stat-label">Appearances</div>
+          <div class="player-detail-stat-value">${apps}</div>
+        </div>
+        <div class="player-detail-stat">
+          <div class="player-detail-stat-label">Minutes</div>
+          <div class="player-detail-stat-value">${minutes}</div>
+        </div>
+        <div class="player-detail-stat">
+          <div class="player-detail-stat-label">Goals</div>
+          <div class="player-detail-stat-value">${goals}</div>
+        </div>
+        <div class="player-detail-stat">
+          <div class="player-detail-stat-label">Assists</div>
+          <div class="player-detail-stat-value">${assists}</div>
+        </div>
+        <div class="player-detail-stat">
+          <div class="player-detail-stat-label">Goals/90</div>
+          <div class="player-detail-stat-value">${goalsP90}</div>
+        </div>
+        <div class="player-detail-stat">
+          <div class="player-detail-stat-label">Assists/90</div>
+          <div class="player-detail-stat-value">${assistsP90}</div>
+        </div>
+      </div>
+
+      ${player.strengths && player.strengths.length > 0 ? `
+        <div class="player-detail-section">
+          <h4>Strengths</h4>
+          <ul class="player-detail-list">
+            ${player.strengths.map(s => `<li>${s}</li>`).join('')}
+          </ul>
+        </div>
+      ` : ''}
+
+      ${player.weaknesses && player.weaknesses.length > 0 ? `
+        <div class="player-detail-section">
+          <h4>Areas for Improvement</h4>
+          <ul class="player-detail-list">
+            ${player.weaknesses.map(w => `<li>${w}</li>`).join('')}
+          </ul>
+        </div>
+      ` : ''}
+
+      ${player.verdict ? `
+        <div class="player-detail-section">
+          <h4>Overall Assessment</h4>
+          <div style="padding: 16px; background: var(--bg-dark); border: 1px solid var(--border-color); border-radius: 8px; line-height: 1.6;">
+            ${player.verdict}
+          </div>
+        </div>
+      ` : ''}
+    `;
+
+    panel.style.display = 'flex';
+  }
+
+  closePlayerDetail() {
+    const panel = document.getElementById('playerDetailPanel');
+    panel.style.display = 'none';
   }
 
   async loadMatches() {
