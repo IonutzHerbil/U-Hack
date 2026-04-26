@@ -134,6 +134,54 @@ body {
   background-color: var(--bg-dark);
 }
 
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 14px;
+}
+
+.language-options {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+}
+
+.language-option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.language-option:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.language-option.active {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.language-flag {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+
 .view {
   display: none;
 }
@@ -144,14 +192,16 @@ body {
 
 .view-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
+  gap: 12px;
   margin-bottom: 24px;
 }
 
 .view-header h2 {
   font-size: 28px;
   font-weight: 600;
+  margin-right: auto;
 }
 
 .btn-refresh {
