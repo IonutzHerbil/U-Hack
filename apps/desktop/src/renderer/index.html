@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>U Cluj Analytics</title>
+  <title>C.L.U.J. Scout</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,8 +11,7 @@
     <nav class="sidebar">
       <div class="logo">
         <img src="../../../../resources/logo.png" alt="U Cluj Logo" style="width: 100px; height: auto; margin-bottom: 10px;">
-        <h1>U Cluj</h1>
-        <p>Analytics Dashboard</p>
+        <h1 class="brand-title">C.L.U.J. Scout</h1>
       </div>
       <ul class="nav-menu">
         <li class="nav-item active" data-view="overview">
@@ -298,7 +297,7 @@
       <div id="scoutingView" class="view">
         <header class="view-header">
           <h2>Player Scouting Database</h2>
-          <button class="btn-refresh" onclick="app.loadScoutingView()">Refresh</button>
+          <button id="scoutingActionBtn" class="btn-refresh" onclick="app.scoutingAction()">Refresh</button>
         </header>
 
         <!-- Source Toggle -->
@@ -372,9 +371,6 @@
           <div class="filter-bar">
             <input type="text" id="tmAgeInput" placeholder="Age" style="padding: 10px 16px; background-color: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); font-size: 14px; border-radius: 0; width: 80px;" />
           </div>
-          <div class="filter-bar">
-            <button class="btn-refresh" onclick="app.searchTransfermarkt()" style="padding: 10px 20px;">Search Transfermarkt</button>
-          </div>
         </div>
 
         <!-- Players Table -->
@@ -385,7 +381,7 @@
             </thead>
             <tbody id="scoutingPlayersTableBody">
               <tr>
-                <td colspan="10" class="loading">Loading players...</td>
+                <td colspan="9" class="loading">Loading players...</td>
               </tr>
             </tbody>
           </table>

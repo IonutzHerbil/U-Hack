@@ -1,4 +1,6 @@
 const { apiClient } = require('../api/client');
+const fs = require('fs');
+const path = require('path');
 
 class App {
   constructor() {
@@ -22,6 +24,11 @@ class App {
     this.activePos = 'ALL';
     this.recruitmentRequestId = 0;
     this.recruitmentLoaded = false;
+    this.scoutingSource = 'liga1';
+    this.liga1Players = [];
+    this.transfermarktPlayers = [];
+    this.filteredScoutingPlayers = [];
+    this.marketValueMap = null;
 
     // Pitch View State
     this.isPitchView = true;
@@ -273,8 +280,10 @@ class App {
       this.loadPlayers();
     } else if (viewName === 'comparison') {
       this.loadComparisonView();
-    } else if (viewName === 'scouting') {
+    } else if (viewName === 'scouting' && this.liga1Players.length === 0) {
       this.loadScoutingView();
+    } else if (viewName === 'recruitment' && !this.recruitmentLoaded) {
+      this.loadRecruitment();
     }
   }
 
@@ -1199,7 +1208,15 @@ class App {
       if (this.allPlayers.length === 0) {
         const uclujIds = new Set(this.uclujPlayers.map(p => p.player_id));
         const allFetched = await apiClient.getAllPlayers();
-        this.allPlayers = allFetched.filter(p => !uclujIds.has(p.player_id) && (p.apps || p.match_count || 0) >= 5);
+        this.allPlayers = allFetched
+          .filter(p => !uclujIds.has(p.player_id) && (p.apps || p.match_count || 0) >= 5)
+          .map(p => ({
+            ...p,
+            // Normalize player shape for comparison filters/stats/sorting.
+            position_meta: p.position_meta || p.position || '',
+            stats: p.stats || p.raw || {},
+            team_label: p.team_label || p.team_slug || '',
+          }));
       }
       this.populateComparisonSelectors();
       this.renderComparison();
@@ -1212,7 +1229,7 @@ class App {
     }
   }
 
-  filteredPlayers(side) {
+  getComparisonPool(side) {
     const pool = side === 'A' ? this.uclujPlayers : this.allPlayers;
     const codes = this.POS_MAP[this.activePos];
     return [...pool]
@@ -1224,7 +1241,7 @@ class App {
     const dropdown = document.getElementById(`dropdown${side}`);
     if (!dropdown) return;
     const q = (query || '').toLowerCase().trim();
-    const players = this.filteredPlayers(side).filter(p =>
+    const players = this.getComparisonPool(side).filter(p =>
       !q || (p.name || '').toLowerCase().includes(q)
     ).slice(0, 60);
 
@@ -1909,6 +1926,84 @@ class App {
     });
   }
 
+  async loadRecruitment() {
+    const status = document.getElementById('recruitmentStatus');
+    const needsEl = document.getElementById('recruitmentNeeds');
+    const shortlistEl = document.getElementById('recruitmentShortlist');
+
+    if (status) { status.className = 'loading'; status.textContent = 'Generating recruitment insights…'; }
+    if (needsEl) { needsEl.className = 'loading'; needsEl.textContent = 'Analysing squad weaknesses…'; }
+    if (shortlistEl) { shortlistEl.className = 'loading'; shortlistEl.textContent = 'Building candidate shortlist…'; }
+
+    try {
+      const limit = parseInt(document.getElementById('shortlistLimit')?.value || '4', 10);
+      const data = await apiClient.getShortlist(limit);
+
+      const needs = data?.priority_needs || [];
+      const shortlist = data?.shortlist || [];
+
+      // Render priority needs
+      if (needsEl) {
+        needsEl.className = '';
+        if (needs.length === 0) {
+          needsEl.innerHTML = '<div style="color:var(--text-muted);padding:16px 0">No priority needs identified.</div>';
+        } else {
+          needsEl.innerHTML = needs.map(need => {
+            const urgency = (need.priority || 'medium').toLowerCase();
+            const urgencyColor = urgency === 'high' ? 'var(--danger)' : urgency === 'medium' ? '#fbbf24' : 'var(--text-secondary)';
+            const traits = (need.desired_traits || []).slice(0, 3).join(' · ');
+            return `
+              <div class="priority-item" style="margin-bottom:12px;padding:12px;border:1px solid var(--border-color);border-radius:4px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                  <span style="font-size:16px;font-weight:700;color:var(--primary-color)">${need.position}</span>
+                  <span style="font-size:11px;font-weight:600;color:${urgencyColor};text-transform:uppercase">${urgency}</span>
+                </div>
+                <div style="color:var(--text-secondary);font-size:13px;margin-bottom:4px;">${need.reason || ''}</div>
+                ${traits ? `<div style="color:var(--text-muted);font-size:12px;">${traits}</div>` : ''}
+              </div>`;
+          }).join('');
+        }
+      }
+
+      // Render shortlist candidates
+      if (shortlistEl) {
+        shortlistEl.className = '';
+        if (!shortlist || shortlist.length === 0) {
+          shortlistEl.innerHTML = '<div style="color:var(--text-muted);padding:16px 0">No candidates found.</div>';
+        } else {
+          shortlistEl.innerHTML = shortlist.map(candidate => {
+            const name = candidate.name || candidate.full_name || 'Unknown';
+            const pos = (candidate.position || candidate.position_meta || '-').toUpperCase();
+            const team = (candidate.team || candidate.team_slug || '').replace(/_/g, ' ').toUpperCase();
+            const overall = candidate.overall ? Number(candidate.overall).toFixed(1) : '-';
+            const apps = candidate.apps || candidate.match_count || 0;
+            const age = candidate.age || '-';
+            const pid = candidate.player_id;
+            return `
+              <div class="recommendation-card" onclick="app.selectComparisonPlayer('B', ${pid})" style="cursor:pointer;padding:10px 12px;border:1px solid var(--border-color);border-radius:4px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <span style="font-weight:600;color:var(--text-primary)">${name}</span>
+                  <span style="color:var(--text-secondary);font-size:12px;margin-left:8px;">${pos}${team ? ' · ' + team : ''}</span>
+                </div>
+                <div style="display:flex;gap:12px;align-items:center;">
+                  <span style="color:var(--text-muted);font-size:12px;">${apps} apps · ${age} yrs</span>
+                  <span style="color:var(--primary-color);font-weight:700">${overall}</span>
+                </div>
+              </div>`;
+          }).join('');
+        }
+      }
+
+      if (status) { status.className = ''; status.textContent = `${needs.length} recruitment need${needs.length !== 1 ? 's' : ''} · ${shortlist.length} candidate${shortlist.length !== 1 ? 's' : ''} identified`; }
+      this.recruitmentLoaded = true;
+    } catch (error) {
+      console.error('Failed to load recruitment:', error);
+      if (status) { status.className = ''; status.textContent = 'Failed to load recruitment data.'; status.style.color = 'var(--danger)'; }
+      if (needsEl) { needsEl.className = ''; needsEl.innerHTML = '<div style="color:var(--danger)">Failed to load. Check API connection.</div>'; }
+      if (shortlistEl) { shortlistEl.className = ''; shortlistEl.innerHTML = '<div style="color:var(--danger)">Failed to load. Check API connection.</div>'; }
+    }
+  }
+
   async loadScoutingView() {
     try {
       // Initialize scouting source
@@ -1931,9 +2026,17 @@ class App {
       if (liga1TeamFilter) liga1TeamFilter.addEventListener('change', () => this.filterScoutingPlayers());
       if (liga1RatingFilter) liga1RatingFilter.addEventListener('change', () => this.filterScoutingPlayers());
 
-      // Setup event listener for Transfermarkt search
+      // Setup event listeners for Transfermarkt filters
       const tmSearch = document.getElementById('tmPlayerSearch');
+      const tmLeague = document.getElementById('tmLeagueFilter');
+      const tmPosition = document.getElementById('tmPositionInput');
+      const tmNationality = document.getElementById('tmNationalityInput');
+      const tmAge = document.getElementById('tmAgeInput');
       if (tmSearch) tmSearch.addEventListener('input', () => this.filterScoutingPlayers());
+      if (tmLeague) tmLeague.addEventListener('change', () => this.filterScoutingPlayers());
+      if (tmPosition) tmPosition.addEventListener('input', () => this.filterScoutingPlayers());
+      if (tmNationality) tmNationality.addEventListener('input', () => this.filterScoutingPlayers());
+      if (tmAge) tmAge.addEventListener('input', () => this.filterScoutingPlayers());
 
       // Setup sorting
       setTimeout(() => {
@@ -1948,7 +2051,7 @@ class App {
       console.error('Failed to load scouting view:', error);
       const tbody = document.getElementById('scoutingPlayersTableBody');
       if (tbody) {
-        tbody.innerHTML = '<tr><td colspan="10" style="color: var(--danger);">Failed to load view</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" style="color: var(--danger);">Failed to load view</td></tr>';
       }
     }
   }
@@ -1957,11 +2060,18 @@ class App {
     try {
       const tbody = document.getElementById('scoutingPlayersTableBody');
       if (tbody) {
-        tbody.innerHTML = '<tr><td colspan="10" style="color: var(--text-muted);">Loading Liga 1 players...</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" style="color: var(--text-muted);">Loading Liga 1 players...</td></tr>';
       }
 
       // Load all Liga 1 players
       this.liga1Players = await apiClient.getAllPlayers();
+      const valueMap = this.loadMarketValuesFromCsv();
+      this.liga1Players = this.liga1Players.map(p => ({
+        ...p,
+        market_value: valueMap[this.normalizeNameKey(p.full_name || p.name)] ||
+          valueMap[this.normalizeNameKey(p.name)] ||
+          p.market_value || '-',
+      }));
 
       // Populate team filter
       const teams = [...new Set(this.liga1Players.map(p => p.team_slug).filter(Boolean))].sort();
@@ -1981,7 +2091,7 @@ class App {
       console.error('Failed to load Liga 1 players:', error);
       const tbody = document.getElementById('scoutingPlayersTableBody');
       if (tbody) {
-        tbody.innerHTML = '<tr><td colspan="10" style="color: var(--danger);">Failed to load Liga 1 players</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" style="color: var(--danger);">Failed to load Liga 1 players</td></tr>';
       }
     }
   }
@@ -1993,14 +2103,13 @@ class App {
         <tr>
           <th class="sortable" data-sort="name">Name ↕</th>
           <th class="sortable" data-sort="team">Team ↕</th>
-          <th class="sortable" data-sort="position">Position ↕</th>
           <th class="sortable" data-sort="overall">Rating ↕</th>
           <th class="sortable" data-sort="apps">Apps ↕</th>
           <th class="sortable" data-sort="goals">Goals ↕</th>
           <th class="sortable" data-sort="assists">Assists ↕</th>
           <th class="sortable" data-sort="minutes">Minutes ↕</th>
-          <th>Physical</th>
-          <th>Actions</th>
+          <th class="sortable" data-sort="physical">Physical ↕</th>
+          <th class="sortable" data-sort="value">Market Value ↕</th>
         </tr>
       `;
     }
@@ -2013,20 +2122,30 @@ class App {
         <tr>
           <th class="sortable" data-sort="name">Name ↕</th>
           <th class="sortable" data-sort="age">Age ↕</th>
-          <th class="sortable" data-sort="position">Position ↕</th>
           <th class="sortable" data-sort="nationality">Nationality ↕</th>
           <th class="sortable" data-sort="club">Club ↕</th>
           <th class="sortable" data-sort="league">League ↕</th>
           <th class="sortable" data-sort="value">Market Value ↕</th>
-          <th>Actions</th>
         </tr>
       `;
+    }
+  }
+
+  scoutingAction() {
+    if (this.scoutingSource === 'transfermarkt') {
+      this.searchTransfermarkt();
+    } else {
+      this.liga1Players = [];
+      this.loadLiga1Players();
     }
   }
 
   switchScoutingSource() {
     const sourceSelect = document.getElementById('scoutingSource');
     this.scoutingSource = sourceSelect?.value || 'liga1';
+
+    const btn = document.getElementById('scoutingActionBtn');
+    if (btn) btn.textContent = this.scoutingSource === 'transfermarkt' ? 'Search' : 'Refresh';
 
     const liga1Filters = document.getElementById('liga1Filters');
     const tmFilters = document.getElementById('transfermarktFilters');
@@ -2047,7 +2166,7 @@ class App {
       this.setTransfermarktTableHeaders();
       const tbody = document.getElementById('scoutingPlayersTableBody');
       if (tbody) {
-        tbody.innerHTML = '<tr><td colspan="8" style="color: var(--text-muted);">Click "Search Transfermarkt" to find players...</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" style="color: var(--text-muted);">Use the filters above and click "Search" to find players...</td></tr>';
       }
     }
   }
@@ -2056,7 +2175,7 @@ class App {
     try {
       const tbody = document.getElementById('scoutingPlayersTableBody');
       if (tbody) {
-        tbody.innerHTML = '<tr><td colspan="8" style="color: var(--text-muted);">Searching Transfermarkt...</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" style="color: var(--text-muted);">Searching Transfermarkt...</td></tr>';
       }
 
       const filters = {};
@@ -2080,7 +2199,7 @@ class App {
       console.error('Failed to search Transfermarkt:', error);
       const tbody = document.getElementById('scoutingPlayersTableBody');
       if (tbody) {
-        tbody.innerHTML = '<tr><td colspan="8" style="color: var(--danger);">Search failed. Make sure the Transfermarkt scraper API is running.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" style="color: var(--danger);">Search failed. Make sure the Transfermarkt scraper API is running.</td></tr>';
       }
     }
   }
@@ -2090,7 +2209,7 @@ class App {
     if (!tbody) return;
 
     if (players.length === 0) {
-      const colspan = this.scoutingSource === 'liga1' ? '10' : '8';
+      const colspan = this.scoutingSource === 'liga1' ? '9' : '6';
       tbody.innerHTML = `<tr><td colspan="${colspan}" style="color: var(--text-muted);">No players found</td></tr>`;
       return;
     }
@@ -2102,20 +2221,21 @@ class App {
         const teamName = (p.team_slug || '').replace(/_/g, ' ').toUpperCase();
         const physicalScore = p.subscores?.Fizic || '-';
 
+        const goals   = p.raw?.goals   ?? p.stats?.goals   ?? 0;
+        const assists = p.raw?.assists ?? p.stats?.assists ?? 0;
+        const apps    = p.apps || p.match_count || 0;
+        const minutes = p.minutes || 0;
         return `
           <tr>
             <td style="font-weight: 500;">${p.name || p.full_name || 'Unknown'}</td>
             <td style="color: var(--text-secondary);">${teamName}</td>
-            <td>${(p.position_group || p.position || '-').toUpperCase()}</td>
             <td style="color: ${ratingColor};">${p.overall ? p.overall.toFixed(1) : '-'}</td>
-            <td>${p.apps || 0}</td>
-            <td>${p.raw?.goals || 0}</td>
-            <td>${p.raw?.assists || 0}</td>
-            <td>${p.minutes || 0}</td>
+            <td>${apps}</td>
+            <td>${goals}</td>
+            <td>${assists}</td>
+            <td>${minutes}</td>
             <td style="color: ${physicalScore >= 60 ? 'var(--primary-color)' : 'var(--text-secondary)'};">${typeof physicalScore === 'number' ? physicalScore.toFixed(1) : physicalScore}</td>
-            <td>
-              <button class="btn-action" onclick="app.viewLiga1Player(${p.player_id})">View</button>
-            </td>
+            <td style="color: var(--primary-color); font-weight: 600;">${p.market_value || '-'}</td>
           </tr>
         `;
       }).join('');
@@ -2123,11 +2243,13 @@ class App {
       // Render Transfermarkt players
       tbody.innerHTML = players.map(p => {
         const age = p.age || '-';
-        const position = p.position || '-';
-        const nationality = p.nationality || '-';
-        const club = p.club || '-';
+        const nationality = p.nationality && p.nationality !== 'Unknown' ? p.nationality : '-';
+        const club = p.club && p.club !== 'Unknown' ? p.club : '-';
         const league = p.league_name || p.league || '-';
-        const value = p.market_value || p.value || '-';
+        const rawValue = p.market_value || p.value || '';
+        const csvValue = this.marketValueMap?.[this.normalizeNameKey(p.name || '')];
+        const value = csvValue ||
+          (rawValue && rawValue !== 'Unknown' && rawValue !== 'N/A' ? rawValue : '-');
         const tmUrl = p.tm_url || `https://www.transfermarkt.com/player/profil/spieler/${p.tm_id}`;
 
         return `
@@ -2138,18 +2260,96 @@ class App {
               </a>
             </td>
             <td>${age}</td>
-            <td>${position}</td>
             <td>${nationality}</td>
             <td style="color: var(--text-secondary);">${club}</td>
             <td style="color: var(--text-secondary);">${league}</td>
-            <td style="color: var(--primary-color);">${value}</td>
-            <td>
-              <a href="${tmUrl}" target="_blank" class="btn-action" style="text-decoration: none; display: inline-block;">View</a>
-            </td>
+            <td style="color: var(--primary-color); font-weight: 600;"><a href="${tmUrl}" target="_blank" style="color:inherit;text-decoration:none;">${value}</a></td>
           </tr>
         `;
       }).join('');
     }
+  }
+
+  normalizeNameKey(name) {
+    return String(name || '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  parseCsvLine(line) {
+    const out = [];
+    let cur = '';
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"' && line[i + 1] === '"') {
+        cur += '"';
+        i++;
+      } else if (ch === '"') {
+        inQuotes = !inQuotes;
+      } else if (ch === ',' && !inQuotes) {
+        out.push(cur);
+        cur = '';
+      } else {
+        cur += ch;
+      }
+    }
+    out.push(cur);
+    return out;
+  }
+
+  loadMarketValuesFromCsv() {
+    if (this.marketValueMap) return this.marketValueMap;
+    const map = {};
+    try {
+      const candidates = [
+        // When running from dist/renderer in Electron
+        path.resolve(__dirname, '../../../../apps/api/src/dataframe/liga1_market_values.csv'),
+        // When running from src/renderer in dev
+        path.resolve(__dirname, '../../../api/src/dataframe/liga1_market_values.csv'),
+        // When cwd is apps/desktop
+        path.resolve(process.cwd(), '../api/src/dataframe/liga1_market_values.csv'),
+        // When cwd is repo root
+        path.resolve(process.cwd(), 'apps/api/src/dataframe/liga1_market_values.csv'),
+      ];
+      const csvPath = candidates.find(p => fs.existsSync(p));
+      if (!csvPath) {
+        this.marketValueMap = map;
+        return map;
+      }
+
+      const text = fs.readFileSync(csvPath, 'utf8').replace(/^\uFEFF/, '');
+      const lines = text.split(/\r?\n/).filter(Boolean);
+      if (lines.length < 2) {
+        this.marketValueMap = map;
+        return map;
+      }
+
+      const header = this.parseCsvLine(lines[0]).map(h => h.replace(/^\uFEFF/, '').trim());
+      const idxName = header.indexOf('name');
+      const idxQueryName = header.indexOf('query_name');
+      const idxValue = header.indexOf('market_value');
+      if (idxName < 0 || idxValue < 0) {
+        this.marketValueMap = map;
+        return map;
+      }
+
+      for (let i = 1; i < lines.length; i++) {
+        const cols = this.parseCsvLine(lines[i]);
+        const name = cols[idxName] || '';
+        const queryName = idxQueryName >= 0 ? (cols[idxQueryName] || '') : '';
+        const value = cols[idxValue] || '-';
+        if (name) map[this.normalizeNameKey(name)] = value;
+        if (queryName) map[this.normalizeNameKey(queryName)] = value;
+      }
+    } catch (error) {
+      console.warn('Failed to load market values CSV:', error);
+    }
+    this.marketValueMap = map;
+    return map;
   }
 
   async viewLiga1Player(playerId) {
@@ -2181,9 +2381,12 @@ class App {
   }
 
   filterScoutingPlayers() {
-    if (this.scoutingSource === 'liga1') {
+    const activeSource = document.getElementById('scoutingSource')?.value || this.scoutingSource || 'liga1';
+    this.scoutingSource = activeSource;
+
+    if (activeSource === 'liga1') {
       // Filter Liga 1 players
-      const searchQuery = document.getElementById('liga1PlayerSearch')?.value.toLowerCase() || '';
+      const searchQuery = document.getElementById('liga1PlayerSearch')?.value?.toLowerCase() || '';
       const posFilter = document.getElementById('liga1PositionFilter')?.value || 'ALL';
       const teamFilter = document.getElementById('liga1TeamFilter')?.value || 'ALL';
       const ratingFilter = document.getElementById('liga1RatingFilter')?.value || 'ALL';
@@ -2193,7 +2396,8 @@ class App {
       if (searchQuery) {
         filtered = filtered.filter(p =>
           (p.name || p.full_name || '').toLowerCase().includes(searchQuery) ||
-          (p.team_slug || '').toLowerCase().includes(searchQuery)
+          (p.team_slug || '').toLowerCase().includes(searchQuery) ||
+          (p.team_slug || '').replace(/_/g, ' ').toLowerCase().includes(searchQuery)
         );
       }
 
@@ -2206,23 +2410,28 @@ class App {
       }
 
       if (ratingFilter !== 'ALL') {
+        const ratingOf = (p) => Number(p.overall) || 0;
         if (ratingFilter === '75+') {
-          filtered = filtered.filter(p => p.overall >= 75);
+          filtered = filtered.filter(p => ratingOf(p) >= 75);
         } else if (ratingFilter === '70-75') {
-          filtered = filtered.filter(p => p.overall >= 70 && p.overall < 75);
+          filtered = filtered.filter(p => ratingOf(p) >= 70 && ratingOf(p) < 75);
         } else if (ratingFilter === '65-70') {
-          filtered = filtered.filter(p => p.overall >= 65 && p.overall < 70);
+          filtered = filtered.filter(p => ratingOf(p) >= 65 && ratingOf(p) < 70);
         } else if (ratingFilter === '60-65') {
-          filtered = filtered.filter(p => p.overall >= 60 && p.overall < 65);
+          filtered = filtered.filter(p => ratingOf(p) >= 60 && ratingOf(p) < 65);
         } else if (ratingFilter === '60-') {
-          filtered = filtered.filter(p => p.overall < 60);
+          filtered = filtered.filter(p => ratingOf(p) < 60);
         }
       }
 
       this.filteredScoutingPlayers = filtered;
     } else {
       // Filter Transfermarkt players
-      const searchQuery = document.getElementById('tmPlayerSearch')?.value.toLowerCase() || '';
+      const searchQuery = document.getElementById('tmPlayerSearch')?.value?.toLowerCase() || '';
+      const leagueFilter = document.getElementById('tmLeagueFilter')?.value || '';
+      const positionFilter = document.getElementById('tmPositionInput')?.value.toLowerCase().trim() || '';
+      const nationalityFilter = document.getElementById('tmNationalityInput')?.value.toLowerCase().trim() || '';
+      const ageFilter = document.getElementById('tmAgeInput')?.value.trim() || '';
 
       if (!this.transfermarktPlayers || this.transfermarktPlayers.length === 0) {
         return;
@@ -2235,6 +2444,22 @@ class App {
           (p.name || '').toLowerCase().includes(searchQuery) ||
           (p.club || '').toLowerCase().includes(searchQuery)
         );
+      }
+
+      if (leagueFilter) {
+        filtered = filtered.filter(p => (p.league_key || '') === leagueFilter);
+      }
+
+      if (positionFilter) {
+        filtered = filtered.filter(p => (p.position || '').toLowerCase().includes(positionFilter));
+      }
+
+      if (nationalityFilter) {
+        filtered = filtered.filter(p => (p.nationality || '').toLowerCase().includes(nationalityFilter));
+      }
+
+      if (ageFilter) {
+        filtered = filtered.filter(p => String(p.age || '').trim() === ageFilter);
       }
 
       this.filteredScoutingPlayers = filtered;
@@ -2278,9 +2503,28 @@ class App {
         }
         if (column === 'overall') valA = a.overall || 0, valB = b.overall || 0;
         else if (column === 'apps') valA = a.apps || 0, valB = b.apps || 0;
-        else if (column === 'goals') valA = a.raw?.goals || 0, valB = b.raw?.goals || 0;
-        else if (column === 'assists') valA = a.raw?.assists || 0, valB = b.raw?.assists || 0;
+        else if (column === 'goals') {
+          valA = a.raw?.goals ?? a.stats?.goals ?? 0;
+          valB = b.raw?.goals ?? b.stats?.goals ?? 0;
+        } else if (column === 'assists') {
+          valA = a.raw?.assists ?? a.stats?.assists ?? 0;
+          valB = b.raw?.assists ?? b.stats?.assists ?? 0;
+        }
         else if (column === 'minutes') valA = a.minutes || 0, valB = b.minutes || 0;
+        else if (column === 'physical') {
+          valA = a.subscores?.Fizic || 0;
+          valB = b.subscores?.Fizic || 0;
+        } else if (column === 'value') {
+          const parseValue = (p) => {
+            const str = String(p.market_value || '0').toLowerCase();
+            let num = parseFloat(str.replace(/[^0-9.]/g, '')) || 0;
+            if (str.includes('m')) num *= 1_000_000;
+            else if (str.includes('k')) num *= 1_000;
+            return num;
+          };
+          valA = parseValue(a);
+          valB = parseValue(b);
+        }
       } else {
         // Transfermarkt sorting
         if (column === 'name') {
@@ -2310,16 +2554,17 @@ class App {
         }
         if (column === 'age') valA = a.age || 0, valB = b.age || 0;
         else if (column === 'value') {
-          const parseValue = (v) => {
-            if (!v) return 0;
-            const str = String(v).toLowerCase();
-            let num = parseFloat(str.replace(/[^0-9.]/g, ''));
-            if (str.includes('m')) num *= 1000000;
-            else if (str.includes('k')) num *= 1000;
+          // Prefer pre-computed numeric field from scraper, fall back to parsing string
+          const parseValue = (p) => {
+            if (p.market_value_numeric != null) return p.market_value_numeric;
+            const str = String(p.market_value || p.value || '0').toLowerCase();
+            let num = parseFloat(str.replace(/[^0-9.]/g, '')) || 0;
+            if (str.includes('m')) num *= 1_000_000;
+            else if (str.includes('k')) num *= 1_000;
             return num;
           };
-          valA = parseValue(a.market_value || a.value);
-          valB = parseValue(b.market_value || b.value);
+          valA = parseValue(a);
+          valB = parseValue(b);
         }
       }
 
@@ -2638,9 +2883,27 @@ class App {
   }
 
   selectComparisonPlayer(side, playerId) {
-    // Switch to comparison view and select player
     this.switchView('comparison');
-    // The actual selection would need to be implemented based on existing comparison logic
+    const id = Number(playerId);
+    const pool = side === 'A' ? this.uclujPlayers : this.allPlayers;
+    const player = pool.find(p => p.player_id === id);
+    if (!player) return;
+    if (side === 'A') {
+      this.selectedA = player;
+      document.getElementById('selectedA').innerHTML =
+        `<span style="color:${this.COLOR_A};font-weight:700">${player.name}</span>
+         <span class="cmp-sel-pos">${(player.position_meta || '-').toUpperCase()}</span>`;
+      this.initTargetProfile();
+      this.setupScoutCanvas();
+      this.drawScoutRadar();
+      this.rankAndShowCandidates();
+    } else {
+      this.selectedB = player;
+      document.getElementById('selectedB').innerHTML =
+        `<span style="color:${this.COLOR_B};font-weight:700">${player.name}</span>
+         <span class="cmp-sel-pos">${(player.position_meta || '-').toUpperCase()}</span>`;
+    }
+    if (this.selectedA && this.selectedB) this.renderComparison();
   }
 
   showError(elementId, message) {

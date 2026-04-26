@@ -70,6 +70,17 @@ body {
   margin-bottom: 5px;
 }
 
+.logo .brand-title {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  line-height: 1.1;
+  color: #ffffff;
+  text-transform: uppercase;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+  margin: 8px 0 0;
+}
+
 .logo p {
   font-size: 12px;
   color: var(--text-secondary);

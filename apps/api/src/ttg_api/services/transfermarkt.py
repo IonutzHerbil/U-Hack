@@ -6,6 +6,7 @@ and operating as a real chromium browser engine via Playwright.
 
 import logging
 from bs4 import BeautifulSoup
+from bs4 import FeatureNotFound
 from playwright.async_api import async_playwright, Browser, BrowserContext
 
 # Configure logging
@@ -102,7 +103,11 @@ class AsyncPlaywrightHelper:
                 logger.warning(f"[Timeout] Could not find 'table.items' on {url} in 10s. Continuing anyway to capture DOM.")
                 
             content = await page.content()
-            return BeautifulSoup(content, "lxml")
+            try:
+                return BeautifulSoup(content, "lxml")
+            except FeatureNotFound:
+                # Fallback for environments where lxml isn't installed.
+                return BeautifulSoup(content, "html.parser")
         except Exception as e:
             logger.error(f"Failed to scrape {url} with Playwright: {e}")
             return None

@@ -68,6 +68,16 @@ class APIClient {
     return response.data;
   }
 
+  async getLiga1MarketValues(names: string[]): Promise<Record<string, string>> {
+    try {
+      const response = await this.client.post<Record<string, string>>('/players/market-values/batch', { names });
+      return response.data || {};
+    } catch (error) {
+      console.warn('Market values endpoint not available:', error);
+      return {};
+    }
+  }
+
   async getTransferNeeds(): Promise<any[]> {
     try {
       const response = await this.client.get('/ucluj/transfer-needs');
@@ -85,6 +95,16 @@ class APIClient {
     } catch (error) {
       console.warn('Recommendations endpoint not available, returning empty');
       return [];
+    }
+  }
+
+  async getShortlist(limitPerNeed: number = 4): Promise<any> {
+    try {
+      const response = await this.client.get(`/recruitment/shortlist?limit_per_need=${limitPerNeed}`);
+      return response.data;
+    } catch (error) {
+      console.warn('Shortlist endpoint not available:', error);
+      return { priority_needs: [], shortlist: [] };
     }
   }
 
