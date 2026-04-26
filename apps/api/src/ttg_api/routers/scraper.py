@@ -137,13 +137,21 @@ async def _scrape_league_table_async(league_key: str, url: str) -> list[dict]:
                 if tm_id:
                     tm_url = f"{BASE_URL}{href}" if href.startswith("/") else href
 
-        # Position (inside the inline-table sub-element)
+        # Position — inline-table structure:
+        #   tds[0]: player photo (rowspan=2)
+        #   tds[1]: player name (already captured via name_cell above)
+        #   tds[2]: position label e.g. "Right Back", "Centre-Forward"
         position = "Unknown"
         inline = row.find("table", class_="inline-table")
         if inline:
             tds = inline.find_all("td")
-            if len(tds) > 1:
-                position = tds[1].get_text(strip=True)
+            if len(tds) > 2:
+                position = tds[2].get_text(strip=True) or "Unknown"
+            elif len(tds) > 1:
+                # Fallback: if the photo td is absent, position is at index 1
+                candidate = tds[1].get_text(strip=True)
+                if candidate and candidate != name:
+                    position = candidate
 
         # Age
         age = "Unknown"
