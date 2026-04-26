@@ -1295,11 +1295,14 @@ body {
   background: transparent;
   border: none;
   border-bottom: 1px solid var(--border-color);
-  padding: 20px 0;
+  padding: 16px 0;
+}
+
+.ov-dim-top {
   display: grid;
-  grid-template-columns: 200px 100px 1fr 100px;
+  grid-template-columns: minmax(180px, 1.4fr) 110px minmax(220px, 2fr) 90px;
   align-items: center;
-  gap: 24px;
+  gap: 16px;
 }
 
 .ov-dim-card:last-child {
@@ -1312,6 +1315,7 @@ body {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.03em;
+  line-height: 1.25;
 }
 
 .ov-dim-tier {
@@ -1331,6 +1335,7 @@ body {
   border: 1px solid var(--border-color);
   position: relative;
   overflow: hidden;
+  width: 100%;
 }
 
 .ov-dim-fill {
@@ -1341,18 +1346,29 @@ body {
 }
 
 .ov-dim-num {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
   line-height: 1;
   font-variant-numeric: tabular-nums;
   text-align: right;
   color: var(--text-primary);
+  white-space: nowrap;
 }
 
 .ov-dim-denom {
   font-size: 13px;
   color: var(--text-muted);
   font-weight: 400;
+}
+
+@media (max-width: 1200px) {
+  .ov-dim-top {
+    grid-template-columns: minmax(150px, 1.4fr) 90px minmax(160px, 2fr) 72px;
+    gap: 12px;
+  }
+  .ov-dim-name { font-size: 13px; }
+  .ov-dim-tier { font-size: 11px; padding: 5px 8px; }
+  .ov-dim-num { font-size: 18px; }
 }
 
 /* =====================================================
