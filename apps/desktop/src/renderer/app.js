@@ -20,6 +20,8 @@ class App {
     this.selectedA = null;
     this.selectedB = null;
     this.activePos = 'ALL';
+    this.recruitmentRequestId = 0;
+    this.recruitmentLoaded = false;
 
     // Pitch View State
     this.isPitchView = true;

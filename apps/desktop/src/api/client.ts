@@ -1,5 +1,15 @@
 import axios, { AxiosInstance } from 'axios';
-import type { SquadPlayer, AllPlayer, TeamOverview, Match, TacticalDimension, APIConfig, MatchRecord } from '../types/api';
+import type {
+  SquadPlayer,
+  AllPlayer,
+  TeamOverview,
+  Match,
+  TacticalDimension,
+  APIConfig,
+  MatchRecord,
+  RecruitmentRecommendationResponse,
+  RecruitmentShortlistResponse,
+} from '../types/api';
 
 class APIClient {
   private client: AxiosInstance;

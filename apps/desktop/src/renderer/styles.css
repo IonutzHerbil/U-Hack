@@ -2078,4 +2078,8 @@ body {
   .player-detail-stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .recruitment-grid {
+    grid-template-columns: 1fr;
+  }
 }
