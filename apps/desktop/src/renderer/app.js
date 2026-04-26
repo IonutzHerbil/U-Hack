@@ -4,6 +4,7 @@ const path = require('path');
 
 class App {
   constructor() {
+    this.language = 'ro';
     this.currentView = 'overview';
     this.players = [];
     this.matches = [];
@@ -29,6 +30,8 @@ class App {
     this.transfermarktPlayers = [];
     this.filteredScoutingPlayers = [];
     this.marketValueMap = null;
+    this.overviewData = null;
+    this.tacticalProfileData = null;
 
     // Pitch View State
     this.isPitchView = true;
@@ -125,16 +128,221 @@ class App {
       ],
     };
     this.comparisonMetrics = this.METRICS_BY_POS.ALL;
+    this.translations = {
+      ro: {
+        'common.refresh': 'Reincarca',
+        'common.apply': 'Aplica',
+        'common.loading': 'Se incarca...',
+        'language.label': 'Limba',
+        'sidebar.tagline': 'Tablou de analiza',
+        'nav.overview': 'Prezentare echipa',
+        'nav.players': 'Jucatori',
+        'nav.matches': 'Statistici meci',
+        'nav.comparison': 'Comparatie jucatori',
+        'nav.recruitment': 'Recrutare',
+        'overview.title': 'Prezentare echipa',
+        'overview.played': 'Meciuri',
+        'overview.wins': 'Victorii',
+        'overview.draws': 'Egaluri',
+        'overview.losses': 'Infrangeri',
+        'overview.goalsFor': 'Goluri marcate',
+        'overview.conceded': 'Goluri primite',
+        'overview.points': 'Puncte',
+        'overview.winRate': 'Rata victorii',
+        'overview.topStrengths': 'Puncte forte',
+        'overview.topWeaknesses': 'Puncte slabe',
+        'overview.tacticalProfile': 'Profil tactic',
+        'players.title': 'Jucatorii lotului',
+        'players.formation': 'Formatie',
+        'players.filterPosition': 'Filtreaza dupa pozitie',
+        'players.allPositions': 'Toate pozitiile',
+        'players.goalkeeper': 'Portar',
+        'players.defenders': 'Fundasi',
+        'players.midfielders': 'Mijlocasi',
+        'players.forwards': 'Atacanti',
+        'players.showStats': 'Afiseaza statistici pe teren',
+        'players.enableDragDrop': 'Activeaza drag and drop',
+        'players.substitutes': 'Rezerve si inlocuitori',
+        'players.loadingSubstitutes': 'Se incarca rezervele...',
+        'matches.title': 'Statistici meci',
+        'comparison.title': 'Comparatie jucatori',
+        'comparison.profileScout': 'Scouting profil',
+        'comparison.profileScoutSubtitle': 'Trage orice varf al axei pentru a seta profilul tinta, iar cei mai potriviti jucatori din Liga 1 apar instant',
+        'comparison.resetToPlayerA': 'Reset la Jucatorul A',
+        'comparison.selectPlayerPrompt': 'Selecteaza un Jucator A de la U Cluj pentru a incepe scoutingul.',
+        'recruitment.title': 'Recrutare',
+        'recruitment.candidatesPerNeed': 'Candidati per nevoie',
+        'recruitment.startPrompt': 'Incarca insight-urile de recrutare pentru a incepe.',
+        'recruitment.priorityNeeds': 'Nevoi prioritare',
+        'recruitment.shortlist': 'Lista scurta',
+        'recruitment.noData': 'Nu exista date inca.',
+        'status.connecting': 'Se conecteaza...',
+        'status.connected': 'Conectat',
+        'status.apiError': 'Eroare API',
+        'status.disconnected': 'Deconectat',
+        'toggle.pitchView': 'Vedere teren',
+        'toggle.tableView': 'Vedere tabel',
+        'placeholder.playerSearch': 'Cauta jucatori...',
+        'placeholder.searchA': 'Cauta jucator U Cluj...',
+        'placeholder.searchB': 'Cauta adversar din Liga 1...',
+      },
+      en: {
+        'common.refresh': 'Refresh',
+        'common.apply': 'Apply',
+        'common.loading': 'Loading...',
+        'language.label': 'Language',
+        'sidebar.tagline': 'Analytics Dashboard',
+        'nav.overview': 'Team Overview',
+        'nav.players': 'Players',
+        'nav.matches': 'Match Stats',
+        'nav.comparison': 'Player Comparison',
+        'nav.recruitment': 'Recruitment',
+        'overview.title': 'Team Overview',
+        'overview.played': 'Played',
+        'overview.wins': 'Wins',
+        'overview.draws': 'Draws',
+        'overview.losses': 'Losses',
+        'overview.goalsFor': 'Goals For',
+        'overview.conceded': 'Conceded',
+        'overview.points': 'Points',
+        'overview.winRate': 'Win Rate',
+        'overview.topStrengths': 'Top Strengths',
+        'overview.topWeaknesses': 'Top Weaknesses',
+        'overview.tacticalProfile': 'Tactical Profile',
+        'players.title': 'Squad Players',
+        'players.formation': 'Formation',
+        'players.filterPosition': 'Filter by Position',
+        'players.allPositions': 'All Positions',
+        'players.goalkeeper': 'Goalkeeper',
+        'players.defenders': 'Defenders',
+        'players.midfielders': 'Midfielders',
+        'players.forwards': 'Forwards',
+        'players.showStats': 'Show Stats on Pitch',
+        'players.enableDragDrop': 'Enable Drag & Drop',
+        'players.substitutes': 'Substitutes & Reserves',
+        'players.loadingSubstitutes': 'Loading substitutes...',
+        'matches.title': 'Match Statistics',
+        'comparison.title': 'Player Comparison',
+        'comparison.profileScout': 'Profile Scout',
+        'comparison.profileScoutSubtitle': 'Drag any axis vertex to set your target profile, and the best Liga 1 matches appear instantly',
+        'comparison.resetToPlayerA': 'Reset to Player A',
+        'comparison.selectPlayerPrompt': 'Select a U Cluj Player A to start scouting.',
+        'recruitment.title': 'Recruitment',
+        'recruitment.candidatesPerNeed': 'Candidates per need',
+        'recruitment.startPrompt': 'Load recruitment insights to start.',
+        'recruitment.priorityNeeds': 'Priority Needs',
+        'recruitment.shortlist': 'Shortlist',
+        'recruitment.noData': 'No data yet.',
+        'status.connecting': 'Connecting...',
+        'status.connected': 'Connected',
+        'status.apiError': 'API Error',
+        'status.disconnected': 'Disconnected',
+        'toggle.pitchView': 'Pitch View',
+        'toggle.tableView': 'Table View',
+        'placeholder.playerSearch': 'Search players...',
+        'placeholder.searchA': 'Search U Cluj player...',
+        'placeholder.searchB': 'Search Liga 1 opponent...',
+      },
+    };
     this.init();
   }
 
   init() {
+    this.setupLanguageSelector();
+    this.applyTranslations();
     this.setupNavigation();
+    this.mountLanguageSelector(this.currentView);
     this.setupSearch();
     this.setupTableSorting();
     this.setupComparisonControls();
     this.checkAPIConnection();
     this.loadOverview();
+  }
+
+  t(key) {
+    return this.translations[this.language]?.[key] || this.translations.ro[key] || key;
+  }
+
+  setupLanguageSelector() {
+    const options = document.querySelectorAll('.language-option');
+    if (!options.length) return;
+
+    options.forEach((option) => {
+      option.classList.toggle('active', option.dataset.language === this.language);
+      option.setAttribute('aria-pressed', option.dataset.language === this.language ? 'true' : 'false');
+      option.addEventListener('click', () => {
+        this.language = option.dataset.language || 'ro';
+        this.applyTranslations();
+        this.refreshDynamicLabels();
+        this.syncLanguageSelector();
+        this.rerenderCurrentView();
+      });
+    });
+  }
+
+  mountLanguageSelector(viewName) {
+    const switcher = document.getElementById('languageSwitcher');
+    const header = document.querySelector(`#${viewName}View .view-header`);
+    if (!switcher || !header) return;
+
+    const title = header.querySelector('h2');
+    if (title) {
+      header.insertBefore(switcher, title.nextSibling);
+      return;
+    }
+
+    header.prepend(switcher);
+  }
+
+  syncLanguageSelector() {
+    document.querySelectorAll('.language-option').forEach((option) => {
+      const isActive = option.dataset.language === this.language;
+      option.classList.toggle('active', isActive);
+      option.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+  }
+
+  applyTranslations() {
+    document.documentElement.lang = this.language;
+    document.querySelectorAll('[data-i18n]').forEach((element) => {
+      const key = element.dataset.i18n;
+      element.textContent = this.t(key);
+    });
+    this.syncLanguageSelector();
+  }
+
+  refreshDynamicLabels() {
+    const playerSearch = document.getElementById('playerSearch');
+    const searchA = document.getElementById('searchA');
+    const searchB = document.getElementById('searchB');
+    if (playerSearch) playerSearch.placeholder = this.t('placeholder.playerSearch');
+    if (searchA) searchA.placeholder = this.t('placeholder.searchA');
+    if (searchB) searchB.placeholder = this.t('placeholder.searchB');
+
+    const toggleText = document.getElementById('toggleText');
+    const toggleIcon = document.getElementById('toggleIcon');
+    if (toggleText && toggleIcon) {
+      toggleText.textContent = this.isPitchView ? this.t('toggle.tableView') : this.t('toggle.pitchView');
+      toggleIcon.textContent = this.isPitchView ? '📊' : '⚽';
+    }
+  }
+
+  rerenderCurrentView() {
+    if (this.currentView === 'overview') {
+      this.rerenderOverview();
+    }
+  }
+
+  rerenderOverview() {
+    if (this.overviewData?.match_record) {
+      this.renderMatchRecord(this.overviewData.match_record);
+      this.renderStrengths(this.overviewData.top_strengths || []);
+      this.renderWeaknesses(this.overviewData.top_weaknesses || []);
+    }
+
+    if (this.tacticalProfileData) {
+      this.renderTacticalProfile(this.tacticalProfileData);
+    }
   }
 
   setupNavigation() {
@@ -275,6 +483,7 @@ class App {
     if (navItem) navItem.classList.add('active');
 
     this.currentView = viewName;
+    this.mountLanguageSelector(viewName);
 
     if (viewName === 'players' && this.players.length === 0) {
       this.loadPlayers();
@@ -295,14 +504,14 @@ class App {
       const isConnected = await apiClient.checkHealth();
       if (isConnected) {
         statusIndicator.classList.add('connected');
-        statusText.textContent = 'Connected';
+        statusText.textContent = this.t('status.connected');
       } else {
         statusIndicator.classList.add('error');
-        statusText.textContent = 'API Error';
+        statusText.textContent = this.t('status.apiError');
       }
     } catch (error) {
       statusIndicator.classList.add('error');
-      statusText.textContent = 'Disconnected';
+      statusText.textContent = this.t('status.disconnected');
       console.error('API connection failed:', error);
     }
   }
@@ -310,11 +519,13 @@ class App {
   async loadOverview() {
     try {
       const overview = await apiClient.getTeamOverview();
+      this.overviewData = overview;
       this.renderMatchRecord(overview.match_record);
       this.renderStrengths(overview.top_strengths);
       this.renderWeaknesses(overview.top_weaknesses);
 
       const tacticalProfile = await apiClient.getTacticalProfile();
+      this.tacticalProfileData = tacticalProfile;
       this.renderTacticalProfile(tacticalProfile);
     } catch (error) {
       console.error('Failed to load overview:', error);
@@ -340,10 +551,16 @@ class App {
     const dp = (record.draws  / n * 100).toFixed(1);
     const lp = (record.losses / n * 100).toFixed(1);
     const bar = document.getElementById('resultBar');
+    const winsTitle = this.language === 'ro' ? 'Victorii' : 'Wins';
+    const drawsTitle = this.language === 'ro' ? 'Egaluri' : 'Draws';
+    const lossesTitle = this.language === 'ro' ? 'Infrangeri' : 'Losses';
+    const summaryWins = this.language === 'ro' ? 'V' : 'W';
+    const summaryDraws = this.language === 'ro' ? 'E' : 'D';
+    const summaryLosses = this.language === 'ro' ? 'I' : 'L';
     bar.innerHTML = `
-      <div class="ov-rb-seg ov-rb-win"  style="width:${wp}%" title="Wins ${wp}%"></div>
-      <div class="ov-rb-seg ov-rb-draw" style="width:${dp}%" title="Draws ${dp}%"></div>
-      <div class="ov-rb-seg ov-rb-loss" style="width:${lp}%" title="Losses ${lp}%"></div>
+      <div class="ov-rb-seg ov-rb-win"  style="width:${wp}%" title="${winsTitle} ${wp}%"></div>
+      <div class="ov-rb-seg ov-rb-draw" style="width:${dp}%" title="${drawsTitle} ${dp}%"></div>
+      <div class="ov-rb-seg ov-rb-loss" style="width:${lp}%" title="${lossesTitle} ${lp}%"></div>
     `;
     bar.title = `W ${wp}% · D ${dp}% · L ${lp}%`;
 
@@ -354,10 +571,11 @@ class App {
     el.className = '';
     el.innerHTML = strengths.map((s, i) => {
       const pct = Math.min((s.score / 100) * 100, 100);
+      const label = this.language === 'ro' ? (s.label || s.label_en || '-') : (s.label_en || s.label || '-');
       return `
         <div class="ov-metric-row">
           <span class="ov-metric-rank ov-rank-str">${i + 1}</span>
-          <span class="ov-metric-name">${s.label}</span>
+          <span class="ov-metric-name">${label}</span>
           <div class="ov-metric-track">
             <div class="ov-metric-fill ov-fill-str" style="width:${pct}%"></div>
           </div>
@@ -371,10 +589,11 @@ class App {
     el.className = '';
     el.innerHTML = weaknesses.map((w, i) => {
       const pct = Math.min((w.score / 100) * 100, 100);
+      const label = this.language === 'ro' ? (w.label || w.label_en || '-') : (w.label_en || w.label || '-');
       return `
         <div class="ov-metric-row">
           <span class="ov-metric-rank ov-rank-wk">${i + 1}</span>
-          <span class="ov-metric-name">${w.label}</span>
+          <span class="ov-metric-name">${label}</span>
           <div class="ov-metric-track">
             <div class="ov-metric-fill ov-fill-wk" style="width:${pct}%"></div>
           </div>
@@ -383,51 +602,67 @@ class App {
     }).join('');
   }
 
-  renderTacticalProfile(profile) {
-    const el = document.getElementById('tacticalProfile');
-    el.className = 'ov-profile-grid';
+ renderTacticalProfile(profile) {
+  const el = document.getElementById('tacticalProfile');
+  el.className = 'ov-profile-grid';
 
-    // Group dimensions by category using key matching
-    const categoryKeys = {
-      'ATTACK': ['combinatii_flancuri', 'joc_direct', 'contraatac_rapid'],
-      'POSSESSION': ['combinatii_mijloc', 'joc_controlat', 'constructie_portar', 'minge_lunga'],
-      'DEFENSE': ['pressing_retras', 'pressing_median', 'pressing_avansat', 'contrapressing', 'retragere_organizare']
-    };
+  // Group dimensions by category using key matching
+  const categoryKeys = {
+    'ATTACK': ['combinatii_flancuri', 'joc_direct', 'contraatac_rapid'],
+    'POSSESSION': ['combinatii_mijloc', 'joc_controlat', 'constructie_portar', 'minge_lunga'],
+    'DEFENSE': ['pressing_retras', 'pressing_median', 'pressing_avansat', 'contrapressing', 'retragere_organizare']
+  };
 
-    let html = '';
+  let html = '';
 
-    for (const [category, keys] of Object.entries(categoryKeys)) {
-      const dimensions = profile.filter(dim => keys.includes(dim.key));
+  for (const [category, keys] of Object.entries(categoryKeys)) {
+    const dimensions = profile.filter(dim => keys.includes(dim.key));
+    if (dimensions.length === 0) continue;
 
-      if (dimensions.length === 0) continue;
-
-      html += `<div class="tactical-category">
+    html += `
+      <div class="tactical-category">
         <div class="tactical-category-header">${category}</div>
-        <div class="tactical-category-items">`;
+        <div class="tactical-category-items">
+    `;
 
-      dimensions.forEach(dim => {
-        const pct = Math.min(dim.score, 100);
-        const tier = dim.tier || (pct >= 65 ? 'FORTE' : pct >= 45 ? 'OK' : 'SLAB');
-        const tierColor = tier === 'FORTE' ? '#fbbf24' : tier === 'OK' ? '#888888' : '#dc2626';
-        const tierLabel = tier === 'FORTE' ? 'STRONG' : tier === 'OK' ? 'OK' : 'WEAK';
+    dimensions.forEach(dim => {
+      const pct = Math.min(dim.score, 100);
+      const tier = dim.tier || (pct >= 65 ? 'FORTE' : pct >= 45 ? 'OK' : 'SLAB');
 
-        html += `
-          <div class="ov-dim-card">
-            <span class="ov-dim-name">${dim.label_en || dim.label}</span>
+      // Use improved color system (from main)
+      const tierColor =
+        tier === 'FORTE' ? '#4ade80' :
+        tier === 'OK' ? '#facc15' :
+        '#f87171';
+
+      // Language-aware labels (from main)
+      const tierLabel = this.language === 'ro'
+        ? (tier === 'FORTE' ? 'PUTERNIC' : tier === 'OK' ? 'OK' : 'SLAB')
+        : (tier === 'FORTE' ? 'STRONG' : tier === 'OK' ? 'OK' : 'WEAK');
+
+      const label = this.language === 'ro'
+        ? (dim.label || dim.label_en || '-')
+        : (dim.label_en || dim.label || '-');
+
+      html += `
+        <div class="ov-dim-card">
+          <div class="ov-dim-top">
+            <span class="ov-dim-name">${label}</span>
             <span class="ov-dim-tier" style="color:${tierColor}">${tierLabel}</span>
             <div class="ov-dim-track">
               <div class="ov-dim-fill" style="width:${pct}%;background:${tierColor}"></div>
             </div>
             <span class="ov-dim-num">${pct.toFixed(0)}<span class="ov-dim-denom">/100</span></span>
-          </div>`;
-      });
+          </div>
+        </div>
+      `;
+    });
 
-      html += `</div></div>`;
-    }
-
-    el.innerHTML = html;
+    html += `</div></div>`;
   }
 
+  el.innerHTML = html;
+}
   async loadPlayers() {
     console.log('=== loadPlayers START ===');
     const tbody = document.getElementById('playersTableBody');
@@ -908,7 +1143,7 @@ class App {
       pitchContainer.style.display = 'block';
       tableContainer.style.display = 'none';
       toggleBtn.classList.add('active');
-      toggleText.textContent = 'Table View';
+      toggleText.textContent = this.t('toggle.tableView');
       toggleIcon.textContent = '📊';
 
       // Render pitch view
@@ -920,7 +1155,7 @@ class App {
       pitchContainer.style.display = 'none';
       tableContainer.style.display = 'block';
       toggleBtn.classList.remove('active');
-      toggleText.textContent = 'Pitch View';
+      toggleText.textContent = this.t('toggle.pitchView');
       toggleIcon.textContent = '⚽';
     }
   }

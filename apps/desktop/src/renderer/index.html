@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ro">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>C.L.U.J. Scout</title>
+  <title>CLUJ Scout</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <header class="window-titlebar">CLUJ Scout</header>
   <div id="app">
     <nav class="sidebar">
       <div class="logo">
@@ -32,88 +33,92 @@
       </ul>
       <div class="api-status">
         <div class="status-indicator" id="apiStatus"></div>
-        <span id="apiStatusText">Connecting...</span>
+        <span id="apiStatusText">Se conecteaza...</span>
       </div>
     </nav>
 
     <main class="content">
-      <!-- Team Overview View -->
       <div id="overviewView" class="view active">
         <header class="view-header">
-          <h2>Team Overview</h2>
-          <button class="btn-refresh" onclick="app.loadOverview()">Refresh</button>
+          <h2 data-i18n="overview.title">Prezentare echipa</h2>
+          <div class="language-switcher" id="languageSwitcher">
+            <div class="language-options" role="group" aria-label="Language selector">
+              <button type="button" class="language-option active" data-language="ro" aria-pressed="true">
+                <img src="../../../../resources/romanian.png" alt="Romanian flag" class="language-flag">
+              </button>
+              <button type="button" class="language-option" data-language="en" aria-pressed="false">
+                <img src="../../../../resources/english.png" alt="English flag" class="language-flag">
+              </button>
+            </div>
+          </div>
+          <button class="btn-refresh" onclick="app.loadOverview()" data-i18n="common.refresh">Reincarca</button>
         </header>
 
-        <!-- Hero stat strip -->
         <div class="ov-hero-strip" id="heroStrip">
           <div class="ov-hero-stat">
-            <span class="ov-hero-num" id="heroPlayed">—</span>
-            <span class="ov-hero-label">Played</span>
+            <span class="ov-hero-num" id="heroPlayed">&mdash;</span>
+            <span class="ov-hero-label" data-i18n="overview.played">Meciuri</span>
           </div>
           <div class="ov-hero-divider"></div>
           <div class="ov-hero-stat">
-            <span class="ov-hero-num ov-win" id="heroWins">—</span>
-            <span class="ov-hero-label">Wins</span>
+            <span class="ov-hero-num ov-win" id="heroWins">&mdash;</span>
+            <span class="ov-hero-label" data-i18n="overview.wins">Victorii</span>
           </div>
           <div class="ov-hero-stat">
-            <span class="ov-hero-num ov-draw" id="heroDraws">—</span>
-            <span class="ov-hero-label">Draws</span>
+            <span class="ov-hero-num ov-draw" id="heroDraws">&mdash;</span>
+            <span class="ov-hero-label" data-i18n="overview.draws">Egaluri</span>
           </div>
           <div class="ov-hero-stat">
-            <span class="ov-hero-num ov-loss" id="heroLosses">—</span>
-            <span class="ov-hero-label">Losses</span>
-          </div>
-          <div class="ov-hero-divider"></div>
-          <div class="ov-hero-stat">
-            <span class="ov-hero-num" id="heroGF">—</span>
-            <span class="ov-hero-label">Goals For</span>
-          </div>
-          <div class="ov-hero-stat">
-            <span class="ov-hero-num" id="heroGA">—</span>
-            <span class="ov-hero-label">Conceded</span>
+            <span class="ov-hero-num ov-loss" id="heroLosses">&mdash;</span>
+            <span class="ov-hero-label" data-i18n="overview.losses">Infrangeri</span>
           </div>
           <div class="ov-hero-divider"></div>
           <div class="ov-hero-stat">
-            <span class="ov-hero-num ov-win" id="heroPts">—</span>
-            <span class="ov-hero-label">Points</span>
+            <span class="ov-hero-num" id="heroGF">&mdash;</span>
+            <span class="ov-hero-label" data-i18n="overview.goalsFor">Goluri marcate</span>
           </div>
           <div class="ov-hero-stat">
-            <span class="ov-hero-num" id="heroWinRate">—</span>
-            <span class="ov-hero-label">Win Rate</span>
+            <span class="ov-hero-num" id="heroGA">&mdash;</span>
+            <span class="ov-hero-label" data-i18n="overview.conceded">Goluri primite</span>
+          </div>
+          <div class="ov-hero-divider"></div>
+          <div class="ov-hero-stat">
+            <span class="ov-hero-num ov-win" id="heroPts">&mdash;</span>
+            <span class="ov-hero-label" data-i18n="overview.points">Puncte</span>
+          </div>
+          <div class="ov-hero-stat">
+            <span class="ov-hero-num" id="heroWinRate">&mdash;</span>
+            <span class="ov-hero-label" data-i18n="overview.winRate">Rata victorii</span>
           </div>
         </div>
 
-        <!-- Result bar -->
         <div class="ov-result-bar" id="resultBar"></div>
 
-        <!-- Cards row -->
         <div class="ov-cards-row">
           <div class="card ov-card">
-            <div class="ov-card-label">Top Strengths</div>
-            <div id="topStrengths" class="loading">Loading...</div>
+            <div class="ov-card-label" data-i18n="overview.topStrengths">Puncte forte</div>
+            <div id="topStrengths" class="loading" data-i18n="common.loading">Se incarca...</div>
           </div>
           <div class="card ov-card">
-            <div class="ov-card-label">Top Weaknesses</div>
-            <div id="topWeaknesses" class="loading">Loading...</div>
+            <div class="ov-card-label" data-i18n="overview.topWeaknesses">Puncte slabe</div>
+            <div id="topWeaknesses" class="loading" data-i18n="common.loading">Se incarca...</div>
           </div>
         </div>
 
-        <!-- Tactical profile -->
         <div class="card ov-profile-card">
-          <div class="ov-card-label">Tactical Profile</div>
-          <div id="tacticalProfile" class="loading">Loading...</div>
+          <div class="ov-card-label" data-i18n="overview.tacticalProfile">Profil tactic</div>
+          <div id="tacticalProfile" class="loading" data-i18n="common.loading">Se incarca...</div>
         </div>
       </div>
 
-      <!-- Players View -->
       <div id="playersView" class="view">
         <header class="view-header">
-          <h2>Squad Players</h2>
+          <h2 data-i18n="players.title">Jucatorii lotului</h2>
           <div class="view-header-controls">
             <button class="btn-toggle" id="pitchViewToggle" onclick="app.togglePitchView()">
-              <span id="toggleIcon">⚽</span> <span id="toggleText">Pitch View</span>
+              <span id="toggleIcon">⚽</span> <span id="toggleText">Vedere teren</span>
             </button>
-            <button class="btn-refresh" onclick="app.loadPlayers()">Refresh</button>
+            <button class="btn-refresh" onclick="app.loadPlayers()" data-i18n="common.refresh">Reincarca</button>
           </div>
         </header>
 
@@ -145,10 +150,9 @@
 
         <!-- Pitch View Container -->
         <div id="pitchViewContainer" class="pitch-view-container">
-          <!-- Controls Panel -->
           <div class="pitch-controls">
             <div class="control-group">
-              <label>Formation</label>
+              <label data-i18n="players.formation">Formatie</label>
               <select id="formationSelect" onchange="app.changeFormation(this.value)">
                 <option value="4-3-3">4-3-3</option>
                 <option value="4-4-2">4-4-2</option>
@@ -161,90 +165,69 @@
               </select>
             </div>
             <div class="control-group">
-              <label>Filter by Position</label>
+              <label data-i18n="players.filterPosition">Filtreaza dupa pozitie</label>
               <select id="positionFilter" onchange="app.filterByPosition(this.value)">
-                <option value="ALL">All Positions</option>
-                <option value="GK">Goalkeeper</option>
-                <option value="DEF">Defenders</option>
-                <option value="MID">Midfielders</option>
-                <option value="FWD">Forwards</option>
+                <option value="ALL" data-i18n="players.allPositions">Toate pozitiile</option>
+                <option value="GK" data-i18n="players.goalkeeper">Portar</option>
+                <option value="DEF" data-i18n="players.defenders">Fundasi</option>
+                <option value="MID" data-i18n="players.midfielders">Mijlocasi</option>
+                <option value="FWD" data-i18n="players.forwards">Atacanti</option>
               </select>
             </div>
             <div class="control-group">
               <label>
                 <input type="checkbox" id="showStatsOnPitch" onchange="app.togglePitchStats()" checked>
-                Show Stats on Pitch
+                <span data-i18n="players.showStats">Afiseaza statistici pe teren</span>
               </label>
             </div>
             <div class="control-group">
               <label>
                 <input type="checkbox" id="enableDragDrop" onchange="app.toggleDragDrop()">
-                Enable Drag & Drop
+                <span data-i18n="players.enableDragDrop">Activeaza drag and drop</span>
               </label>
             </div>
           </div>
 
-          <!-- Football Pitch -->
           <div class="pitch-container">
             <svg class="football-pitch" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid meet">
-              <!-- Grass Pattern -->
               <defs>
                 <pattern id="grassPattern" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
                   <rect width="40" height="80" fill="#0d3b1a" />
                   <rect x="40" width="40" height="80" fill="#0f4520" />
                 </pattern>
               </defs>
-
-              <!-- Pitch Background -->
               <rect width="1200" height="800" fill="url(#grassPattern)" />
-
-              <!-- Outer Border -->
               <rect x="40" y="40" width="1120" height="720" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
-
-              <!-- Half Line -->
               <line x1="600" y1="40" x2="600" y2="760" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
-
-              <!-- Center Circle -->
               <circle cx="600" cy="400" r="70" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
               <circle cx="600" cy="400" r="3" fill="rgba(255,255,255,0.6)" />
-
-              <!-- Left Penalty Area -->
               <rect x="40" y="220" width="130" height="360" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
               <rect x="40" y="310" width="50" height="180" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
               <path d="M 170 290 A 70 70 0 0 0 170 510" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
               <circle cx="120" cy="400" r="3" fill="rgba(255,255,255,0.6)" />
-
-              <!-- Right Penalty Area -->
               <rect x="1030" y="220" width="130" height="360" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
               <rect x="1110" y="310" width="50" height="180" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
               <path d="M 1030 290 A 70 70 0 0 1 1030 510" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
               <circle cx="1080" cy="400" r="3" fill="rgba(255,255,255,0.6)" />
-
-              <!-- Corner Arcs -->
               <path d="M 40 55 Q 47 47 55 40" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
               <path d="M 1145 40 Q 1153 47 1160 55" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
               <path d="M 40 745 Q 47 753 55 760" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
               <path d="M 1145 760 Q 1153 753 1160 745" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
-
-              <!-- Goals -->
               <rect x="30" y="355" width="15" height="90" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" />
               <rect x="1155" y="355" width="15" height="90" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" />
             </svg>
 
-            <!-- Player Cards on Pitch (dynamically populated) -->
             <div id="pitchPlayers" class="pitch-players"></div>
           </div>
 
-          <!-- Substitutes Bench -->
           <div class="subs-bench">
-            <h3>Substitutes & Reserves</h3>
+            <h3 data-i18n="players.substitutes">Rezerve si inlocuitori</h3>
             <div id="subsList" class="subs-list">
-              <div class="loading">Loading substitutes...</div>
+              <div class="loading" data-i18n="players.loadingSubstitutes">Se incarca rezervele...</div>
             </div>
           </div>
         </div>
 
-        <!-- Traditional Table View -->
         <div id="tableViewContainer" class="table-view-container" style="display: none;">
           <div class="squad-controls">
             <div class="search-bar">
@@ -277,17 +260,16 @@
               </thead>
               <tbody id="playersTableBody">
                 <tr>
-                  <td colspan="9" class="loading">Loading players...</td>
+                  <td colspan="7" class="loading">Se incarca jucatorii...</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
 
-        <!-- Player Detail Panel (Modal) -->
         <div id="playerDetailPanel" class="player-detail-panel" style="display: none;">
           <div class="player-detail-content">
-            <button class="detail-close" onclick="app.closePlayerDetail()">×</button>
+            <button class="detail-close" onclick="app.closePlayerDetail()">&times;</button>
             <div id="playerDetailBody"></div>
           </div>
         </div>
@@ -388,13 +370,11 @@
         </div>
       </div>
 
-      <!-- Player Comparison View -->
       <div id="comparisonView" class="view">
         <header class="view-header">
-          <h2>Player Comparison</h2>
+          <h2 data-i18n="comparison.title">Comparatie jucatori</h2>
         </header>
 
-        <!-- Position tabs -->
         <div class="pos-tabs" id="posTabs">
           <button class="pos-tab active" data-pos="ALL">ALL</button>
           <button class="pos-tab" data-pos="GK">GK</button>
@@ -405,16 +385,15 @@
           <button class="pos-tab" data-pos="ST">ST</button>
         </div>
 
-        <!-- Player selectors -->
         <div class="comparison-controls">
           <div class="comparison-select-group">
             <label>
               <span class="cmp-team-badge cmp-team-badge--a">U CLUJ</span>
               Player A
             </label>
-            <input class="cmp-search" id="searchA" placeholder="Search U Cluj player…" autocomplete="off" />
+            <input class="cmp-search" id="searchA" placeholder="Search U Cluj player..." autocomplete="off" />
             <div class="cmp-dropdown" id="dropdownA"></div>
-            <div class="cmp-selected" id="selectedA">—</div>
+            <div class="cmp-selected" id="selectedA">&mdash;</div>
           </div>
           <div class="comparison-vs">VS</div>
           <div class="comparison-select-group">
@@ -422,20 +401,19 @@
               <span class="cmp-team-badge cmp-team-badge--b">OPPONENT</span>
               Player B
             </label>
-            <input class="cmp-search" id="searchB" placeholder="Search Liga 1 opponent…" autocomplete="off" />
+            <input class="cmp-search" id="searchB" placeholder="Search Liga 1 opponent..." autocomplete="off" />
             <div class="cmp-dropdown" id="dropdownB"></div>
-            <div class="cmp-selected" id="selectedB">—</div>
+            <div class="cmp-selected" id="selectedB">&mdash;</div>
           </div>
         </div>
 
-        <!-- Scout Section -->
         <div id="scoutSection" class="scout-section">
           <div class="scout-header">
             <div class="scout-header-text">
-              <span class="scout-title">Profile Scout</span>
-              <span class="scout-subtitle">Drag any axis vertex to set your target profile — best matching Liga 1 players appear instantly</span>
+              <span class="scout-title" data-i18n="comparison.profileScout">Scouting profil</span>
+              <span class="scout-subtitle" data-i18n="comparison.profileScoutSubtitle">Trage orice varf al axei pentru a seta profilul tinta, iar cei mai potriviti jucatori din Liga 1 apar instant</span>
             </div>
-            <button id="scoutResetBtn" class="btn-refresh">↺ Reset to Player A</button>
+            <button id="scoutResetBtn" class="btn-refresh" data-i18n="comparison.resetToPlayerA">Reset la Jucatorul A</button>
           </div>
           <div class="scout-grid">
             <div class="card scout-radar-wrap">
@@ -443,7 +421,7 @@
             </div>
             <div class="card scout-results-wrap">
               <div id="scoutResults" class="scout-results">
-                <div class="scout-prompt">Select a U Cluj Player A to start scouting.</div>
+                <div class="scout-prompt" data-i18n="comparison.selectPlayerPrompt">Selecteaza un Jucator A de la U Cluj pentru a incepe scoutingul.</div>
               </div>
             </div>
           </div>
@@ -461,15 +439,14 @@
         </div>
       </div>
 
-      <!-- Recruitment View -->
       <div id="recruitmentView" class="view">
         <header class="view-header">
-          <h2>Recruitment</h2>
-          <button class="btn-refresh" onclick="app.loadRecruitment()">Refresh</button>
+          <h2 data-i18n="recruitment.title">Recrutare</h2>
+          <button class="btn-refresh" onclick="app.loadRecruitment()" data-i18n="common.refresh">Reincarca</button>
         </header>
 
         <div class="recruitment-controls">
-          <label for="shortlistLimit">Candidates per need</label>
+          <label for="shortlistLimit" data-i18n="recruitment.candidatesPerNeed">Candidati per nevoie</label>
           <select id="shortlistLimit">
             <option value="2">2</option>
             <option value="3">3</option>
@@ -477,19 +454,19 @@
             <option value="5">5</option>
             <option value="6">6</option>
           </select>
-          <button class="btn-refresh" onclick="app.loadRecruitment()">Apply</button>
+          <button class="btn-refresh" onclick="app.loadRecruitment()" data-i18n="common.apply">Aplica</button>
         </div>
 
-        <div id="recruitmentStatus" class="loading">Load recruitment insights to start.</div>
+        <div id="recruitmentStatus" class="loading" data-i18n="recruitment.startPrompt">Incarca insight-urile de recrutare pentru a incepe.</div>
 
         <div class="recruitment-grid">
           <section class="card recruitment-card">
-            <h3>Priority Needs</h3>
-            <div id="recruitmentNeeds" class="loading">No data yet.</div>
+            <h3 data-i18n="recruitment.priorityNeeds">Nevoi prioritare</h3>
+            <div id="recruitmentNeeds" class="loading" data-i18n="recruitment.noData">Nu exista date inca.</div>
           </section>
           <section class="card recruitment-card">
-            <h3>Shortlist</h3>
-            <div id="recruitmentShortlist" class="loading">No data yet.</div>
+            <h3 data-i18n="recruitment.shortlist">Lista scurta</h3>
+            <div id="recruitmentShortlist" class="loading" data-i18n="recruitment.noData">Nu exista date inca.</div>
           </section>
         </div>
       </div>
