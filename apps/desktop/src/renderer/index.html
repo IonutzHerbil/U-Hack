@@ -15,21 +15,12 @@
         <h1 class="brand-title">C.L.U.J. Scout</h1>
       </div>
       <ul class="nav-menu">
-        <li class="nav-item active" data-view="overview">
-          Team Overview
-        </li>
-        <li class="nav-item" data-view="players">
-          Squad
-        </li>
-        <li class="nav-item" data-view="scouting">
-          Transfer & Scouting
-        </li>
-        <li class="nav-item" data-view="comparison">
-          Player Comparison
-        </li>
-        <li class="nav-item" data-view="recruitment">
-          Recruitment
-        </li>
+        <li class="nav-item active" data-view="overview" data-i18n="nav.overview">Prezentare echipa</li>
+        <li class="nav-item" data-view="players" data-i18n="nav.players">Jucatori</li>
+        <li class="nav-item" data-view="matches" data-i18n="nav.matches">Statistici meci</li>
+        <li class="nav-item" data-view="comparison" data-i18n="nav.comparison">Comparatie jucatori</li>
+        <li class="nav-item" data-view="recruitment" data-i18n="nav.recruitment">Recrutare</li>
+        <li class="nav-item" data-view="scraper" data-i18n="nav.scraper">Risk Scout</li>
       </ul>
       <div class="api-status">
         <div class="status-indicator" id="apiStatus"></div>
@@ -470,6 +461,42 @@
           </section>
         </div>
       </div>
+
+      <!-- Risk Scout (Web Scraper) View -->
+      <div id="scraperView" class="view">
+        <header class="view-header">
+          <h2>Risk Scout</h2>
+        </header>
+
+        <div class="scraper-search-bar">
+          <input
+            type="text"
+            id="scraperInput"
+            placeholder="Enter player name..."
+            autocomplete="off"
+            onkeydown="if(event.key==='Enter') app.runScraper()"
+          />
+          <button class="btn-refresh" id="scraperRunBtn" onclick="app.runScraper()">Analyse</button>
+        </div>
+
+        <div id="scraperStatus" class="scraper-status"></div>
+
+        <div id="scraperResults" style="display:none;">
+          <div class="card scraper-profile-card">
+            <div class="scraper-profile-header">
+              <span class="scraper-player-name" id="scraperPlayerName"></span>
+              <span class="scraper-profile-subtitle">Character Risk Profile</span>
+            </div>
+            <div id="scraperTraits" class="scraper-traits"></div>
+          </div>
+
+          <div class="card scraper-reports-card">
+            <h3>Source Reports</h3>
+            <div id="scraperReports" class="scraper-reports-list"></div>
+          </div>
+        </div>
+      </div>
+
     </main>
   </div>
 

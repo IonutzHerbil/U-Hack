@@ -140,6 +140,7 @@ class App {
         'nav.matches': 'Statistici meci',
         'nav.comparison': 'Comparatie jucatori',
         'nav.recruitment': 'Recrutare',
+        'nav.scraper': 'Background Check',
         'overview.title': 'Prezentare echipa',
         'overview.played': 'Meciuri',
         'overview.wins': 'Victorii',
@@ -197,6 +198,7 @@ class App {
         'nav.matches': 'Match Stats',
         'nav.comparison': 'Player Comparison',
         'nav.recruitment': 'Recruitment',
+        'nav.scraper': 'Background Check',
         'overview.title': 'Team Overview',
         'overview.played': 'Played',
         'overview.wins': 'Wins',
@@ -3147,6 +3149,93 @@ class App {
       element.className = '';
       element.innerHTML = `<span style="color: var(--danger);">${message}</span>`;
     }
+  }
+
+  // --- Risk Scout ---
+
+  async runScraper() {
+    const input     = document.getElementById('scraperInput');
+    const statusEl  = document.getElementById('scraperStatus');
+    const resultsEl = document.getElementById('scraperResults');
+    const runBtn    = document.getElementById('scraperRunBtn');
+
+    const playerName = (input.value || '').trim();
+    if (!playerName) {
+      statusEl.className = 'scraper-status error';
+      statusEl.textContent = 'Please enter a player name.';
+      return;
+    }
+
+    resultsEl.style.display = 'none';
+    statusEl.className = 'scraper-status loading';
+    statusEl.innerHTML = '<div class="scraper-spinner"></div> Searching for articles about <strong>' + playerName + '</strong>... this can take up to 60 s';
+    runBtn.disabled = true;
+
+    try {
+      const data = await apiClient.getPlayerRisk(playerName);
+      this.renderScraperResults(data);
+      statusEl.className = 'scraper-status';
+      statusEl.textContent = '';
+    } catch (err) {
+      statusEl.className = 'scraper-status error';
+      const detail = (err && err.response && err.response.data && err.response.data.detail) || err.message || 'Unknown error';
+      statusEl.textContent = 'Error: ' + detail;
+      resultsEl.style.display = 'none';
+    } finally {
+      runBtn.disabled = false;
+    }
+  }
+
+  renderScraperResults(data) {
+    const resultsEl = document.getElementById('scraperResults');
+
+    document.getElementById('scraperPlayerName').textContent = data.player || '--';
+
+    // Character profile
+    const traitsEl = document.getElementById('scraperTraits');
+    const profile  = data.character_profile || [];
+
+    if (profile.length === 0) {
+      traitsEl.innerHTML = '<div class="scraper-no-traits">No risk traits detected &mdash; clean profile.</div>';
+    } else {
+      traitsEl.innerHTML = profile.map(function(t) {
+        return '<div class="scraper-trait-row">'
+          + '<span class="scraper-trait-label">' + t.trait + '</span>'
+          + '<div class="scraper-trait-bar-wrap">'
+            + '<div class="scraper-trait-bar-fill level-' + t.level + '" style="width:' + t.score + '%"></div>'
+          + '</div>'
+          + '<span class="scraper-trait-score">' + t.score + '</span>'
+          + '<span class="scraper-trait-level level-' + t.level + '">' + t.level + '</span>'
+          + '<span class="scraper-trait-desc">' + (t.description || '') + '</span>'
+          + '</div>';
+      }).join('');
+    }
+
+    // Source reports
+    const reportsEl     = document.getElementById('scraperReports');
+    const reports       = Array.isArray(data.reports) ? data.reports : [];
+    const articleReports = reports.filter(function(r) { return typeof r === 'object'; });
+
+    if (articleReports.length === 0) {
+      reportsEl.innerHTML = '<div class="scraper-clean">No negative articles found.</div>';
+    } else {
+      reportsEl.innerHTML = articleReports.map(function(r) {
+        var issues = (r.issues || []).map(function(issue) {
+          return '<div class="scraper-issue">'
+            + '<span class="scraper-issue-type type-' + issue.type + '">' + issue.type + '</span>'
+            + '<span class="scraper-issue-summary">' + issue.summary + '</span>'
+            + '<span class="scraper-issue-sev">sev ' + (+issue.severity).toFixed(1) + '</span>'
+            + '</div>';
+        }).join('');
+        return '<div class="scraper-report-item">'
+          + '<div class="scraper-report-title">' + (r.title || 'Untitled') + '</div>'
+          + '<div class="scraper-report-url"><a href="' + r.url + '" target="_blank">' + r.url + '</a></div>'
+          + '<div class="scraper-issue-list">' + issues + '</div>'
+          + '</div>';
+      }).join('');
+    }
+
+    resultsEl.style.display = 'block';
   }
 }
 
