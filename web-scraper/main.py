@@ -287,7 +287,7 @@ def build_player_profile(player_name):
         print(f"[PIPELINE] Search failed: {e}")
         return {
             "player":            player_name,
-            "reports":           ["No major issues detected"],
+            "reports":           [],
             "character_profile": [],
         }
 
