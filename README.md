@@ -1,4 +1,8 @@
-# TTG Scout
+# C.L.U.J. Scout
+
+<p align="center">
+  <img src="https://github.com/IonutzHerbil/U-Hack/blob/main/resources/logo.png" alt="Sublime's custom image"/>
+</p>
 
 Lightweight scouting platform for **U Cluj**:
 - track team strengths and weaknesses
