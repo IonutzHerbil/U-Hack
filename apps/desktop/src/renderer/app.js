@@ -2174,10 +2174,20 @@ class App {
 
     try {
       const limit = parseInt(document.getElementById('shortlistLimit')?.value || '4', 10);
-      const data = await apiClient.getShortlist(limit);
+      const [recommendations, shortlistPayload] = await Promise.all([
+        apiClient.getRecommendations(),
+        apiClient.getShortlist(limit),
+      ]);
 
-      const needs = data?.priority_needs || [];
-      const shortlist = data?.shortlist || [];
+      const needs = recommendations?.priority_needs || shortlistPayload?.priority_needs || [];
+      const shortlistGroups = shortlistPayload?.shortlist || [];
+      const shortlist = Array.isArray(shortlistGroups)
+        ? shortlistGroups.flatMap(group => (group?.candidates || []).map(candidate => ({
+            ...candidate,
+            need_position: group?.position || candidate?.position || '',
+            need_priority: group?.priority || 'medium',
+          })))
+        : [];
 
       // Render priority needs
       if (needsEl) {
@@ -2216,11 +2226,12 @@ class App {
             const apps = candidate.apps || candidate.match_count || 0;
             const age = candidate.age || '-';
             const pid = candidate.player_id;
+            const needTag = (candidate.need_position || '').toUpperCase();
             return `
               <div class="recommendation-card" onclick="app.selectComparisonPlayer('B', ${pid})" style="cursor:pointer;padding:10px 12px;border:1px solid var(--border-color);border-radius:4px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
                 <div>
                   <span style="font-weight:600;color:var(--text-primary)">${name}</span>
-                  <span style="color:var(--text-secondary);font-size:12px;margin-left:8px;">${pos}${team ? ' · ' + team : ''}</span>
+                  <span style="color:var(--text-secondary);font-size:12px;margin-left:8px;">${pos}${team ? ' · ' + team : ''}${needTag ? ' · need: ' + needTag : ''}</span>
                 </div>
                 <div style="display:flex;gap:12px;align-items:center;">
                   <span style="color:var(--text-muted);font-size:12px;">${apps} apps · ${age} yrs</span>

@@ -90,17 +90,21 @@ class APIClient {
 
   async getRecommendations(): Promise<any[]> {
     try {
-      const response = await this.client.get('/recruitment/recommendations');
+      const response = await this.client.get('/recruitment/recommendations', {
+        timeout: 120000,
+      });
       return response.data;
     } catch (error) {
-      console.warn('Recommendations endpoint not available, returning empty');
+      console.warn('Recommendations endpoint failed, returning empty:', error);
       return [];
     }
   }
 
   async getShortlist(limitPerNeed: number = 4): Promise<any> {
     try {
-      const response = await this.client.get(`/recruitment/shortlist?limit_per_need=${limitPerNeed}`);
+      const response = await this.client.get(`/recruitment/shortlist?limit_per_need=${limitPerNeed}`, {
+        timeout: 120000,
+      });
       return response.data;
     } catch (error) {
       console.warn('Shortlist endpoint not available:', error);

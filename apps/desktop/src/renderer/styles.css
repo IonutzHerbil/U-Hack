@@ -2141,6 +2141,57 @@ body {
   padding: 0;
 }
 
+/* Recruitment view */
+.recruitment-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.recruitment-controls label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.recruitment-controls select {
+  min-width: 84px;
+  padding: 8px 10px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 8px;
+}
+
+#recruitmentStatus {
+  margin-bottom: 14px;
+}
+
+.recruitment-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.recruitment-card {
+  min-height: 440px;
+  padding: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+}
+
+.recruitment-card h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
   .pitch-controls {

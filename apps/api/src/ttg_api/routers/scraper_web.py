@@ -62,7 +62,7 @@ async def player_risk(player_name: str) -> dict[str, Any]:
             status_code=503,
             detail=f"Scraper module failed to load: {_load_error}. "
                    f"Make sure all dependencies are installed "
-                   f"(ddgs, newspaper3k, google-generativeai).",
+                   f"(ddgs, newspaper3k, google-generativeai, lxml_html_clean).",
         )
 
     loop = asyncio.get_running_loop()
