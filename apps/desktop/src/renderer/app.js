@@ -7,14 +7,16 @@ class App {
     this.matches = [];
     this.uclujPlayers = [];
     this.allPlayers = [];
+    this.filteredTransfermarktPlayers = [];
+    this.tmSortState = null;
     this.leaguePercentiles = null;
     this.targetProfile = {};
     this.draggingAxis = null;
     this.hoveredAxis = null;
     this.scoutCanvas = null;
     this.scoutCtx = null;
-    this.COLOR_A = '#1ee8d4';
-    this.COLOR_B = '#ff6b35';
+    this.COLOR_A = '#fbbf24';
+    this.COLOR_B = '#dc2626';
     this.selectedA = null;
     this.selectedB = null;
     this.activePos = 'ALL';
@@ -120,6 +122,7 @@ class App {
   init() {
     this.setupNavigation();
     this.setupSearch();
+    this.setupTableSorting();
     this.setupComparisonControls();
     this.checkAPIConnection();
     this.loadOverview();
@@ -144,6 +147,114 @@ class App {
     }
   }
 
+  setupTableSorting() {
+    this.currentSort = { column: null, direction: 'asc' };
+    this.filteredPlayers = [];
+
+    // Add click listeners to sortable headers
+    setTimeout(() => {
+      const headers = document.querySelectorAll('.data-table th.sortable');
+      headers.forEach(header => {
+        header.addEventListener('click', () => {
+          const sortKey = header.getAttribute('data-sort');
+          this.sortTable(sortKey);
+        });
+      });
+    }, 100);
+  }
+
+  sortTable(column) {
+    // Toggle direction if same column, otherwise reset to ascending
+    if (this.currentSort.column === column) {
+      this.currentSort.direction = this.currentSort.direction === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.currentSort.column = column;
+      this.currentSort.direction = 'asc';
+    }
+
+    // Get the list to sort (filtered or all)
+    const playersToSort = this.filteredPlayers.length > 0 ? this.filteredPlayers : this.players;
+
+    // Sort the players
+    const sorted = [...playersToSort].sort((a, b) => {
+      let valA, valB;
+
+      if (column === 'name') {
+        valA = a.name || '';
+        valB = b.name || '';
+        return this.currentSort.direction === 'asc'
+          ? valA.localeCompare(valB)
+          : valB.localeCompare(valA);
+      }
+
+      if (column === 'position') {
+        valA = a.position || '';
+        valB = b.position || '';
+        return this.currentSort.direction === 'asc'
+          ? valA.localeCompare(valB)
+          : valB.localeCompare(valA);
+      }
+
+      if (column === 'overall') {
+        valA = a.overall || 0;
+        valB = b.overall || 0;
+      } else if (column === 'apps') {
+        valA = a.apps || 0;
+        valB = b.apps || 0;
+      } else if (column === 'goals') {
+        valA = a.raw?.goals || 0;
+        valB = b.raw?.goals || 0;
+      } else if (column === 'assists') {
+        valA = a.raw?.assists || 0;
+        valB = b.raw?.assists || 0;
+      } else if (column === 'minutes') {
+        valA = a.minutes || 0;
+        valB = b.minutes || 0;
+      } else if (column === 'goals90') {
+        valA = (a.raw?.goals || 0) / Math.max((a.minutes || 1) / 90, 0.1);
+        valB = (b.raw?.goals || 0) / Math.max((b.minutes || 1) / 90, 0.1);
+      } else if (column === 'assists90') {
+        valA = (a.raw?.assists || 0) / Math.max((a.minutes || 1) / 90, 0.1);
+        valB = (b.raw?.assists || 0) / Math.max((b.minutes || 1) / 90, 0.1);
+      }
+
+      return this.currentSort.direction === 'asc' ? valA - valB : valB - valA;
+    });
+
+    // Update visual indicators
+    document.querySelectorAll('.data-table th.sortable').forEach(th => {
+      th.classList.remove('sort-asc', 'sort-desc');
+    });
+    const activeHeader = document.querySelector(`.data-table th[data-sort="${column}"]`);
+    if (activeHeader) {
+      activeHeader.classList.add(this.currentSort.direction === 'asc' ? 'sort-asc' : 'sort-desc');
+    }
+
+    this.renderPlayers(sorted);
+  }
+
+  filterTableByPosition(posGroup) {
+    if (posGroup === 'ALL') {
+      this.filteredPlayers = [];
+      this.renderPlayers(this.players);
+      return;
+    }
+
+    const posMap = {
+      'GK': ['gk'],
+      'DEF': ['cb', 'lcb', 'rcb', 'lb', 'rb', 'lb5', 'rb5', 'lwb', 'rwb'],
+      'MID': ['cm', 'cdm', 'lcmf', 'rcmf', 'ldmf', 'rdmf', 'lcmf3', 'amf', 'lamf', 'ramf', 'lm', 'rm'],
+      'FWD': ['lw', 'rw', 'lwf', 'rwf', 'cf', 'ss']
+    };
+
+    const validPositions = posMap[posGroup] || [];
+    this.filteredPlayers = this.players.filter(p =>
+      validPositions.some(pos => (p.position || '').toLowerCase().includes(pos))
+    );
+
+    this.renderPlayers(this.filteredPlayers);
+  }
+
   switchView(viewName) {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -158,10 +269,10 @@ class App {
 
     if (viewName === 'players' && this.players.length === 0) {
       this.loadPlayers();
-    } else if (viewName === 'matches' && this.matches.length === 0) {
-      this.loadMatches();
     } else if (viewName === 'comparison') {
       this.loadComparisonView();
+    } else if (viewName === 'scouting') {
+      this.loadScoutingView();
     }
   }
 
@@ -264,32 +375,52 @@ class App {
   renderTacticalProfile(profile) {
     const el = document.getElementById('tacticalProfile');
     el.className = 'ov-profile-grid';
-    el.innerHTML = profile.map(dim => {
-      const pct = Math.min(dim.score, 100);
-      const tier = dim.tier || (pct >= 65 ? 'FORTE' : pct >= 45 ? 'OK' : 'SLAB');
-      const tierColor = tier === 'FORTE' ? '#4ade80' : tier === 'OK' ? '#facc15' : '#f87171';
-      const tierLabel = tier === 'FORTE' ? 'STRONG' : tier === 'OK' ? 'OK' : 'WEAK';
-      return `
-        <div class="ov-dim-card">
-          <div class="ov-dim-top">
+
+    // Group dimensions by category using key matching
+    const categoryKeys = {
+      'ATTACK': ['combinatii_flancuri', 'joc_direct', 'contraatac_rapid'],
+      'POSSESSION': ['combinatii_mijloc', 'joc_controlat', 'constructie_portar', 'minge_lunga'],
+      'DEFENSE': ['pressing_retras', 'pressing_median', 'pressing_avansat', 'contrapressing', 'retragere_organizare']
+    };
+
+    let html = '';
+
+    for (const [category, keys] of Object.entries(categoryKeys)) {
+      const dimensions = profile.filter(dim => keys.includes(dim.key));
+
+      if (dimensions.length === 0) continue;
+
+      html += `<div class="tactical-category">
+        <div class="tactical-category-header">${category}</div>
+        <div class="tactical-category-items">`;
+
+      dimensions.forEach(dim => {
+        const pct = Math.min(dim.score, 100);
+        const tier = dim.tier || (pct >= 65 ? 'FORTE' : pct >= 45 ? 'OK' : 'SLAB');
+        const tierColor = tier === 'FORTE' ? '#fbbf24' : tier === 'OK' ? '#888888' : '#dc2626';
+        const tierLabel = tier === 'FORTE' ? 'STRONG' : tier === 'OK' ? 'OK' : 'WEAK';
+
+        html += `
+          <div class="ov-dim-card">
             <span class="ov-dim-name">${dim.label_en || dim.label}</span>
             <span class="ov-dim-tier" style="color:${tierColor}">${tierLabel}</span>
-          </div>
-          <div class="ov-dim-score-row">
-            <span class="ov-dim-num" style="color:${tierColor}">${pct.toFixed(0)}</span>
-            <span class="ov-dim-denom">/100</span>
-          </div>
-          <div class="ov-dim-track">
-            <div class="ov-dim-fill" style="width:${pct}%;background:${tierColor}"></div>
-          </div>
-        </div>`;
-    }).join('');
+            <div class="ov-dim-track">
+              <div class="ov-dim-fill" style="width:${pct}%;background:${tierColor}"></div>
+            </div>
+            <span class="ov-dim-num">${pct.toFixed(0)}<span class="ov-dim-denom">/100</span></span>
+          </div>`;
+      });
+
+      html += `</div></div>`;
+    }
+
+    el.innerHTML = html;
   }
 
   async loadPlayers() {
     console.log('=== loadPlayers START ===');
     const tbody = document.getElementById('playersTableBody');
-    tbody.innerHTML = '<tr><td colspan="7" class="loading">Loading players...</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="9" class="loading">Loading players...</td></tr>';
 
     try {
       this.players = await apiClient.getSquad();
@@ -309,28 +440,71 @@ class App {
       }
     } catch (error) {
       console.error('Failed to load players:', error);
-      tbody.innerHTML = '<tr><td colspan="7" style="color: var(--danger);">Failed to load players</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="9" style="color: var(--danger);">Failed to load players</td></tr>';
     }
   }
 
   renderPlayers(players) {
     const tbody = document.getElementById('playersTableBody');
     if (players.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="7">No players found</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="9">No players found</td></tr>';
       return;
     }
 
-    tbody.innerHTML = players.map(p => `
+    // Update squad metrics
+    this.updateSquadMetrics(players);
+
+    tbody.innerHTML = players.map(p => {
+      const goals = p.raw?.goals || 0;
+      const assists = p.raw?.assists || 0;
+      const mins = p.minutes || 0;
+      const goals90 = mins > 0 ? (goals / (mins / 90)).toFixed(2) : '0.00';
+      const assists90 = mins > 0 ? (assists / (mins / 90)).toFixed(2) : '0.00';
+
+      // Color coding for performance
+      const ratingColor = p.overall >= 7.0 ? 'var(--primary-color)' : p.overall < 6.0 ? 'var(--danger)' : 'var(--text-primary)';
+
+      return `
       <tr>
         <td style="font-weight: 500;">${p.name || 'Unknown'}</td>
         <td>${p.position || '-'}</td>
-        <td>${p.overall ? p.overall.toFixed(1) : '-'}</td>
+        <td style="color: ${ratingColor};">${p.overall ? p.overall.toFixed(1) : '-'}</td>
         <td>${p.apps || 0}</td>
-        <td>${p.raw ? p.raw.goals || 0 : 0}</td>
-        <td>${p.raw ? p.raw.assists || 0 : 0}</td>
-        <td>${p.minutes || 0}</td>
+        <td>${goals}</td>
+        <td>${assists}</td>
+        <td>${mins}</td>
+        <td style="color: var(--text-secondary);">${goals90}</td>
+        <td style="color: var(--text-secondary);">${assists90}</td>
       </tr>
-    `).join('');
+      `;
+    }).join('');
+  }
+
+  updateSquadMetrics(players) {
+    if (players.length === 0) return;
+
+    const totalPlayers = players.length;
+    const totalGoals = players.reduce((sum, p) => sum + (p.raw?.goals || 0), 0);
+    const totalAssists = players.reduce((sum, p) => sum + (p.raw?.assists || 0), 0);
+    const totalApps = players.reduce((sum, p) => sum + (p.apps || 0), 0);
+
+    const playersWithRating = players.filter(p => p.overall);
+    const avgRating = playersWithRating.length > 0
+      ? (playersWithRating.reduce((sum, p) => sum + p.overall, 0) / playersWithRating.length).toFixed(1)
+      : '-';
+
+    // Update DOM
+    const totalPlayersEl = document.getElementById('totalPlayers');
+    const avgAgeEl = document.getElementById('avgAge');
+    const avgRatingEl = document.getElementById('avgRating');
+    const totalGoalsEl = document.getElementById('totalGoals');
+    const totalAssistsEl = document.getElementById('totalAssists');
+
+    if (totalPlayersEl) totalPlayersEl.textContent = totalPlayers;
+    if (avgAgeEl) avgAgeEl.textContent = totalApps; // Show total apps instead of age
+    if (avgRatingEl) avgRatingEl.textContent = avgRating;
+    if (totalGoalsEl) totalGoalsEl.textContent = totalGoals;
+    if (totalAssistsEl) totalAssistsEl.textContent = totalAssists;
   }
 
   filterPlayers(query) {
@@ -530,32 +704,21 @@ class App {
   }
 
   renderPitchView() {
-    console.log('=== renderPitchView START ===');
     const pitchPlayers = document.getElementById('pitchPlayers');
-    if (!pitchPlayers) {
-      console.error('pitchPlayers element not found');
-      return;
-    }
+    if (!pitchPlayers) return;
 
-    // Clear existing
     pitchPlayers.innerHTML = '';
 
-    // Get pitch container and SVG dimensions
-    const pitchContainer = document.querySelector('.pitch-container');
-    const svg = document.querySelector('.football-pitch');
-    if (!pitchContainer || !svg) {
-      console.error('pitch-container or football-pitch not found');
-      return;
+    // Attach container-level drop handlers once
+    if (!this._pitchDropAttached) {
+      this.setupPitchDropZone();
+      this._pitchDropAttached = true;
     }
-
-    console.log('Rendering', Object.keys(this.playerPositions).length, 'players on pitch');
 
     Object.values(this.playerPositions).forEach(({ x, y, player }) => {
       const playerCard = document.createElement('div');
       playerCard.className = 'player-card' + (this.dragDropEnabled ? ' draggable' : '');
       playerCard.dataset.playerId = player.player_id;
-
-      // Position directly on the pitch using percentages
       playerCard.style.left = x + '%';
       playerCard.style.top = y + '%';
 
@@ -563,8 +726,6 @@ class App {
       const goals = player.raw?.goals || 0;
       const assists = player.raw?.assists || 0;
       const apps = player.apps || 0;
-
-      // Get strengths and weaknesses
       const strengths = player.strengths || [];
       const weaknesses = player.weaknesses || [];
 
@@ -575,66 +736,76 @@ class App {
           <div class="player-card-position">${player.position || '-'}</div>
           ${this.showPitchStats ? `
             <div class="player-card-stats">
-              <div class="player-stat">
-                <span class="player-stat-label">G:</span>
-                <span class="player-stat-value">${goals}</span>
-              </div>
-              <div class="player-stat">
-                <span class="player-stat-label">A:</span>
-                <span class="player-stat-value">${assists}</span>
-              </div>
-              <div class="player-stat">
-                <span class="player-stat-label">Apps:</span>
-                <span class="player-stat-value">${apps}</span>
-              </div>
+              <div class="player-stat"><span class="player-stat-label">G:</span><span class="player-stat-value">${goals}</span></div>
+              <div class="player-stat"><span class="player-stat-label">A:</span><span class="player-stat-value">${assists}</span></div>
+              <div class="player-stat"><span class="player-stat-label">Apps:</span><span class="player-stat-value">${apps}</span></div>
             </div>
-            ${strengths.length > 0 ? `
-              <div class="player-card-traits">
-                <div class="player-strengths" title="${strengths.join(', ')}">
-                  <span class="trait-icon">💪</span> ${strengths.slice(0, 2).join(', ')}
-                </div>
-              </div>
-            ` : ''}
-            ${weaknesses.length > 0 ? `
-              <div class="player-card-traits">
-                <div class="player-weaknesses" title="${weaknesses.join(', ')}">
-                  <span class="trait-icon">⚠️</span> ${weaknesses.slice(0, 2).join(', ')}
-                </div>
-              </div>
-            ` : ''}
+            ${strengths.length > 0 ? `<div class="player-card-traits"><div class="player-strengths" title="${strengths.join(', ')}"><span class="trait-icon">💪</span> ${strengths.slice(0, 2).join(', ')}</div></div>` : ''}
+            ${weaknesses.length > 0 ? `<div class="player-card-traits"><div class="player-weaknesses" title="${weaknesses.join(', ')}"><span class="trait-icon">⚠️</span> ${weaknesses.slice(0, 2).join(', ')}</div></div>` : ''}
           ` : ''}
         </div>
       `;
 
-      // Store player for click handler
-      let clickStartTime = 0;
-      let clickStartX = 0;
-      let clickStartY = 0;
-
+      let clickStartTime = 0, clickStartX = 0, clickStartY = 0;
       playerCard.addEventListener('mousedown', (e) => {
-        clickStartTime = Date.now();
-        clickStartX = e.clientX;
-        clickStartY = e.clientY;
+        clickStartTime = Date.now(); clickStartX = e.clientX; clickStartY = e.clientY;
       });
-
       playerCard.addEventListener('click', (e) => {
-        const clickDuration = Date.now() - clickStartTime;
-        const clickDeltaX = Math.abs(e.clientX - clickStartX);
-        const clickDeltaY = Math.abs(e.clientY - clickStartY);
-
-        // Only show detail if it wasn't a drag (quick click with minimal movement)
-        if (clickDuration < 300 && clickDeltaX < 5 && clickDeltaY < 5) {
+        if (Date.now() - clickStartTime < 300 &&
+            Math.abs(e.clientX - clickStartX) < 5 &&
+            Math.abs(e.clientY - clickStartY) < 5) {
           e.stopPropagation();
           this.showPlayerDetail(player);
         }
       });
 
       if (this.dragDropEnabled) {
-        this.makeDraggable(playerCard);
+        playerCard.draggable = true;
+        playerCard.addEventListener('dragstart', (e) => {
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/plain', player.player_id.toString());
+          e.dataTransfer.setData('source', 'pitch');
+          playerCard.classList.add('dragging');
+        });
+        playerCard.addEventListener('dragend', () => {
+          playerCard.classList.remove('dragging');
+          document.querySelectorAll('.player-card.drop-target').forEach(el => el.classList.remove('drop-target'));
+        });
         this.makeDroppable(playerCard, player);
       }
 
       pitchPlayers.appendChild(playerCard);
+    });
+  }
+
+  setupPitchDropZone() {
+    const container = document.querySelector('.pitch-container');
+    const pitchPlayers = document.getElementById('pitchPlayers');
+    if (!container || !pitchPlayers) return;
+
+    container.addEventListener('dragover', (e) => {
+      if (!this.dragDropEnabled) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+    });
+
+    container.addEventListener('drop', (e) => {
+      if (!this.dragDropEnabled) return;
+      // Card drops call stopPropagation in makeDroppable, so this only fires on empty areas
+      e.preventDefault();
+
+      const playerId = parseInt(e.dataTransfer.getData('text/plain'));
+      const source = e.dataTransfer.getData('source');
+
+      if (source === 'pitch' && this.playerPositions[playerId]) {
+        const rect = pitchPlayers.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        this.playerPositions[playerId].x = Math.max(5, Math.min(95, x));
+        this.playerPositions[playerId].y = Math.max(5, Math.min(95, y));
+        this.renderPitchView();
+      }
+      // bench → empty area: no-op (user must drop on a card to swap)
     });
   }
 
@@ -698,13 +869,15 @@ class App {
 
         subCard.addEventListener('dragstart', (e) => {
           e.dataTransfer.effectAllowed = 'move';
-          e.dataTransfer.setData('text/plain', player.player_id);
+          e.dataTransfer.setData('text/plain', player.player_id.toString());
           e.dataTransfer.setData('source', 'bench');
           subCard.classList.add('dragging');
+          console.log('Drag start from bench:', player.name, player.player_id);
         });
 
         subCard.addEventListener('dragend', () => {
           subCard.classList.remove('dragging');
+          console.log('Drag end');
         });
       }
 
@@ -743,8 +916,42 @@ class App {
 
   changeFormation(formation) {
     this.currentFormation = formation;
-    this.assignPlayersToFormation();
+
+    // Get current players on pitch
+    const currentPlayers = Object.values(this.playerPositions).map(pos => pos.player);
+
+    // Get new formation positions
+    const newPositions = this.getFormationPositions(formation);
+
+    // Clear positions
+    this.playerPositions = {};
+
+    // Reassign same players to new formation positions
+    currentPlayers.forEach((player, index) => {
+      if (newPositions[index]) {
+        this.playerPositions[player.player_id] = {
+          ...newPositions[index],
+          player
+        };
+      }
+    });
+
+    // If formation has more positions than current players, fill with bench players
+    if (newPositions.length > currentPlayers.length) {
+      const playersOnPitch = new Set(currentPlayers.map(p => p.player_id));
+      const benchPlayers = this.players.filter(p => !playersOnPitch.has(p.player_id));
+
+      for (let i = currentPlayers.length; i < newPositions.length && benchPlayers.length > 0; i++) {
+        const player = benchPlayers.shift();
+        this.playerPositions[player.player_id] = {
+          ...newPositions[i],
+          player
+        };
+      }
+    }
+
     this.renderPitchView();
+    this.renderSubstitutes();
   }
 
   filterByPosition(posFilter) {
@@ -779,115 +986,54 @@ class App {
     this.renderSubstitutes(); // Re-render subs to enable/disable dragging
   }
 
-  makeDraggable(element) {
-    let isDragging = false;
-    let hasMoved = false;
-    let startX, startY, initialLeft, initialTop;
-
-    const onMouseDown = (e) => {
-      if (!this.dragDropEnabled) return;
-      if (e.button !== 0) return;
-
-      isDragging = true;
-      hasMoved = false;
-      element.classList.add('dragging');
-
-      startX = e.clientX;
-      startY = e.clientY;
-      initialLeft = parseFloat(element.style.left);
-      initialTop = parseFloat(element.style.top);
-
-      e.preventDefault();
-      e.stopPropagation();
-    };
-
-    const onMouseMove = (e) => {
-      if (!isDragging) return;
-
-      const deltaX = Math.abs(e.clientX - startX);
-      const deltaY = Math.abs(e.clientY - startY);
-
-      // Consider it a drag if moved more than 5 pixels
-      if (deltaX > 5 || deltaY > 5) {
-        hasMoved = true;
-      }
-
-      const svg = document.querySelector('.football-pitch');
-      if (!svg) return;
-
-      const svgRect = svg.getBoundingClientRect();
-      const newLeft = initialLeft + ((e.clientX - startX) / svgRect.width * 100);
-      const newTop = initialTop + ((e.clientY - startY) / svgRect.height * 100);
-
-      element.style.left = Math.max(5, Math.min(95, newLeft)) + '%';
-      element.style.top = Math.max(5, Math.min(95, newTop)) + '%';
-    };
-
-    const onMouseUp = () => {
-      if (isDragging) {
-        isDragging = false;
-        element.classList.remove('dragging');
-
-        if (hasMoved) {
-          // Save new position
-          const playerId = element.dataset.playerId;
-          if (this.playerPositions[playerId]) {
-            this.playerPositions[playerId].x = parseFloat(element.style.left);
-            this.playerPositions[playerId].y = parseFloat(element.style.top);
-          }
-        }
-      }
-    };
-
-    element.addEventListener('mousedown', onMouseDown);
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-
-    // Store flag to prevent click event
-    element.dataset.isDraggable = 'true';
-    element.dataset.hasMoved = 'false';
-  }
-
   makeDroppable(element, currentPlayer) {
     element.addEventListener('dragover', (e) => {
+      if (!this.dragDropEnabled) return;
       e.preventDefault();
+      e.stopPropagation();
       e.dataTransfer.dropEffect = 'move';
       element.classList.add('drop-target');
     });
 
-    element.addEventListener('dragleave', () => {
-      element.classList.remove('drop-target');
+    element.addEventListener('dragleave', (e) => {
+      // Only remove when actually leaving the card, not when entering a child
+      if (!element.contains(e.relatedTarget)) {
+        element.classList.remove('drop-target');
+      }
     });
 
     element.addEventListener('drop', (e) => {
+      if (!this.dragDropEnabled) return;
       e.preventDefault();
+      e.stopPropagation();
       element.classList.remove('drop-target');
 
       const droppedPlayerId = parseInt(e.dataTransfer.getData('text/plain'));
       const source = e.dataTransfer.getData('source');
+      if (droppedPlayerId === currentPlayer.player_id) return;
 
       if (source === 'bench') {
-        // Substitute: swap bench player with pitch player
         const benchPlayer = this.players.find(p => p.player_id === droppedPlayerId);
-        if (!benchPlayer) return;
+        const slot = this.playerPositions[currentPlayer.player_id];
+        if (!benchPlayer || !slot) return;
 
-        console.log(`Substituting ${currentPlayer.name} with ${benchPlayer.name}`);
+        slot.player = benchPlayer;
+        delete this.playerPositions[currentPlayer.player_id];
+        this.playerPositions[benchPlayer.player_id] = slot;
 
-        // Find the position slot
-        const positionSlot = Object.values(this.playerPositions).find(
-          pos => pos.player.player_id === currentPlayer.player_id
-        );
+        this.renderPitchView();
+        this.renderSubstitutes();
+      } else if (source === 'pitch') {
+        // Swap two pitch players
+        const slotA = this.playerPositions[droppedPlayerId];
+        const slotB = this.playerPositions[currentPlayer.player_id];
+        if (!slotA || !slotB) return;
 
-        if (positionSlot) {
-          // Replace player in the slot
-          positionSlot.player = benchPlayer;
-          delete this.playerPositions[currentPlayer.player_id];
-          this.playerPositions[benchPlayer.player_id] = positionSlot;
+        [slotA.x, slotB.x] = [slotB.x, slotA.x];
+        [slotA.y, slotB.y] = [slotB.y, slotA.y];
+        [slotA.pos, slotB.pos] = [slotB.pos, slotA.pos];
 
-          // Re-render both pitch and bench
-          this.renderPitchView();
-          this.renderSubstitutes();
-        }
+        this.renderPitchView();
       }
     });
   }
@@ -974,49 +1120,6 @@ class App {
   closePlayerDetail() {
     const panel = document.getElementById('playerDetailPanel');
     panel.style.display = 'none';
-  }
-
-  async loadMatches() {
-    const tbody = document.getElementById('matchesTableBody');
-    tbody.innerHTML = '<tr><td colspan="5" class="loading">Loading match data...</td></tr>';
-
-    try {
-      const matchRecord = await apiClient.getMatchRecord();
-      this.renderMatchRecordTable(matchRecord);
-    } catch (error) {
-      console.error('Failed to load matches:', error);
-      tbody.innerHTML = '<tr><td colspan="5" style="color: var(--danger);">Failed to load match data</td></tr>';
-    }
-  }
-
-  renderMatchRecordTable(record) {
-    const tbody = document.getElementById('matchesTableBody');
-    tbody.innerHTML = `
-      <tr>
-        <td style="font-weight: 600;">Total Played</td>
-        <td colspan="4">${record.played}</td>
-      </tr>
-      <tr>
-        <td style="font-weight: 600;">Wins</td>
-        <td colspan="4" style="color: var(--success);">${record.wins}</td>
-      </tr>
-      <tr>
-        <td style="font-weight: 600;">Draws</td>
-        <td colspan="4" style="color: var(--warning);">${record.draws}</td>
-      </tr>
-      <tr>
-        <td style="font-weight: 600;">Losses</td>
-        <td colspan="4" style="color: var(--danger);">${record.losses}</td>
-      </tr>
-      <tr>
-        <td style="font-weight: 600;">Goals For</td>
-        <td colspan="4">${record.goals_for}</td>
-      </tr>
-      <tr>
-        <td style="font-weight: 600;">Goals Against</td>
-        <td colspan="4">${record.goals_against}</td>
-      </tr>
-    `;
   }
 
   setupComparisonControls() {
@@ -1802,6 +1905,740 @@ class App {
         document.getElementById('comparisonView').scrollTop = document.getElementById('comparisonView').scrollHeight;
       });
     });
+  }
+
+  async loadScoutingView() {
+    try {
+      // Initialize scouting source
+      this.scoutingSource = 'liga1';
+      this.liga1Players = [];
+      this.transfermarktPlayers = [];
+      this.filteredScoutingPlayers = [];
+
+      // Load Liga 1 players by default
+      await this.loadLiga1Players();
+
+      // Setup event listeners for Liga 1 filters
+      const liga1Search = document.getElementById('liga1PlayerSearch');
+      const liga1PosFilter = document.getElementById('liga1PositionFilter');
+      const liga1TeamFilter = document.getElementById('liga1TeamFilter');
+      const liga1RatingFilter = document.getElementById('liga1RatingFilter');
+
+      if (liga1Search) liga1Search.addEventListener('input', () => this.filterScoutingPlayers());
+      if (liga1PosFilter) liga1PosFilter.addEventListener('change', () => this.filterScoutingPlayers());
+      if (liga1TeamFilter) liga1TeamFilter.addEventListener('change', () => this.filterScoutingPlayers());
+      if (liga1RatingFilter) liga1RatingFilter.addEventListener('change', () => this.filterScoutingPlayers());
+
+      // Setup event listener for Transfermarkt search
+      const tmSearch = document.getElementById('tmPlayerSearch');
+      if (tmSearch) tmSearch.addEventListener('input', () => this.filterScoutingPlayers());
+
+      // Setup sorting
+      setTimeout(() => {
+        document.querySelectorAll('#scoutingPlayersTable th.sortable').forEach(header => {
+          header.addEventListener('click', () => {
+            const sortKey = header.getAttribute('data-sort');
+            this.sortScoutingTable(sortKey);
+          });
+        });
+      }, 100);
+    } catch (error) {
+      console.error('Failed to load scouting view:', error);
+      const tbody = document.getElementById('scoutingPlayersTableBody');
+      if (tbody) {
+        tbody.innerHTML = '<tr><td colspan="10" style="color: var(--danger);">Failed to load view</td></tr>';
+      }
+    }
+  }
+
+  async loadLiga1Players() {
+    try {
+      const tbody = document.getElementById('scoutingPlayersTableBody');
+      if (tbody) {
+        tbody.innerHTML = '<tr><td colspan="10" style="color: var(--text-muted);">Loading Liga 1 players...</td></tr>';
+      }
+
+      // Load all Liga 1 players
+      this.liga1Players = await apiClient.getAllPlayers();
+
+      // Populate team filter
+      const teams = [...new Set(this.liga1Players.map(p => p.team_slug).filter(Boolean))].sort();
+      const teamFilter = document.getElementById('liga1TeamFilter');
+      if (teamFilter) {
+        teamFilter.innerHTML = '<option value="ALL">All Teams</option>' +
+          teams.map(team => `<option value="${team}">${team.replace(/_/g, ' ').toUpperCase()}</option>`).join('');
+      }
+
+      // Set table headers for Liga 1
+      this.setLiga1TableHeaders();
+
+      // Render players
+      this.filteredScoutingPlayers = [...this.liga1Players];
+      this.renderScoutingPlayers(this.filteredScoutingPlayers);
+    } catch (error) {
+      console.error('Failed to load Liga 1 players:', error);
+      const tbody = document.getElementById('scoutingPlayersTableBody');
+      if (tbody) {
+        tbody.innerHTML = '<tr><td colspan="10" style="color: var(--danger);">Failed to load Liga 1 players</td></tr>';
+      }
+    }
+  }
+
+  setLiga1TableHeaders() {
+    const thead = document.getElementById('scoutingTableHead');
+    if (thead) {
+      thead.innerHTML = `
+        <tr>
+          <th class="sortable" data-sort="name">Name ↕</th>
+          <th class="sortable" data-sort="team">Team ↕</th>
+          <th class="sortable" data-sort="position">Position ↕</th>
+          <th class="sortable" data-sort="overall">Rating ↕</th>
+          <th class="sortable" data-sort="apps">Apps ↕</th>
+          <th class="sortable" data-sort="goals">Goals ↕</th>
+          <th class="sortable" data-sort="assists">Assists ↕</th>
+          <th class="sortable" data-sort="minutes">Minutes ↕</th>
+          <th>Physical</th>
+          <th>Actions</th>
+        </tr>
+      `;
+    }
+  }
+
+  setTransfermarktTableHeaders() {
+    const thead = document.getElementById('scoutingTableHead');
+    if (thead) {
+      thead.innerHTML = `
+        <tr>
+          <th class="sortable" data-sort="name">Name ↕</th>
+          <th class="sortable" data-sort="age">Age ↕</th>
+          <th class="sortable" data-sort="position">Position ↕</th>
+          <th class="sortable" data-sort="nationality">Nationality ↕</th>
+          <th class="sortable" data-sort="club">Club ↕</th>
+          <th class="sortable" data-sort="league">League ↕</th>
+          <th class="sortable" data-sort="value">Market Value ↕</th>
+          <th>Actions</th>
+        </tr>
+      `;
+    }
+  }
+
+  switchScoutingSource() {
+    const sourceSelect = document.getElementById('scoutingSource');
+    this.scoutingSource = sourceSelect?.value || 'liga1';
+
+    const liga1Filters = document.getElementById('liga1Filters');
+    const tmFilters = document.getElementById('transfermarktFilters');
+
+    if (this.scoutingSource === 'liga1') {
+      if (liga1Filters) liga1Filters.style.display = 'flex';
+      if (tmFilters) tmFilters.style.display = 'none';
+      this.setLiga1TableHeaders();
+      if (this.liga1Players.length === 0) {
+        this.loadLiga1Players();
+      } else {
+        this.filteredScoutingPlayers = [...this.liga1Players];
+        this.filterScoutingPlayers();
+      }
+    } else {
+      if (liga1Filters) liga1Filters.style.display = 'none';
+      if (tmFilters) tmFilters.style.display = 'flex';
+      this.setTransfermarktTableHeaders();
+      const tbody = document.getElementById('scoutingPlayersTableBody');
+      if (tbody) {
+        tbody.innerHTML = '<tr><td colspan="8" style="color: var(--text-muted);">Click "Search Transfermarkt" to find players...</td></tr>';
+      }
+    }
+  }
+
+  async searchTransfermarkt() {
+    try {
+      const tbody = document.getElementById('scoutingPlayersTableBody');
+      if (tbody) {
+        tbody.innerHTML = '<tr><td colspan="8" style="color: var(--text-muted);">Searching Transfermarkt...</td></tr>';
+      }
+
+      const filters = {};
+
+      const league = document.getElementById('tmLeagueFilter')?.value;
+      const position = document.getElementById('tmPositionInput')?.value.trim();
+      const nationality = document.getElementById('tmNationalityInput')?.value.trim();
+      const age = document.getElementById('tmAgeInput')?.value.trim();
+
+      if (league) filters.league = league;
+      if (position) filters.position = position;
+      if (nationality) filters.nationality = nationality;
+      if (age) filters.age = age;
+
+      const result = await apiClient.searchTransfermarktPlayers(filters);
+
+      this.transfermarktPlayers = result?.players || [];
+      this.filteredScoutingPlayers = [...this.transfermarktPlayers];
+      this.renderScoutingPlayers(this.filteredScoutingPlayers);
+    } catch (error) {
+      console.error('Failed to search Transfermarkt:', error);
+      const tbody = document.getElementById('scoutingPlayersTableBody');
+      if (tbody) {
+        tbody.innerHTML = '<tr><td colspan="8" style="color: var(--danger);">Search failed. Make sure the Transfermarkt scraper API is running.</td></tr>';
+      }
+    }
+  }
+
+  renderScoutingPlayers(players) {
+    const tbody = document.getElementById('scoutingPlayersTableBody');
+    if (!tbody) return;
+
+    if (players.length === 0) {
+      const colspan = this.scoutingSource === 'liga1' ? '10' : '8';
+      tbody.innerHTML = `<tr><td colspan="${colspan}" style="color: var(--text-muted);">No players found</td></tr>`;
+      return;
+    }
+
+    if (this.scoutingSource === 'liga1') {
+      // Render Liga 1 players
+      tbody.innerHTML = players.map(p => {
+        const ratingColor = p.overall >= 70 ? 'var(--primary-color)' : p.overall < 60 ? 'var(--danger)' : 'var(--text-primary)';
+        const teamName = (p.team_slug || '').replace(/_/g, ' ').toUpperCase();
+        const physicalScore = p.subscores?.Fizic || '-';
+
+        return `
+          <tr>
+            <td style="font-weight: 500;">${p.name || p.full_name || 'Unknown'}</td>
+            <td style="color: var(--text-secondary);">${teamName}</td>
+            <td>${(p.position_group || p.position || '-').toUpperCase()}</td>
+            <td style="color: ${ratingColor};">${p.overall ? p.overall.toFixed(1) : '-'}</td>
+            <td>${p.apps || 0}</td>
+            <td>${p.raw?.goals || 0}</td>
+            <td>${p.raw?.assists || 0}</td>
+            <td>${p.minutes || 0}</td>
+            <td style="color: ${physicalScore >= 60 ? 'var(--primary-color)' : 'var(--text-secondary)'};">${typeof physicalScore === 'number' ? physicalScore.toFixed(1) : physicalScore}</td>
+            <td>
+              <button class="btn-action" onclick="app.viewLiga1Player(${p.player_id})">View</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    } else {
+      // Render Transfermarkt players
+      tbody.innerHTML = players.map(p => {
+        const age = p.age || '-';
+        const position = p.position || '-';
+        const nationality = p.nationality || '-';
+        const club = p.club || '-';
+        const league = p.league_name || p.league || '-';
+        const value = p.market_value || p.value || '-';
+        const tmUrl = p.tm_url || `https://www.transfermarkt.com/player/profil/spieler/${p.tm_id}`;
+
+        return `
+          <tr>
+            <td style="font-weight: 500;">
+              <a href="${tmUrl}" target="_blank" style="color: var(--text-primary); text-decoration: none; cursor: pointer;">
+                ${p.name || 'Unknown'}
+              </a>
+            </td>
+            <td>${age}</td>
+            <td>${position}</td>
+            <td>${nationality}</td>
+            <td style="color: var(--text-secondary);">${club}</td>
+            <td style="color: var(--text-secondary);">${league}</td>
+            <td style="color: var(--primary-color);">${value}</td>
+            <td>
+              <a href="${tmUrl}" target="_blank" class="btn-action" style="text-decoration: none; display: inline-block;">View</a>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+  }
+
+  async viewLiga1Player(playerId) {
+    const player = this.liga1Players.find(p => p.player_id === playerId);
+    if (!player) {
+      alert('Player not found');
+      return;
+    }
+
+    const subscores = player.subscores || {};
+    const strengths = player.strengths?.join(', ') || 'N/A';
+    const weaknesses = player.weaknesses?.join(', ') || 'N/A';
+
+    alert(`Player Profile:\n\nName: ${player.name}\nTeam: ${(player.team_slug || '').replace(/_/g, ' ').toUpperCase()}\nPosition: ${player.position_group || player.position}\nRating: ${player.overall ? player.overall.toFixed(1) : 'N/A'}\nApps: ${player.apps}\nGoals: ${player.raw?.goals || 0}\nAssists: ${player.raw?.assists || 0}\n\nPhysical: ${subscores.Fizic ? subscores.Fizic.toFixed(1) : 'N/A'}\nAttack: ${subscores.Atac ? subscores.Atac.toFixed(1) : 'N/A'}\nDefense: ${subscores.Apărare ? subscores.Apărare.toFixed(1) : 'N/A'}\n\nStrengths: ${strengths}\nWeaknesses: ${weaknesses}\n\nVerdict: ${player.verdict || 'N/A'}`);
+  }
+
+  async viewTransfermarktPlayer(tmId) {
+    try {
+      const profile = await apiClient.getTransfermarktPlayerProfile(tmId);
+      if (profile) {
+        alert(`Player Profile:\n\nName: ${profile.name}\nAge: ${profile.age}\nPosition: ${profile.position}\nNationality: ${profile.nationality}\nClub: ${profile.club}\nMarket Value: ${profile.market_value}`);
+      } else {
+        alert('Failed to load player profile');
+      }
+    } catch (error) {
+      console.error('Failed to view player profile:', error);
+      alert('Error loading player profile');
+    }
+  }
+
+  filterScoutingPlayers() {
+    if (this.scoutingSource === 'liga1') {
+      // Filter Liga 1 players
+      const searchQuery = document.getElementById('liga1PlayerSearch')?.value.toLowerCase() || '';
+      const posFilter = document.getElementById('liga1PositionFilter')?.value || 'ALL';
+      const teamFilter = document.getElementById('liga1TeamFilter')?.value || 'ALL';
+      const ratingFilter = document.getElementById('liga1RatingFilter')?.value || 'ALL';
+
+      let filtered = [...this.liga1Players];
+
+      if (searchQuery) {
+        filtered = filtered.filter(p =>
+          (p.name || p.full_name || '').toLowerCase().includes(searchQuery) ||
+          (p.team_slug || '').toLowerCase().includes(searchQuery)
+        );
+      }
+
+      if (posFilter !== 'ALL') {
+        filtered = filtered.filter(p => (p.position_group || '').toUpperCase() === posFilter);
+      }
+
+      if (teamFilter !== 'ALL') {
+        filtered = filtered.filter(p => p.team_slug === teamFilter);
+      }
+
+      if (ratingFilter !== 'ALL') {
+        if (ratingFilter === '75+') {
+          filtered = filtered.filter(p => p.overall >= 75);
+        } else if (ratingFilter === '70-75') {
+          filtered = filtered.filter(p => p.overall >= 70 && p.overall < 75);
+        } else if (ratingFilter === '65-70') {
+          filtered = filtered.filter(p => p.overall >= 65 && p.overall < 70);
+        } else if (ratingFilter === '60-65') {
+          filtered = filtered.filter(p => p.overall >= 60 && p.overall < 65);
+        } else if (ratingFilter === '60-') {
+          filtered = filtered.filter(p => p.overall < 60);
+        }
+      }
+
+      this.filteredScoutingPlayers = filtered;
+    } else {
+      // Filter Transfermarkt players
+      const searchQuery = document.getElementById('tmPlayerSearch')?.value.toLowerCase() || '';
+
+      if (!this.transfermarktPlayers || this.transfermarktPlayers.length === 0) {
+        return;
+      }
+
+      let filtered = [...this.transfermarktPlayers];
+
+      if (searchQuery) {
+        filtered = filtered.filter(p =>
+          (p.name || '').toLowerCase().includes(searchQuery) ||
+          (p.club || '').toLowerCase().includes(searchQuery)
+        );
+      }
+
+      this.filteredScoutingPlayers = filtered;
+    }
+
+    this.renderScoutingPlayers(this.filteredScoutingPlayers);
+  }
+
+  sortScoutingTable(column) {
+    if (!this.scoutingSortState) {
+      this.scoutingSortState = { column: null, direction: 'asc' };
+    }
+
+    // Toggle direction if same column
+    if (this.scoutingSortState.column === column) {
+      this.scoutingSortState.direction = this.scoutingSortState.direction === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.scoutingSortState.column = column;
+      this.scoutingSortState.direction = 'asc';
+    }
+
+    const sorted = [...this.filteredScoutingPlayers].sort((a, b) => {
+      let valA, valB;
+
+      if (this.scoutingSource === 'liga1') {
+        // Liga 1 sorting
+        if (column === 'name') {
+          valA = a.name || a.full_name || '';
+          valB = b.name || b.full_name || '';
+          return this.scoutingSortState.direction === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        }
+        if (column === 'team') {
+          valA = a.team_slug || '';
+          valB = b.team_slug || '';
+          return this.scoutingSortState.direction === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        }
+        if (column === 'position') {
+          valA = a.position_group || '';
+          valB = b.position_group || '';
+          return this.scoutingSortState.direction === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        }
+        if (column === 'overall') valA = a.overall || 0, valB = b.overall || 0;
+        else if (column === 'apps') valA = a.apps || 0, valB = b.apps || 0;
+        else if (column === 'goals') valA = a.raw?.goals || 0, valB = b.raw?.goals || 0;
+        else if (column === 'assists') valA = a.raw?.assists || 0, valB = b.raw?.assists || 0;
+        else if (column === 'minutes') valA = a.minutes || 0, valB = b.minutes || 0;
+      } else {
+        // Transfermarkt sorting
+        if (column === 'name') {
+          valA = a.name || '';
+          valB = b.name || '';
+          return this.scoutingSortState.direction === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        }
+        if (column === 'position') {
+          valA = a.position || '';
+          valB = b.position || '';
+          return this.scoutingSortState.direction === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        }
+        if (column === 'nationality') {
+          valA = a.nationality || '';
+          valB = b.nationality || '';
+          return this.scoutingSortState.direction === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        }
+        if (column === 'club') {
+          valA = a.club || '';
+          valB = b.club || '';
+          return this.scoutingSortState.direction === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        }
+        if (column === 'league') {
+          valA = a.league || '';
+          valB = b.league || '';
+          return this.scoutingSortState.direction === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+        }
+        if (column === 'age') valA = a.age || 0, valB = b.age || 0;
+        else if (column === 'value') {
+          const parseValue = (v) => {
+            if (!v) return 0;
+            const str = String(v).toLowerCase();
+            let num = parseFloat(str.replace(/[^0-9.]/g, ''));
+            if (str.includes('m')) num *= 1000000;
+            else if (str.includes('k')) num *= 1000;
+            return num;
+          };
+          valA = parseValue(a.market_value || a.value);
+          valB = parseValue(b.market_value || b.value);
+        }
+      }
+
+      return this.scoutingSortState.direction === 'asc' ? valA - valB : valB - valA;
+    });
+
+    // Update visual indicators
+    document.querySelectorAll('#scoutingPlayersTable th.sortable').forEach(th => {
+      th.classList.remove('sort-asc', 'sort-desc');
+    });
+    const activeHeader = document.querySelector(`#scoutingPlayersTable th[data-sort="${column}"]`);
+    if (activeHeader) {
+      activeHeader.classList.add(this.scoutingSortState.direction === 'asc' ? 'sort-asc' : 'sort-desc');
+    }
+
+    this.renderScoutingPlayers(sorted);
+  }
+
+  renderTransferPriorities(needs) {
+    const el = document.getElementById('transferPriorities');
+    el.className = 'transfer-priority-list';
+
+    // Handle different response structures
+    const priorityList = needs?.priority_needs || needs;
+
+    if (!priorityList || priorityList.length === 0) {
+      el.innerHTML = '<div style="color: var(--text-muted); padding: 20px 0;">No priorities</div>';
+      return;
+    }
+
+    el.innerHTML = priorityList.slice(0, 5).map(need => {
+      const urgency = (need.priority || need.urgency || 'medium').toLowerCase();
+      const position = need.position || need.role || 'Unknown';
+      const reason = need.reason || need.description || 'No description';
+      return `
+        <div class="priority-item">
+          <span class="priority-position">${position}</span>
+          <span class="priority-reason">${reason}</span>
+          <span class="priority-urgency ${urgency}">${urgency.toUpperCase()}</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  renderScoutingRecommendations(recommendations) {
+    const el = document.getElementById('scoutingRecommendations');
+    el.className = 'scouting-recommendations';
+
+    if (!recommendations || recommendations.length === 0) {
+      el.innerHTML = '<div style="color: var(--text-muted); padding: 20px 0;">No recommendations</div>';
+      return;
+    }
+
+    el.innerHTML = recommendations.slice(0, 8).map(rec => {
+      const player = rec.player || rec;
+      const score = rec.match_score || rec.overall || 75;
+      const apps = player.apps || player.games_played || 0;
+      const age = player.age || '-';
+      return `
+        <div class="recommendation-card" onclick="app.selectComparisonPlayer('B', ${player.player_id})">
+          <span class="rec-name">${player.name || player.full_name}</span>
+          <span class="rec-position">${(player.position_meta || player.position || '').toUpperCase()}</span>
+          <span class="rec-stats">${apps} apps · ${age} yrs</span>
+          <span class="rec-score">${Math.round(score)}</span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  drawValuePerformanceChart() {
+    const canvas = document.getElementById('valuePerformanceChart');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width;
+    const height = canvas.height;
+
+    // Clear canvas
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, width, height);
+
+    // Draw grid
+    ctx.strokeStyle = '#222222';
+    ctx.lineWidth = 0.5;
+
+    for (let i = 0; i <= 4; i++) {
+      const y = (height / 4) * i;
+      ctx.beginPath();
+      ctx.moveTo(40, y);
+      ctx.lineTo(width - 20, y);
+      ctx.stroke();
+
+      const x = 40 + ((width - 60) / 4) * i;
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, height - 20);
+      ctx.stroke();
+    }
+
+    // Draw axes labels
+    ctx.fillStyle = '#888888';
+    ctx.font = '11px -apple-system, sans-serif';
+    ctx.fillText('Performance Rating', width / 2 - 50, height - 5);
+
+    ctx.save();
+    ctx.translate(15, height / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('Value Score', -30, 0);
+    ctx.restore();
+
+    // Plot players
+    const players = this.allPlayers.slice(0, 100);
+    players.forEach(player => {
+      const performance = player.overall || 50;
+      const value = this.calculateValueScore(player);
+
+      const x = 40 + ((performance / 100) * (width - 60));
+      const y = height - 20 - ((value / 100) * (height - 20));
+
+      // Color by position
+      const posColor = this.getPositionColor(player.position_meta);
+
+      ctx.fillStyle = posColor;
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Highlight high-value, high-performance players
+      if (performance > 70 && value > 70) {
+        ctx.strokeStyle = '#fbbf24';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(x, y, 5, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+    });
+
+    // Draw legend
+    const positions = [
+      { key: 'gk', color: '#888888', label: 'GK' },
+      { key: 'cb', color: '#fbbf24', label: 'DEF' },
+      { key: 'cm', color: '#ffffff', label: 'MID' },
+      { key: 'fw', color: '#dc2626', label: 'FWD' }
+    ];
+
+    let legendX = width - 120;
+    let legendY = 20;
+    positions.forEach(pos => {
+      ctx.fillStyle = pos.color;
+      ctx.beginPath();
+      ctx.arc(legendX, legendY, 3, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#888888';
+      ctx.font = '11px sans-serif';
+      ctx.fillText(pos.label, legendX + 10, legendY + 4);
+
+      legendY += 18;
+    });
+  }
+
+  drawPositionStrengthChart() {
+    const canvas = document.getElementById('positionStrengthChart');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width;
+    const height = canvas.height;
+
+    // Clear canvas
+    ctx.fillStyle = '#1a1f2e';
+    ctx.fillRect(0, 0, width, height);
+
+    // Calculate position strengths
+    const positions = ['GK', 'DEF', 'MID', 'FWD'];
+    const barWidth = (width - 100) / positions.length;
+    const maxHeight = height - 60;
+
+    positions.forEach((pos, i) => {
+      const players = this.uclujPlayers.filter(p => {
+        const meta = (p.position_meta || '').toLowerCase();
+        if (pos === 'GK') return meta === 'gk';
+        if (pos === 'DEF') return ['cb', 'lb', 'rb', 'lwb', 'rwb'].includes(meta);
+        if (pos === 'MID') return ['cm', 'cdm', 'cam', 'lm', 'rm'].some(m => meta.includes(m));
+        if (pos === 'FWD') return ['lw', 'rw', 'cf', 'st'].some(m => meta.includes(m));
+        return false;
+      });
+
+      const avgRating = players.length > 0
+        ? players.reduce((sum, p) => sum + (p.overall || 0), 0) / players.length
+        : 0;
+
+      const barHeight = (avgRating / 100) * maxHeight;
+      const x = 50 + (i * barWidth) + (barWidth * 0.2);
+      const barW = barWidth * 0.6;
+      const y = height - 40 - barHeight;
+
+      // Draw bar
+      ctx.fillStyle = '#fbbf24';
+      ctx.fillRect(x, y, barW, barHeight);
+
+      // Draw value label
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '12px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(avgRating.toFixed(1), x + barW / 2, y - 8);
+
+      // Draw position label
+      ctx.fillStyle = '#888888';
+      ctx.font = '11px sans-serif';
+      ctx.fillText(pos, x + barW / 2, height - 20);
+
+      // Draw player count
+      ctx.fillStyle = '#666666';
+      ctx.font = '10px sans-serif';
+      ctx.fillText(`${players.length} players`, x + barW / 2, height - 5);
+    });
+
+    ctx.textAlign = 'left';
+  }
+
+  drawAgeDevelopmentChart() {
+    const canvas = document.getElementById('ageDevelopmentChart');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width;
+    const height = canvas.height;
+
+    // Clear canvas
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, width, height);
+
+    // Draw grid
+    ctx.strokeStyle = '#222222';
+    ctx.lineWidth = 0.5;
+
+    for (let i = 0; i <= 4; i++) {
+      const y = (height / 4) * i;
+      ctx.beginPath();
+      ctx.moveTo(50, y);
+      ctx.lineTo(width - 20, y);
+      ctx.stroke();
+    }
+
+    // Draw axes labels
+    ctx.fillStyle = '#9ca3af';
+    ctx.font = '11px sans-serif';
+    ctx.fillText('Age', width / 2 - 10, height - 5);
+
+    ctx.save();
+    ctx.translate(15, height / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('Performance Rating', -45, 0);
+    ctx.restore();
+
+    // Plot squad players
+    this.uclujPlayers.forEach(player => {
+      const age = player.age || 25;
+      const rating = player.overall || 50;
+
+      const x = 50 + ((age - 18) / (35 - 18)) * (width - 70);
+      const y = height - 20 - ((rating / 100) * (height - 20));
+
+      const posColor = this.getPositionColor(player.position_meta);
+
+      ctx.fillStyle = posColor;
+      ctx.beginPath();
+      ctx.arc(x, y, 5, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Highlight U Cluj players
+      ctx.strokeStyle = '#fbbf24';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(x, y, 6, 0, Math.PI * 2);
+      ctx.stroke();
+    });
+
+    // Draw age markers
+    ctx.fillStyle = '#666666';
+    ctx.font = '10px sans-serif';
+    for (let age = 20; age <= 35; age += 5) {
+      const x = 50 + ((age - 18) / (35 - 18)) * (width - 70);
+      ctx.fillText(age.toString(), x - 5, height - 5);
+    }
+  }
+
+  calculateValueScore(player) {
+    // Simple value calculation based on performance vs experience
+    const rating = player.overall || 50;
+    const age = player.age || 25;
+    const apps = player.apps || 0;
+
+    let value = rating;
+
+    // Boost for younger players
+    if (age < 25) value += (25 - age) * 2;
+
+    // Boost for experience
+    if (apps > 20) value += 5;
+    if (apps > 50) value += 5;
+
+    // Diminish for older players
+    if (age > 30) value -= (age - 30) * 3;
+
+    return Math.max(0, Math.min(100, value));
+  }
+
+  getPositionColor(posMeta) {
+    const pos = (posMeta || '').toLowerCase();
+    if (pos === 'gk') return '#888888';
+    if (['cb', 'lb', 'rb', 'lwb', 'rwb'].includes(pos)) return '#fbbf24';
+    if (pos.includes('m')) return '#ffffff';
+    return '#dc2626';
+  }
+
+  selectComparisonPlayer(side, playerId) {
+    // Switch to comparison view and select player
+    this.switchView('comparison');
+    // The actual selection would need to be implemented based on existing comparison logic
   }
 
   showError(elementId, message) {
