@@ -1,0 +1,3388 @@
+{
+  "generated_at": "2026-04-26T07:16:13.904887+00:00",
+  "total_players": 377,
+  "failed_requests": 0,
+  "players": [
+    {
+      "name": "A. Abeid",
+      "query_name": "Aly Abeid",
+      "market_value": "€700k",
+      "tm_id": "393436",
+      "tm_url": "https://www.transfermarkt.com/aly-abeid/profil/spieler/393436",
+      "query_used": "Aly Abeid"
+    },
+    {
+      "name": "A. Al Hamlawi",
+      "query_name": "Assad Al Hamlawi",
+      "market_value": "€1.40m",
+      "tm_id": "518451",
+      "tm_url": "https://www.transfermarkt.com/assad-al-hamlawi/profil/spieler/518451",
+      "query_used": "Assad Al Hamlawi"
+    },
+    {
+      "name": "A. Albu",
+      "query_name": "Alexandru Albu",
+      "market_value": "€275k",
+      "tm_id": "372908",
+      "tm_url": "https://www.transfermarkt.com/alexandru-albu/profil/spieler/372908",
+      "query_used": "Alexandru Albu"
+    },
+    {
+      "name": "A. Aliev",
+      "query_name": "Alibek Aliev",
+      "market_value": "€500k",
+      "tm_id": "271763",
+      "tm_url": "https://www.transfermarkt.com/alibek-aliev/profil/spieler/271763",
+      "query_used": "Alibek Aliev"
+    },
+    {
+      "name": "A. Baroan",
+      "query_name": "Antoine Baroan",
+      "market_value": "€600k",
+      "tm_id": "463666",
+      "tm_url": "https://www.transfermarkt.com/antoine-baroan/profil/spieler/463666",
+      "query_used": "Antoine Baroan"
+    },
+    {
+      "name": "A. Benga",
+      "query_name": "Alexandru Benga",
+      "market_value": "€100k",
+      "tm_id": "202800",
+      "tm_url": "https://www.transfermarkt.com/alexandru-benga/profil/spieler/202800",
+      "query_used": "Alexandru Benga"
+    },
+    {
+      "name": "A. Bettaieb",
+      "query_name": "Adel Bettaieb",
+      "market_value": "€700k",
+      "tm_id": "610484",
+      "tm_url": "https://www.transfermarkt.com/adel-bettaieb/profil/spieler/610484",
+      "query_used": "Adel Bettaieb"
+    },
+    {
+      "name": "A. Borza",
+      "query_name": "Andrei Borza",
+      "market_value": "€2.50m",
+      "tm_id": "723826",
+      "tm_url": "https://www.transfermarkt.com/andrei-borza/profil/spieler/723826",
+      "query_used": "Andrei Borza"
+    },
+    {
+      "name": "A. Boțogan",
+      "query_name": "Alin Boțogan",
+      "market_value": "€200k",
+      "tm_id": "793133",
+      "tm_url": "https://www.transfermarkt.com/alin-botogan/profil/spieler/793133",
+      "query_used": "Alin Boțogan"
+    },
+    {
+      "name": "A. Buzbuchi",
+      "query_name": "Alexandru Buzbuchi",
+      "market_value": "€600k",
+      "tm_id": "216660",
+      "tm_url": "https://www.transfermarkt.com/alexandru-buzbuchi/profil/spieler/216660",
+      "query_used": "Alexandru Buzbuchi"
+    },
+    {
+      "name": "A. Camara",
+      "query_name": "Aboubacar Camara",
+      "market_value": "€150k",
+      "tm_id": "806170",
+      "tm_url": "https://www.transfermarkt.com/aboubacar-camara/profil/spieler/806170",
+      "query_used": "Aboubacar Camara"
+    },
+    {
+      "name": "A. Caragea",
+      "query_name": "Adrian Caragea",
+      "market_value": "€300k",
+      "tm_id": "723836",
+      "tm_url": "https://www.transfermarkt.com/adrian-caragea/profil/spieler/723836",
+      "query_used": "Adrian Caragea"
+    },
+    {
+      "name": "A. Chica-Rosa",
+      "query_name": "Adi Chica-Rosa",
+      "market_value": "€550k",
+      "tm_id": "736722",
+      "tm_url": "https://www.transfermarkt.com/adi-chica-rosa/profil/spieler/736722",
+      "query_used": "Adi Chica-Rosa"
+    },
+    {
+      "name": "A. Chițu",
+      "query_name": "Aurelian Chițu",
+      "market_value": "€250k",
+      "tm_id": "164236",
+      "tm_url": "https://www.transfermarkt.com/aurelian-chitu/profil/spieler/164236",
+      "query_used": "Aurelian Chițu"
+    },
+    {
+      "name": "A. Cicâldău",
+      "query_name": "Alexandru Cicâldău",
+      "market_value": "€2.50m",
+      "tm_id": "295810",
+      "tm_url": "https://www.transfermarkt.com/alexandru-cicaldau/profil/spieler/295810",
+      "query_used": "Alexandru Cicâldău"
+    },
+    {
+      "name": "A. Constantin Pop",
+      "query_name": "Alexandru Mihai Constantin Pop",
+      "market_value": "€800k",
+      "tm_id": "434892",
+      "tm_url": "https://www.transfermarkt.com/alexandru-pop/profil/spieler/434892",
+      "query_used": "Alexandru Mihai Constantin Pop"
+    },
+    {
+      "name": "A. Cordea",
+      "query_name": "Andrei Cordea",
+      "market_value": "€2.40m",
+      "tm_id": "435712",
+      "tm_url": "https://www.transfermarkt.com/andrei-cordea/profil/spieler/435712",
+      "query_used": "Andrei Cordea"
+    },
+    {
+      "name": "A. Crețu",
+      "query_name": "Alexandru Crețu",
+      "market_value": "€450k",
+      "tm_id": "216661",
+      "tm_url": "https://www.transfermarkt.com/alexandru-cretu/profil/spieler/216661",
+      "query_used": "Alexandru Crețu"
+    },
+    {
+      "name": "A. Csuros",
+      "query_name": "Attila Csürös",
+      "market_value": "€150k",
+      "tm_id": "724573",
+      "tm_url": "https://www.transfermarkt.com/attila-csuros/profil/spieler/724573",
+      "query_used": "Attila Csürös"
+    },
+    {
+      "name": "A. Dinu",
+      "query_name": "Alexandru Ionuț Dinu",
+      "market_value": "€450k",
+      "tm_id": "604366",
+      "tm_url": "https://www.transfermarkt.com/ionut-dinu/profil/spieler/604366",
+      "query_used": "Alexandru Ionuț Dinu"
+    },
+    {
+      "name": "A. Dobre",
+      "query_name": "Mihai Alexandru Dobre",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": "https://www.transfermarkt.com/atevo-sports-group/beraterfirma/berater/3608",
+      "query_used": "Mihai Alexandru Dobre"
+    },
+    {
+      "name": "A. Dorobanțu",
+      "query_name": "Andrei Dorobanțu",
+      "market_value": "€300k",
+      "tm_id": "940366",
+      "tm_url": "https://www.transfermarkt.com/andrei-dorobantu/profil/spieler/940366",
+      "query_used": "Andrei Dorobanțu"
+    },
+    {
+      "name": "A. Dragu",
+      "query_name": "Andrei Dragu",
+      "market_value": "€400k",
+      "tm_id": "536129",
+      "tm_url": "https://www.transfermarkt.com/andrei-dragu/profil/spieler/536129",
+      "query_used": "Andrei Dragu"
+    },
+    {
+      "name": "A. Dumiter",
+      "query_name": "Andrei Dumiter",
+      "market_value": "€350k",
+      "tm_id": "466722",
+      "tm_url": "https://www.transfermarkt.com/andrei-dumiter/profil/spieler/466722",
+      "query_used": "Andrei Dumiter"
+    },
+    {
+      "name": "A. Dumitrescu",
+      "query_name": "Andres Mihai Dumitrescu",
+      "market_value": "€300k",
+      "tm_id": "547812",
+      "tm_url": "https://www.transfermarkt.com/andres-dumitrescu/profil/spieler/547812",
+      "query_used": "Andres Mihai Dumitrescu"
+    },
+    {
+      "name": "A. Fică",
+      "query_name": "Alin Fică",
+      "market_value": "€1.00m",
+      "tm_id": "675506",
+      "tm_url": "https://www.transfermarkt.com/alin-fica/profil/spieler/675506",
+      "query_used": "Alin Fică"
+    },
+    {
+      "name": "A. Friday",
+      "query_name": "Adams Friday",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": null
+    },
+    {
+      "name": "A. Gheorghe",
+      "query_name": "Alexandru Gheorghe",
+      "market_value": "€100k",
+      "tm_id": "1045068",
+      "tm_url": "https://www.transfermarkt.com/alexandru-gheorghe/profil/spieler/1045068",
+      "query_used": "Alexandru Gheorghe"
+    },
+    {
+      "name": "A. Gorcea",
+      "query_name": "Andrei Gorcea",
+      "market_value": "€350k",
+      "tm_id": "677152",
+      "tm_url": "https://www.transfermarkt.com/andrei-gorcea/profil/spieler/677152",
+      "query_used": "Andrei Gorcea"
+    },
+    {
+      "name": "A. Irimia",
+      "query_name": "Alexandru Irimia",
+      "market_value": "€100k",
+      "tm_id": "1113721",
+      "tm_url": "https://www.transfermarkt.com/alexandru-irimia/profil/spieler/1113721",
+      "query_used": "Alexandru Irimia"
+    },
+    {
+      "name": "A. Ivanov",
+      "query_name": "Antoni Ivanov",
+      "market_value": "€600k",
+      "tm_id": "283287",
+      "tm_url": "https://www.transfermarkt.com/antoni-ivanov/profil/spieler/283287",
+      "query_used": "Antoni Ivanov"
+    },
+    {
+      "name": "A. Ișfan",
+      "query_name": "Alexandru Ișfan",
+      "market_value": "€750k",
+      "tm_id": "672055",
+      "tm_url": "https://www.transfermarkt.com/alexandru-isfan/profil/spieler/672055",
+      "query_used": "Alexandru Ișfan"
+    },
+    {
+      "name": "A. Karo",
+      "query_name": "Andreas Karo",
+      "market_value": "€250k",
+      "tm_id": "203966",
+      "tm_url": "https://www.transfermarkt.com/andreas-karo/profil/spieler/203966",
+      "query_used": "Andreas Karo"
+    },
+    {
+      "name": "A. Marginean",
+      "query_name": "Andrei Marginean",
+      "market_value": "€550k",
+      "tm_id": "547827",
+      "tm_url": "https://www.transfermarkt.com/andrei-marginean/profil/spieler/547827",
+      "query_used": "Andrei Marginean"
+    },
+    {
+      "name": "A. Mateiu",
+      "query_name": "Alexandru Mateiu",
+      "market_value": "€100k",
+      "tm_id": "64193",
+      "tm_url": "https://www.transfermarkt.com/alexandru-mateiu/profil/spieler/64193",
+      "query_used": "Alexandru Mateiu"
+    },
+    {
+      "name": "A. Mazilu",
+      "query_name": "Adrian Mazilu",
+      "market_value": "€800k",
+      "tm_id": "723835",
+      "tm_url": "https://www.transfermarkt.com/adrian-mazilu/profil/spieler/723835",
+      "query_used": "Adrian Mazilu"
+    },
+    {
+      "name": "A. Mekvabishvili",
+      "query_name": "Anzor Mekvabishvili",
+      "market_value": "€1.50m",
+      "tm_id": "502671",
+      "tm_url": "https://www.transfermarkt.com/anzor-mekvabishvili/profil/spieler/502671",
+      "query_used": "Anzor Mekvabishvili"
+    },
+    {
+      "name": "A. Miron",
+      "query_name": "Andrei Miron",
+      "market_value": "€600k",
+      "tm_id": "332205",
+      "tm_url": "https://www.transfermarkt.com/andrei-miron/profil/spieler/332205",
+      "query_used": "Andrei Miron"
+    },
+    {
+      "name": "A. Musi",
+      "query_name": "Alexandru Musi",
+      "market_value": "€1.30m",
+      "tm_id": "881064",
+      "tm_url": "https://www.transfermarkt.com/alexandru-musi/profil/spieler/881064",
+      "query_used": "Alexandru Musi"
+    },
+    {
+      "name": "A. Oroian",
+      "query_name": "Alexandru Oroian",
+      "market_value": "€300k",
+      "tm_id": "614623",
+      "tm_url": "https://www.transfermarkt.com/alexandru-oroian/profil/spieler/614623",
+      "query_used": "Alexandru Oroian"
+    },
+    {
+      "name": "A. Padula",
+      "query_name": "Andrea Padula",
+      "market_value": "€400k",
+      "tm_id": "334665",
+      "tm_url": "https://www.transfermarkt.com/andrea-padula/profil/spieler/334665",
+      "query_used": "Andrea Padula"
+    },
+    {
+      "name": "A. Pantea",
+      "query_name": "Alexandru Pantea",
+      "market_value": "€850k",
+      "tm_id": "670828",
+      "tm_url": "https://www.transfermarkt.com/alexandru-pantea/profil/spieler/670828",
+      "query_used": "Alexandru Pantea"
+    },
+    {
+      "name": "A. Pașcanu",
+      "query_name": "Alexandru Stefan Pașcanu",
+      "market_value": "€1.30m",
+      "tm_id": "421258",
+      "tm_url": "https://www.transfermarkt.com/alexandru-pascanu/profil/spieler/421258",
+      "query_used": "Alexandru Stefan Pașcanu"
+    },
+    {
+      "name": "A. Păun",
+      "query_name": "Adrian Păun",
+      "market_value": "€500k",
+      "tm_id": "291656",
+      "tm_url": "https://www.transfermarkt.com/adrian-paun/profil/spieler/291656",
+      "query_used": "Adrian Păun"
+    },
+    {
+      "name": "A. Roman",
+      "query_name": "Alin Roman",
+      "market_value": "€600k",
+      "tm_id": "186741",
+      "tm_url": "https://www.transfermarkt.com/alin-roman/profil/spieler/186741",
+      "query_used": "Alin Roman"
+    },
+    {
+      "name": "A. Rus",
+      "query_name": "Adrián Rus",
+      "market_value": "€1.20m",
+      "tm_id": "421927",
+      "tm_url": "https://www.transfermarkt.com/adrian-rus/profil/spieler/421927",
+      "query_used": "Adrián Rus"
+    },
+    {
+      "name": "A. Rus",
+      "query_name": "Andrei Rus",
+      "market_value": "€200k",
+      "tm_id": "919693",
+      "tm_url": "https://www.transfermarkt.com/andrei-rus/profil/spieler/919693",
+      "query_used": "Andrei Rus"
+    },
+    {
+      "name": "A. Said",
+      "query_name": "Said Ahmed Said",
+      "market_value": "€50k",
+      "tm_id": "45529",
+      "tm_url": "https://www.transfermarkt.com/said-ahmed-said/profil/spieler/45529",
+      "query_used": "Said Ahmed Said"
+    },
+    {
+      "name": "A. Sava",
+      "query_name": "Andrei Sava",
+      "market_value": "€50k",
+      "tm_id": "97515",
+      "tm_url": "https://www.transfermarkt.com/andrei-sava/profil/spieler/97515",
+      "query_used": "Andrei Sava"
+    },
+    {
+      "name": "A. Sfait",
+      "query_name": "Andres Emil Sfait",
+      "market_value": "€400k",
+      "tm_id": "808224",
+      "tm_url": "https://www.transfermarkt.com/andres-sfait/profil/spieler/808224",
+      "query_used": "Andres Emil Sfait"
+    },
+    {
+      "name": "A. Stoian",
+      "query_name": "Alexandru Constantin Stoian",
+      "market_value": "€650k",
+      "tm_id": "992823",
+      "tm_url": "https://www.transfermarkt.com/alexandru-stoian/profil/spieler/992823",
+      "query_used": "Alexandru Constantin Stoian"
+    },
+    {
+      "name": "A. Sîrbu",
+      "query_name": "Adrian Sîrbu",
+      "market_value": "€50k",
+      "tm_id": "1008333",
+      "tm_url": "https://www.transfermarkt.com/adrian-sarbu/profil/spieler/1008333",
+      "query_used": "Adrian Sîrbu"
+    },
+    {
+      "name": "A. Tirlea",
+      "query_name": "Alexandru Tirlea",
+      "market_value": "€100k",
+      "tm_id": "319253",
+      "tm_url": "https://www.transfermarkt.com/alexandru-tirlea/profil/spieler/319253",
+      "query_used": "Alexandru Tirlea"
+    },
+    {
+      "name": "A. Tofan",
+      "query_name": "Costinel Andrei Tofan",
+      "market_value": "€150k",
+      "tm_id": "394481",
+      "tm_url": "https://www.transfermarkt.com/costinel-tofan/profil/spieler/394481",
+      "query_used": "Costinel Andrei Tofan"
+    },
+    {
+      "name": "A. Zargari",
+      "query_name": "Aviel Zargari",
+      "market_value": "€200k",
+      "tm_id": "668676",
+      "tm_url": "https://www.transfermarkt.com/aviel-zargari/profil/spieler/668676",
+      "query_used": "Aviel Zargari"
+    },
+    {
+      "name": "A. Şut",
+      "query_name": "Adrian Şut",
+      "market_value": "€3.80m",
+      "tm_id": "433979",
+      "tm_url": "https://www.transfermarkt.com/adrian-sut/profil/spieler/433979",
+      "query_used": "Adrian Şut"
+    },
+    {
+      "name": "A. Țigănașu",
+      "query_name": "Alexandru Țigănașu",
+      "market_value": "€100k",
+      "tm_id": "177661",
+      "tm_url": "https://www.transfermarkt.com/alexandru-tiganasu/profil/spieler/177661",
+      "query_used": "Alexandru Țigănașu"
+    },
+    {
+      "name": "Alberto Soro",
+      "query_name": "Alberto Soro Álvarez",
+      "market_value": "€700k",
+      "tm_id": "487688",
+      "tm_url": "https://www.transfermarkt.com/alberto-soro/profil/spieler/487688",
+      "query_used": "Alberto Soro Álvarez"
+    },
+    {
+      "name": "Aldaír",
+      "query_name": "Aldaír Caputo Ferreira",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": "https://www.transfermarkt.com/leonardo-a-ferreira/beraterfirma/berater/1648",
+      "query_used": "Aldaír Caputo Ferreira"
+    },
+    {
+      "name": "Alexandru Rosca",
+      "query_name": "Alexandru Vasile Ailiesei Rosca",
+      "market_value": "€450k",
+      "tm_id": "968921",
+      "tm_url": "https://www.transfermarkt.com/alexandru-rosca/profil/spieler/968921",
+      "query_used": "Alexandru Vasile Ailiesei Rosca"
+    },
+    {
+      "name": "Anderson Ceará",
+      "query_name": "Francisco Anderson de Jesus dos Santos",
+      "market_value": "€650k",
+      "tm_id": "634815",
+      "tm_url": "https://www.transfermarkt.com/anderson-ceara/profil/spieler/634815",
+      "query_used": "Francisco Anderson de Jesus dos Santos"
+    },
+    {
+      "name": "Andrei Ciobanu",
+      "query_name": "Andrei Virgil Ciobanu",
+      "market_value": "€300k",
+      "tm_id": "340980",
+      "tm_url": "https://www.transfermarkt.com/andrei-ciobanu/profil/spieler/340980",
+      "query_used": "Andrei Virgil Ciobanu"
+    },
+    {
+      "name": "Andrezinho",
+      "query_name": "André Miguel Pinto Lopes",
+      "market_value": "€750k",
+      "tm_id": "647125",
+      "tm_url": "https://www.transfermarkt.com/andrezinho/profil/spieler/647125",
+      "query_used": "André Miguel Pinto Lopes"
+    },
+    {
+      "name": "André Duarte",
+      "query_name": "André Lourenço Duarte",
+      "market_value": "€800k",
+      "tm_id": "588095",
+      "tm_url": "https://www.transfermarkt.com/andre-duarte/profil/spieler/588095",
+      "query_used": "André Lourenço Duarte"
+    },
+    {
+      "name": "B. Chorbadzhiyski",
+      "query_name": "Bozhidar Chorbadzhiyski",
+      "market_value": "€350k",
+      "tm_id": "271399",
+      "tm_url": "https://www.transfermarkt.com/bozhidar-chorbadzhiyski/profil/spieler/271399",
+      "query_used": "Bozhidar Chorbadzhiyski"
+    },
+    {
+      "name": "B. Doukansy",
+      "query_name": "Brahima Doukansy",
+      "market_value": "€250k",
+      "tm_id": "517378",
+      "tm_url": "https://www.transfermarkt.com/brahima-doukansy/profil/spieler/517378",
+      "query_used": "Brahima Doukansy"
+    },
+    {
+      "name": "B. Hadžić",
+      "query_name": "Benjamin Hadžić",
+      "market_value": "-",
+      "tm_id": "349530",
+      "tm_url": "https://www.transfermarkt.com/benjamin-hadzic/profil/spieler/349530",
+      "query_used": "Benjamin Hadžić"
+    },
+    {
+      "name": "B. Szabó",
+      "query_name": "Bálint Szabó",
+      "market_value": "€300k",
+      "tm_id": "520013",
+      "tm_url": "https://www.transfermarkt.com/balint-szabo/profil/spieler/520013",
+      "query_used": "Bálint Szabó"
+    },
+    {
+      "name": "B. Van Durmen",
+      "query_name": "Benjamin Van Durmen",
+      "market_value": "€500k",
+      "tm_id": "434514",
+      "tm_url": "https://www.transfermarkt.com/benjamin-van-durmen/profil/spieler/434514",
+      "query_used": "Benjamin Van Durmen"
+    },
+    {
+      "name": "B. Végh",
+      "query_name": "Bence Végh",
+      "market_value": "€400k",
+      "tm_id": "544171",
+      "tm_url": "https://www.transfermarkt.com/bence-vegh/profil/spieler/544171",
+      "query_used": "Bence Végh"
+    },
+    {
+      "name": "B. Țîru",
+      "query_name": "Bogdan Țîru",
+      "market_value": "€250k",
+      "tm_id": "186744",
+      "tm_url": "https://www.transfermarkt.com/bogdan-tiru/profil/spieler/186744",
+      "query_used": "Bogdan Țîru"
+    },
+    {
+      "name": "Baba Alhassan",
+      "query_name": "Baba Alhassan",
+      "market_value": "€900k",
+      "tm_id": "626899",
+      "tm_url": "https://www.transfermarkt.com/baba-alhassan/profil/spieler/626899",
+      "query_used": "Baba Alhassan"
+    },
+    {
+      "name": "Bruno Carvalho",
+      "query_name": "Bruno José Moreira Barreto Carvalho",
+      "market_value": "€100k",
+      "tm_id": "614516",
+      "tm_url": "https://www.transfermarkt.com/bruno-carvalho/profil/spieler/614516",
+      "query_used": "Bruno José Moreira Barreto Carvalho"
+    },
+    {
+      "name": "Bruno Paz",
+      "query_name": "Bruno Lourenço Pinto de Almeida Paz",
+      "market_value": "€400k",
+      "tm_id": "314963",
+      "tm_url": "https://www.transfermarkt.com/bruno-paz/profil/spieler/314963",
+      "query_used": "Bruno Lourenço Pinto de Almeida Paz"
+    },
+    {
+      "name": "C. Afalna",
+      "query_name": "Christ Nkama Afalna",
+      "market_value": "€550k",
+      "tm_id": "840538",
+      "tm_url": "https://www.transfermarkt.com/christ-afalna/profil/spieler/840538",
+      "query_used": "Christ Nkama Afalna"
+    },
+    {
+      "name": "C. Biceanu",
+      "query_name": "Ciprian Biceanu",
+      "market_value": "€200k",
+      "tm_id": "241259",
+      "tm_url": "https://www.transfermarkt.com/ciprian-biceanu/profil/spieler/241259",
+      "query_used": "Ciprian Biceanu"
+    },
+    {
+      "name": "C. Braun",
+      "query_name": "Christopher Braun",
+      "market_value": "€200k",
+      "tm_id": "82657",
+      "tm_url": "https://www.transfermarkt.com/christopher-braun/profil/spieler/82657",
+      "query_used": "Christopher Braun"
+    },
+    {
+      "name": "C. Bărbuţ",
+      "query_name": "Cristi Bărbuţ",
+      "market_value": "€200k",
+      "tm_id": "262108",
+      "tm_url": "https://www.transfermarkt.com/cristi-barbut/profil/spieler/262108",
+      "query_used": "Cristi Bărbuţ"
+    },
+    {
+      "name": "C. Chira",
+      "query_name": "Cristian Chira",
+      "market_value": "€50k",
+      "tm_id": "675505",
+      "tm_url": "https://www.transfermarkt.com/cristian-chira/profil/spieler/675505",
+      "query_used": "Cristian Chira"
+    },
+    {
+      "name": "C. Cîrjan",
+      "query_name": "Cătălin Ionut Cîrjan",
+      "market_value": "€2.50m",
+      "tm_id": "575219",
+      "tm_url": "https://www.transfermarkt.com/catalin-cirjan/profil/spieler/575219",
+      "query_used": "Cătălin Ionut Cîrjan"
+    },
+    {
+      "name": "C. Căbuz",
+      "query_name": "Cătălin Vasile Căbuz",
+      "market_value": "€850k",
+      "tm_id": "315442",
+      "tm_url": "https://www.transfermarkt.com/catalin-cabuz/profil/spieler/315442",
+      "query_used": "Cătălin Vasile Căbuz"
+    },
+    {
+      "name": "C. Dur-Bozoancă",
+      "query_name": "Cosmin Dur-Bozoancă",
+      "market_value": "€750k",
+      "tm_id": "340976",
+      "tm_url": "https://www.transfermarkt.com/cosmin-dur-bozoanca/profil/spieler/340976",
+      "query_used": "Cosmin Dur-Bozoancă"
+    },
+    {
+      "name": "C. Ganea",
+      "query_name": "Cristian Ganea",
+      "market_value": "€300k",
+      "tm_id": "262117",
+      "tm_url": "https://www.transfermarkt.com/cristian-ganea/profil/spieler/262117",
+      "query_used": "Cristian Ganea"
+    },
+    {
+      "name": "C. Grameni",
+      "query_name": "Constantin Grameni",
+      "market_value": "€1.30m",
+      "tm_id": "568578",
+      "tm_url": "https://www.transfermarkt.com/constantin-grameni/profil/spieler/568578",
+      "query_used": "Constantin Grameni"
+    },
+    {
+      "name": "C. Kouadio",
+      "query_name": "Christ Sarkodje Kouadio",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": "https://www.transfermarkt.com/planet-foot-consulting/beraterfirma/berater/7208",
+      "query_used": "Christ Sarkodje Kouadio"
+    },
+    {
+      "name": "C. Kyriakou",
+      "query_name": "Charalampos Kyriakou",
+      "market_value": "€600k",
+      "tm_id": "203970",
+      "tm_url": "https://www.transfermarkt.com/charalampos-kyriakou/profil/spieler/203970",
+      "query_used": "Charalampos Kyriakou"
+    },
+    {
+      "name": "C. Manea",
+      "query_name": "Cristian Manea",
+      "market_value": "€1.50m",
+      "tm_id": "271284",
+      "tm_url": "https://www.transfermarkt.com/cristian-manea/profil/spieler/271284",
+      "query_used": "Cristian Manea"
+    },
+    {
+      "name": "C. Micovschi",
+      "query_name": "Claudiu Micovschi",
+      "market_value": "€350k",
+      "tm_id": "319231",
+      "tm_url": "https://www.transfermarkt.com/claudiu-micovschi/profil/spieler/319231",
+      "query_used": "Claudiu Micovschi"
+    },
+    {
+      "name": "C. Mihai",
+      "query_name": "Cristian Mihai",
+      "market_value": "€900k",
+      "tm_id": "974722",
+      "tm_url": "https://www.transfermarkt.com/cristian-mihai/profil/spieler/974722",
+      "query_used": "Cristian Mihai"
+    },
+    {
+      "name": "C. Mora",
+      "query_name": "Carlos Mora Montoya",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": "https://www.transfermarkt.com/luis-alonso-ramirez-montoya/beraterfirma/berater/5506",
+      "query_used": "Carlos Mora Montoya"
+    },
+    {
+      "name": "C. Neguţ",
+      "query_name": "Cristian Daniel Neguţ",
+      "market_value": "€450k",
+      "tm_id": "430836",
+      "tm_url": "https://www.transfermarkt.com/cristian-negut/profil/spieler/430836",
+      "query_used": "Cristian Daniel Neguţ"
+    },
+    {
+      "name": "C. Petrila",
+      "query_name": "Claudiu Petrila",
+      "market_value": "€2.70m",
+      "tm_id": "623424",
+      "tm_url": "https://www.transfermarkt.com/claudiu-petrila/profil/spieler/623424",
+      "query_used": "Claudiu Petrila"
+    },
+    {
+      "name": "C. Petro",
+      "query_name": "John Charles Petro",
+      "market_value": "€800k",
+      "tm_id": "703710",
+      "tm_url": "https://www.transfermarkt.com/charles-petro/profil/spieler/703710",
+      "query_used": "John Charles Petro"
+    },
+    {
+      "name": "C. Pirvu",
+      "query_name": "Christian Nikolas Pirvu Yanis",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": "https://www.transfermarkt.com/yanis-boubidi/beraterfirma/berater/16036",
+      "query_used": "Christian Nikolas Pirvu Yanis"
+    },
+    {
+      "name": "C. Sima",
+      "query_name": "Cristian Sima",
+      "market_value": "€350k",
+      "tm_id": "1335803",
+      "tm_url": "https://www.transfermarkt.com/cristian-sima/profil/spieler/1335803",
+      "query_used": "Cristian Sima"
+    },
+    {
+      "name": "C. Vulturar",
+      "query_name": "Cătălin Vulturar",
+      "market_value": "€700k",
+      "tm_id": "710079",
+      "tm_url": "https://www.transfermarkt.com/catalin-vulturar/profil/spieler/710079",
+      "query_used": "Cătălin Vulturar"
+    },
+    {
+      "name": "Caio Ferreira",
+      "query_name": "Caio Ferreira Martins",
+      "market_value": "€800k",
+      "tm_id": "1122898",
+      "tm_url": "https://www.transfermarkt.com/caio/profil/spieler/1122898",
+      "query_used": "Caio Ferreira Martins"
+    },
+    {
+      "name": "Conrado",
+      "query_name": "Conrado Buchanelli Holz",
+      "market_value": "€650k",
+      "tm_id": "514674",
+      "tm_url": "https://www.transfermarkt.com/conrado/profil/spieler/514674",
+      "query_used": "Conrado Buchanelli Holz"
+    },
+    {
+      "name": "Cristian Ponde",
+      "query_name": "Cristian Ioan Ponde",
+      "market_value": "€75k",
+      "tm_id": "198005",
+      "tm_url": "https://www.transfermarkt.com/cristian-ponde/profil/spieler/198005",
+      "query_used": "Cristian Ioan Ponde"
+    },
+    {
+      "name": "D. Albu",
+      "query_name": "Dragoș Albu",
+      "market_value": "€550k",
+      "tm_id": "547820",
+      "tm_url": "https://www.transfermarkt.com/dragos-albu/profil/spieler/547820",
+      "query_used": "Dragoș Albu"
+    },
+    {
+      "name": "D. Alibec",
+      "query_name": "Denis Alibec",
+      "market_value": "€400k",
+      "tm_id": "81396",
+      "tm_url": "https://www.transfermarkt.com/denis-alibec/profil/spieler/81396",
+      "query_used": "Denis Alibec"
+    },
+    {
+      "name": "D. Alomerović",
+      "query_name": "Din Alomerović",
+      "market_value": "€700k",
+      "tm_id": "343357",
+      "tm_url": "https://www.transfermarkt.com/din-alomerovic/profil/spieler/343357",
+      "query_used": "Din Alomerović"
+    },
+    {
+      "name": "D. Armstrong",
+      "query_name": "Danny Armstrong",
+      "market_value": "€900k",
+      "tm_id": "225236",
+      "tm_url": "https://www.transfermarkt.com/danny-armstrong/profil/spieler/225236",
+      "query_used": "Danny Armstrong"
+    },
+    {
+      "name": "D. Barbu",
+      "query_name": "David Andrei Barbu",
+      "market_value": "€250k",
+      "tm_id": "1040566",
+      "tm_url": "https://www.transfermarkt.com/david-barbu/profil/spieler/1040566",
+      "query_used": "David Andrei Barbu"
+    },
+    {
+      "name": "D. Bordun",
+      "query_name": "Denis Bordun",
+      "market_value": "€150k",
+      "tm_id": "1065319",
+      "tm_url": "https://www.transfermarkt.com/denis-bordun/profil/spieler/1065319",
+      "query_used": "Denis Bordun"
+    },
+    {
+      "name": "D. Bota",
+      "query_name": "Darius Bota",
+      "market_value": "€50k",
+      "tm_id": "1455935",
+      "tm_url": "https://www.transfermarkt.com/darius-bota/profil/spieler/1455935",
+      "query_used": "Darius Bota"
+    },
+    {
+      "name": "D. Bîrligea",
+      "query_name": "Daniel Bîrligea",
+      "market_value": "€4.50m",
+      "tm_id": "468192",
+      "tm_url": "https://www.transfermarkt.com/daniel-birligea/profil/spieler/468192",
+      "query_used": "Daniel Bîrligea"
+    },
+    {
+      "name": "D. Ciobotariu",
+      "query_name": "Denis Ciobotariu",
+      "market_value": "€1.00m",
+      "tm_id": "428593",
+      "tm_url": "https://www.transfermarkt.com/denis-ciobotariu/profil/spieler/428593",
+      "query_used": "Denis Ciobotariu"
+    },
+    {
+      "name": "D. Djoković",
+      "query_name": "Damjan Djoković",
+      "market_value": "€150k",
+      "tm_id": "143039",
+      "tm_url": "https://www.transfermarkt.com/damjan-djokovic/profil/spieler/143039",
+      "query_used": "Damjan Djoković"
+    },
+    {
+      "name": "D. Dongmo",
+      "query_name": "Danel Jordan Dongmo",
+      "market_value": "€300k",
+      "tm_id": "929612",
+      "tm_url": "https://www.transfermarkt.com/danel-dongmo/profil/spieler/929612",
+      "query_used": "Danel Jordan Dongmo"
+    },
+    {
+      "name": "D. Epassy",
+      "query_name": "Devis Rogers Epassy Mboka",
+      "market_value": "€400k",
+      "tm_id": "170471",
+      "tm_url": "https://www.transfermarkt.com/devis-epassy/profil/spieler/170471",
+      "query_used": "Devis Rogers Epassy Mboka"
+    },
+    {
+      "name": "D. Graovac",
+      "query_name": "Daniel Graovac",
+      "market_value": "€450k",
+      "tm_id": "131728",
+      "tm_url": "https://www.transfermarkt.com/daniel-graovac/profil/spieler/131728",
+      "query_used": "Daniel Graovac"
+    },
+    {
+      "name": "D. Hazrollaj",
+      "query_name": "Drilon Hazrollaj",
+      "market_value": "€500k",
+      "tm_id": "986186",
+      "tm_url": "https://www.transfermarkt.com/drilon-hazrollaj/profil/spieler/986186",
+      "query_used": "Drilon Hazrollaj"
+    },
+    {
+      "name": "D. Hrezdac",
+      "query_name": "Denis Hrezdac",
+      "market_value": "€450k",
+      "tm_id": "641765",
+      "tm_url": "https://www.transfermarkt.com/denis-hrezdac/profil/spieler/641765",
+      "query_used": "Denis Hrezdac"
+    },
+    {
+      "name": "D. Huiban",
+      "query_name": "Dragoş Ionuţ Huiban",
+      "market_value": "€100k",
+      "tm_id": "64054",
+      "tm_url": "https://www.transfermarkt.com/dragos-huiban/profil/spieler/64054",
+      "query_used": "Dragoş Ionuţ Huiban"
+    },
+    {
+      "name": "D. Iliev",
+      "query_name": "Dejan Iliev",
+      "market_value": "€450k",
+      "tm_id": "205757",
+      "tm_url": "https://www.transfermarkt.com/dejan-iliev/profil/spieler/205757",
+      "query_used": "Dejan Iliev"
+    },
+    {
+      "name": "D. Irimia",
+      "query_name": "David Irimia",
+      "market_value": "€250k",
+      "tm_id": "1113720",
+      "tm_url": "https://www.transfermarkt.com/david-irimia/profil/spieler/1113720",
+      "query_used": "David Irimia"
+    },
+    {
+      "name": "D. Lazar",
+      "query_name": "David Lazar",
+      "market_value": "€200k",
+      "tm_id": "168278",
+      "tm_url": "https://www.transfermarkt.com/david-lazar/profil/spieler/168278",
+      "query_used": "David Lazar"
+    },
+    {
+      "name": "D. Maftei",
+      "query_name": "David Iulian Maftei",
+      "market_value": "€500k",
+      "tm_id": "731518",
+      "tm_url": "https://www.transfermarkt.com/david-maftei/profil/spieler/731518",
+      "query_used": "David Iulian Maftei"
+    },
+    {
+      "name": "D. Matei",
+      "query_name": "David Matei",
+      "market_value": "€900k",
+      "tm_id": "1112690",
+      "tm_url": "https://www.transfermarkt.com/david-matei/profil/spieler/1112690",
+      "query_used": "David Matei"
+    },
+    {
+      "name": "D. Miculescu",
+      "query_name": "David Miculescu",
+      "market_value": "€2.50m",
+      "tm_id": "614800",
+      "tm_url": "https://www.transfermarkt.com/david-miculescu/profil/spieler/614800",
+      "query_used": "David Miculescu"
+    },
+    {
+      "name": "D. Oancea",
+      "query_name": "Dorinel Oancea",
+      "market_value": "€850k",
+      "tm_id": "556116",
+      "tm_url": "https://www.transfermarkt.com/dorinel-oancea/profil/spieler/556116",
+      "query_used": "Dorinel Oancea"
+    },
+    {
+      "name": "D. Olaru",
+      "query_name": "Darius Olaru",
+      "market_value": "€5.00m",
+      "tm_id": "395800",
+      "tm_url": "https://www.transfermarkt.com/darius-olaru/profil/spieler/395800",
+      "query_used": "Darius Olaru"
+    },
+    {
+      "name": "D. Paraschiv",
+      "query_name": "Daniel Paraschiv",
+      "market_value": "€800k",
+      "tm_id": "605543",
+      "tm_url": "https://www.transfermarkt.com/daniel-paraschiv/profil/spieler/605543",
+      "query_used": "Daniel Paraschiv"
+    },
+    {
+      "name": "D. Paraschiv",
+      "query_name": "David Ionut Paraschiv",
+      "market_value": "€100k",
+      "tm_id": "1229951",
+      "tm_url": "https://www.transfermarkt.com/david-paraschiv/profil/spieler/1229951",
+      "query_used": "David Ionut Paraschiv"
+    },
+    {
+      "name": "D. Politic",
+      "query_name": "Dennis Politic",
+      "market_value": "€900k",
+      "tm_id": "470152",
+      "tm_url": "https://www.transfermarkt.com/dennis-politic/profil/spieler/470152",
+      "query_used": "Dennis Politic"
+    },
+    {
+      "name": "D. Pospelov",
+      "query_name": "Dmytro Pospelov",
+      "market_value": "€250k",
+      "tm_id": "108866",
+      "tm_url": "https://www.transfermarkt.com/dmytro-pospelov/profil/spieler/108866",
+      "query_used": "Dmytro Pospelov"
+    },
+    {
+      "name": "D. Rusu",
+      "query_name": "Denis Rusu",
+      "market_value": "€100k",
+      "tm_id": "171770",
+      "tm_url": "https://www.transfermarkt.com/denis-rusu/profil/spieler/171770",
+      "query_used": "Denis Rusu"
+    },
+    {
+      "name": "D. Sabater",
+      "query_name": "Damiá Sabater Tous",
+      "market_value": "€250k",
+      "tm_id": "217154",
+      "tm_url": "https://www.transfermarkt.com/damia-sabater/profil/spieler/217154",
+      "query_used": "Damiá Sabater Tous"
+    },
+    {
+      "name": "D. Sandu",
+      "query_name": "Daniel Sandu",
+      "market_value": "€200k",
+      "tm_id": "1264865",
+      "tm_url": "https://www.transfermarkt.com/daniel-sandu/profil/spieler/1264865",
+      "query_used": "Daniel Sandu"
+    },
+    {
+      "name": "D. Sîrbu",
+      "query_name": "Dan Sîrbu",
+      "market_value": "€650k",
+      "tm_id": "666463",
+      "tm_url": "https://www.transfermarkt.com/dan-sirbu/profil/spieler/666463",
+      "query_used": "Dan Sîrbu"
+    },
+    {
+      "name": "D. Taroi",
+      "query_name": "Denis Alberto Ionut Taroi",
+      "market_value": "€150k",
+      "tm_id": "1346805",
+      "tm_url": "https://www.transfermarkt.com/denis-taroi/profil/spieler/1346805",
+      "query_used": "Denis Alberto Ionut Taroi"
+    },
+    {
+      "name": "D. Ubbink",
+      "query_name": "Desley Ubbink",
+      "market_value": "-",
+      "tm_id": "272718",
+      "tm_url": "https://www.transfermarkt.com/desley-ubbink/profil/spieler/272718",
+      "query_used": "Desley Ubbink"
+    },
+    {
+      "name": "D. Şerbănică",
+      "query_name": "Daniel Marius Şerbănică",
+      "market_value": "€400k",
+      "tm_id": "529149",
+      "tm_url": "https://www.transfermarkt.com/daniel-serbanica/profil/spieler/529149",
+      "query_used": "Daniel Marius Şerbănică"
+    },
+    {
+      "name": "D. Živulić",
+      "query_name": "Diego Živulić",
+      "market_value": "€250k",
+      "tm_id": "148545",
+      "tm_url": "https://www.transfermarkt.com/diego-zivulic/profil/spieler/148545",
+      "query_used": "Diego Živulić"
+    },
+    {
+      "name": "Diogo Ramalho",
+      "query_name": "Diogo Sá Ramalho",
+      "market_value": "€400k",
+      "tm_id": "478588",
+      "tm_url": "https://www.transfermarkt.com/ramalho/profil/spieler/478588",
+      "query_used": "Diogo Sá Ramalho"
+    },
+    {
+      "name": "E. Bakoș",
+      "query_name": "Ervin-Raul Bakoș",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": null
+    },
+    {
+      "name": "E. Bloj",
+      "query_name": "Erwin Szilard Bloj",
+      "market_value": "€150k",
+      "tm_id": "932837",
+      "tm_url": "https://www.transfermarkt.com/erwin-bloj/profil/spieler/932837",
+      "query_used": "Erwin Szilard Bloj"
+    },
+    {
+      "name": "E. Diaw",
+      "query_name": "Eljadji Pape Djibril Diaw",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": "https://www.transfermarkt.com/amc-sports-paris/beraterfirma/berater/5932",
+      "query_used": "Eljadji Pape Djibril Diaw"
+    },
+    {
+      "name": "E. Florescu",
+      "query_name": "Eduard Florescu",
+      "market_value": "€450k",
+      "tm_id": "379194",
+      "tm_url": "https://www.transfermarkt.com/eduard-florescu/profil/spieler/379194",
+      "query_used": "Eduard Florescu"
+    },
+    {
+      "name": "E. Gnahoré",
+      "query_name": "Eddy Gnahoré",
+      "market_value": "€750k",
+      "tm_id": "168933",
+      "tm_url": "https://www.transfermarkt.com/eddy-gnahore/profil/spieler/168933",
+      "query_used": "Eddy Gnahoré"
+    },
+    {
+      "name": "E. Koljič",
+      "query_name": "Elvir Koljič",
+      "market_value": "€700k",
+      "tm_id": "296695",
+      "tm_url": "https://www.transfermarkt.com/elvir-koljic/profil/spieler/296695",
+      "query_used": "Elvir Koljič"
+    },
+    {
+      "name": "E. López",
+      "query_name": "Enzo Adrián López",
+      "market_value": "€400k",
+      "tm_id": "743667",
+      "tm_url": "https://www.transfermarkt.com/enzo-lopez/profil/spieler/743667",
+      "query_used": "Enzo Adrián López"
+    },
+    {
+      "name": "E. Pap",
+      "query_name": "Eduard Pap",
+      "market_value": "€300k",
+      "tm_id": "249080",
+      "tm_url": "https://www.transfermarkt.com/eduard-pap/profil/spieler/249080",
+      "query_used": "Eduard Pap"
+    },
+    {
+      "name": "E. Papa",
+      "query_name": "Enriko Papa",
+      "market_value": "€400k",
+      "tm_id": "241221",
+      "tm_url": "https://www.transfermarkt.com/enriko-papa/profil/spieler/241221",
+      "query_used": "Enriko Papa"
+    },
+    {
+      "name": "E. Rădăslăvescu",
+      "query_name": "Eduard Rădăslăvescu",
+      "market_value": "€700k",
+      "tm_id": "731522",
+      "tm_url": "https://www.transfermarkt.com/eduard-radaslavescu/profil/spieler/731522",
+      "query_used": "Eduard Rădăslăvescu"
+    },
+    {
+      "name": "Ely Fernandes",
+      "query_name": "Ely Ernesto Lopes Fernandes",
+      "market_value": "€50k",
+      "tm_id": "292488",
+      "tm_url": "https://www.transfermarkt.com/ely-fernandes/profil/spieler/292488",
+      "query_used": "Ely Ernesto Lopes Fernandes"
+    },
+    {
+      "name": "Esteban Orozco",
+      "query_name": "Esteban Orozco Fernández",
+      "market_value": "€250k",
+      "tm_id": "531411",
+      "tm_url": "https://www.transfermarkt.com/esteban-orozco/profil/spieler/531411",
+      "query_used": "Esteban Orozco Fernández"
+    },
+    {
+      "name": "F. Bejan",
+      "query_name": "Florin Bejan",
+      "market_value": "€100k",
+      "tm_id": "147993",
+      "tm_url": "https://www.transfermarkt.com/florin-bejan/profil/spieler/147993",
+      "query_used": "Florin Bejan"
+    },
+    {
+      "name": "F. Borța",
+      "query_name": "Florin Borța",
+      "market_value": "€600k",
+      "tm_id": "603327",
+      "tm_url": "https://www.transfermarkt.com/florin-borta/profil/spieler/603327",
+      "query_used": "Florin Borța"
+    },
+    {
+      "name": "F. Iacob",
+      "query_name": "Flavius Iacob",
+      "market_value": "€350k",
+      "tm_id": "932800",
+      "tm_url": "https://www.transfermarkt.com/flavius-iacob/profil/spieler/932800",
+      "query_used": "Flavius Iacob"
+    },
+    {
+      "name": "F. Poulolo",
+      "query_name": "Florent Poulolo",
+      "market_value": "€700k",
+      "tm_id": "600151",
+      "tm_url": "https://www.transfermarkt.com/florent-poulolo/profil/spieler/600151",
+      "query_used": "Florent Poulolo"
+    },
+    {
+      "name": "F. Prce",
+      "query_name": "Franjo Prce",
+      "market_value": "€300k",
+      "tm_id": "240260",
+      "tm_url": "https://www.transfermarkt.com/franjo-prce/profil/spieler/240260",
+      "query_used": "Franjo Prce"
+    },
+    {
+      "name": "F. Purece",
+      "query_name": "Florin Flavius Purece",
+      "market_value": "€175k",
+      "tm_id": "203059",
+      "tm_url": "https://www.transfermarkt.com/florin-purece/profil/spieler/203059",
+      "query_used": "Florin Flavius Purece"
+    },
+    {
+      "name": "F. Tănase",
+      "query_name": "Florin Tănase",
+      "market_value": "€2.00m",
+      "tm_id": "314329",
+      "tm_url": "https://www.transfermarkt.com/florin-tanase/profil/spieler/314329",
+      "query_used": "Florin Tănase"
+    },
+    {
+      "name": "F. Ștefan",
+      "query_name": "Florin Ștefan",
+      "market_value": "€700k",
+      "tm_id": "320637",
+      "tm_url": "https://www.transfermarkt.com/florin-stefan/profil/spieler/320637",
+      "query_used": "Florin Ștefan"
+    },
+    {
+      "name": "G. Anestis",
+      "query_name": "Giannis Anestis",
+      "market_value": "€300k",
+      "tm_id": "191853",
+      "tm_url": "https://www.transfermarkt.com/giannis-anestis/profil/spieler/191853",
+      "query_used": "Giannis Anestis"
+    },
+    {
+      "name": "G. Caramalău",
+      "query_name": "George Alexandru Caramalău",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": null
+    },
+    {
+      "name": "G. Cîmpanu",
+      "query_name": "George Alexandru Cîmpanu",
+      "market_value": "€550k",
+      "tm_id": "687846",
+      "tm_url": "https://www.transfermarkt.com/alexandru-cimpanu/profil/spieler/687846",
+      "query_used": "George Alexandru Cîmpanu"
+    },
+    {
+      "name": "G. Dahan",
+      "query_name": "Guy Dahan",
+      "market_value": "€250k",
+      "tm_id": "396646",
+      "tm_url": "https://www.transfermarkt.com/guy-dahan/profil/spieler/396646",
+      "query_used": "Guy Dahan"
+    },
+    {
+      "name": "G. David",
+      "query_name": "Gabriel David",
+      "market_value": "€250k",
+      "tm_id": "976856",
+      "tm_url": "https://www.transfermarkt.com/gabriel-david/profil/spieler/976856",
+      "query_used": "Gabriel David"
+    },
+    {
+      "name": "G. Debeljuh",
+      "query_name": "Gabriel Debeljuh",
+      "market_value": "€400k",
+      "tm_id": "340073",
+      "tm_url": "https://www.transfermarkt.com/gabriel-debeljuh/profil/spieler/340073",
+      "query_used": "Gabriel Debeljuh"
+    },
+    {
+      "name": "G. Dumitru",
+      "query_name": "Gab Dumitru",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": "https://www.transfermarkt.com/creolgg-international/beraterfirma/berater/9256",
+      "query_used": "Gab Dumitru"
+    },
+    {
+      "name": "G. Gavrilaş",
+      "query_name": "George Petrişor Gavrilaş",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": null
+    },
+    {
+      "name": "G. Ghimfus",
+      "query_name": "Giovani-David Ghimfus",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": null
+    },
+    {
+      "name": "G. Grozav",
+      "query_name": "Gheorghe Grozav",
+      "market_value": "€350k",
+      "tm_id": "96844",
+      "tm_url": "https://www.transfermarkt.com/gheorghe-grozav/profil/spieler/96844",
+      "query_used": "Gheorghe Grozav"
+    },
+    {
+      "name": "G. Milanov",
+      "query_name": "Georgi Milanov",
+      "market_value": "€450k",
+      "tm_id": "134158",
+      "tm_url": "https://www.transfermarkt.com/georgi-milanov/profil/spieler/134158",
+      "query_used": "Georgi Milanov"
+    },
+    {
+      "name": "Guilherme Garutti",
+      "query_name": "Guilherme Gomes Garutti",
+      "market_value": "€200k",
+      "tm_id": "520084",
+      "tm_url": "https://www.transfermarkt.com/guilherme-garutti/profil/spieler/520084",
+      "query_used": "Guilherme Gomes Garutti"
+    },
+    {
+      "name": "Guilherme Soares",
+      "query_name": "Guilherme Araújo Soares",
+      "market_value": "€400k",
+      "tm_id": "657385",
+      "tm_url": "https://www.transfermarkt.com/guilherme/profil/spieler/657385",
+      "query_used": "Guilherme Araújo Soares"
+    },
+    {
+      "name": "Gustavo Cabral",
+      "query_name": "Gustavo dos Santos Cabral",
+      "market_value": "€50k",
+      "tm_id": "1135708",
+      "tm_url": "https://www.transfermarkt.com/gustavo-cabral/profil/spieler/1135708",
+      "query_used": "Gustavo dos Santos Cabral"
+    },
+    {
+      "name": "Gustavo Marins",
+      "query_name": "Gustavo Henrique Marins Silva",
+      "market_value": "€600k",
+      "tm_id": "869463",
+      "tm_url": "https://www.transfermarkt.com/gustavo-marins/profil/spieler/869463",
+      "query_used": "Gustavo Henrique Marins Silva"
+    },
+    {
+      "name": "H. Abdallah",
+      "query_name": "Hakim Djamel Abdallah",
+      "market_value": "€550k",
+      "tm_id": "354338",
+      "tm_url": "https://www.transfermarkt.com/hakim-abdallah/profil/spieler/354338",
+      "query_used": "Hakim Djamel Abdallah"
+    },
+    {
+      "name": "H. Ongenda",
+      "query_name": "Hervin Ongenda",
+      "market_value": "€450k",
+      "tm_id": "182910",
+      "tm_url": "https://www.transfermarkt.com/hervin-ongenda/profil/spieler/182910",
+      "query_used": "Hervin Ongenda"
+    },
+    {
+      "name": "I. Cercel",
+      "query_name": "Ionuț Cercel",
+      "market_value": "€500k",
+      "tm_id": "1073910",
+      "tm_url": "https://www.transfermarkt.com/ionut-cercel/profil/spieler/1073910",
+      "query_used": "Ionuț Cercel"
+    },
+    {
+      "name": "I. Coadă",
+      "query_name": "Ionuţ Viorel Coadă",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": null
+    },
+    {
+      "name": "I. Cojocaru",
+      "query_name": "Ionuț Cojocaru",
+      "market_value": "€300k",
+      "tm_id": "901511",
+      "tm_url": "https://www.transfermarkt.com/ionut-cojocaru/profil/spieler/901511",
+      "query_used": "Ionuț Cojocaru"
+    },
+    {
+      "name": "I. Gurău",
+      "query_name": "Ionuț Gurău",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": null
+    },
+    {
+      "name": "I. Larie",
+      "query_name": "Ionuț Larie",
+      "market_value": "€100k",
+      "tm_id": "46582",
+      "tm_url": "https://www.transfermarkt.com/ionut-larie/profil/spieler/46582",
+      "query_used": "Ionuț Larie"
+    },
+    {
+      "name": "I. Rădescu",
+      "query_name": "Ionuţ Laurenţiu Rădescu",
+      "market_value": "€250k",
+      "tm_id": "451331",
+      "tm_url": "https://www.transfermarkt.com/ionut-radescu/profil/spieler/451331",
+      "query_used": "Ionuţ Laurenţiu Rădescu"
+    },
+    {
+      "name": "I. Slimani",
+      "query_name": "Islam Slimani",
+      "market_value": "€400k",
+      "tm_id": "174915",
+      "tm_url": "https://www.transfermarkt.com/islam-slimani/profil/spieler/174915",
+      "query_used": "Islam Slimani"
+    },
+    {
+      "name": "I. Stoica",
+      "query_name": "Ionuț Stoica",
+      "market_value": "€50k",
+      "tm_id": "241584",
+      "tm_url": "https://www.transfermarkt.com/ionut-stoica/profil/spieler/241584",
+      "query_used": "Ionuț Stoica"
+    },
+    {
+      "name": "I. Vînă",
+      "query_name": "Ionuț Vînă",
+      "market_value": "€700k",
+      "tm_id": "208828",
+      "tm_url": "https://www.transfermarkt.com/ionut-vina/profil/spieler/208828",
+      "query_used": "Ionuț Vînă"
+    },
+    {
+      "name": "J. Badelj",
+      "query_name": "Juraj Badelj",
+      "market_value": "€1.00m",
+      "tm_id": "1052377",
+      "tm_url": "https://www.transfermarkt.com/juraj-badelj/profil/spieler/1052377",
+      "query_used": "Juraj Badelj"
+    },
+    {
+      "name": "J. Blagaić",
+      "query_name": "Jakov Blagaić",
+      "market_value": "€400k",
+      "tm_id": "434711",
+      "tm_url": "https://www.transfermarkt.com/jakov-blagaic/profil/spieler/434711",
+      "query_used": "Jakov Blagaić"
+    },
+    {
+      "name": "J. Cisotti",
+      "query_name": "Juri Cisotti",
+      "market_value": "€800k",
+      "tm_id": "163999",
+      "tm_url": "https://www.transfermarkt.com/juri-cisotti/profil/spieler/163999",
+      "query_used": "Juri Cisotti"
+    },
+    {
+      "name": "J. Dolný",
+      "query_name": "Jozef Dolný",
+      "market_value": "€100k",
+      "tm_id": "148712",
+      "tm_url": "https://www.transfermarkt.com/jozef-dolny/profil/spieler/148712",
+      "query_used": "Jozef Dolný"
+    },
+    {
+      "name": "J. Ferenczi",
+      "query_name": "János Ferenczi",
+      "market_value": "€225k",
+      "tm_id": "159014",
+      "tm_url": "https://www.transfermarkt.com/janos-ferenczi/profil/spieler/159014",
+      "query_used": "János Ferenczi"
+    },
+    {
+      "name": "J. Hegedűs",
+      "query_name": "János Hegedűs",
+      "market_value": "€300k",
+      "tm_id": "261328",
+      "tm_url": "https://www.transfermarkt.com/janos-hegedus/profil/spieler/261328",
+      "query_used": "János Hegedűs"
+    },
+    {
+      "name": "J. Hromada",
+      "query_name": "Jakub Hromada",
+      "market_value": "€500k",
+      "tm_id": "186380",
+      "tm_url": "https://www.transfermarkt.com/jakub-hromada/profil/spieler/186380",
+      "query_used": "Jakub Hromada"
+    },
+    {
+      "name": "J. Ikoko",
+      "query_name": "Jordan Ikoko",
+      "market_value": "€400k",
+      "tm_id": "157491",
+      "tm_url": "https://www.transfermarkt.com/jordan-ikoko/profil/spieler/157491",
+      "query_used": "Jordan Ikoko"
+    },
+    {
+      "name": "J. Jeno",
+      "query_name": "Jekob Abiezer Jeno",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": "https://www.transfermarkt.com/da-ko-team-management-d-o-o-/beraterfirma/berater/13048",
+      "query_used": "Jekob Abiezer Jeno"
+    },
+    {
+      "name": "J. Marković",
+      "query_name": "Jovan Marković",
+      "market_value": "€500k",
+      "tm_id": "418235",
+      "tm_url": "https://www.transfermarkt.com/jovan-markovic/profil/spieler/418235",
+      "query_used": "Jovan Marković"
+    },
+    {
+      "name": "J. Papeau",
+      "query_name": "Jayson Papeau",
+      "market_value": "€450k",
+      "tm_id": "665525",
+      "tm_url": "https://www.transfermarkt.com/jayson-papeau/profil/spieler/665525",
+      "query_used": "Jayson Papeau"
+    },
+    {
+      "name": "J. Vojtuš",
+      "query_name": "Jakub Vojtuš",
+      "market_value": "€150k",
+      "tm_id": "104990",
+      "tm_url": "https://www.transfermarkt.com/jakub-vojtus/profil/spieler/104990",
+      "query_used": "Jakub Vojtuš"
+    },
+    {
+      "name": "Jair",
+      "query_name": "Jair Tavares da Silva",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": "https://www.transfermarkt.com/antonio-silva/beraterfirma/berater/730",
+      "query_used": "Jair Tavares da Silva"
+    },
+    {
+      "name": "João Lameira",
+      "query_name": "João Pedro Santos Lameira",
+      "market_value": "€900k",
+      "tm_id": "357165",
+      "tm_url": "https://www.transfermarkt.com/joao-lameira/profil/spieler/357165",
+      "query_used": "João Pedro Santos Lameira"
+    },
+    {
+      "name": "João Paulo",
+      "query_name": "João Paulo Moreira Fernandes",
+      "market_value": "€700k",
+      "tm_id": "623965",
+      "tm_url": "https://www.transfermarkt.com/joao-paulo/profil/spieler/623965",
+      "query_used": "João Paulo Moreira Fernandes"
+    },
+    {
+      "name": "K. Boateng",
+      "query_name": "Kennedy Kofi Boateng",
+      "market_value": "€1.20m",
+      "tm_id": "451317",
+      "tm_url": "https://www.transfermarkt.com/kennedy-boateng/profil/spieler/451317",
+      "query_used": "Kennedy Kofi Boateng"
+    },
+    {
+      "name": "K. Ciubotaru",
+      "query_name": "Kevin Ciubotaru",
+      "market_value": "€400k",
+      "tm_id": "710076",
+      "tm_url": "https://www.transfermarkt.com/kevin-ciubotaru/profil/spieler/710076",
+      "query_used": "Kevin Ciubotaru"
+    },
+    {
+      "name": "K. Doumtsios",
+      "query_name": "Konstantinos Doumtsios",
+      "market_value": "€250k",
+      "tm_id": "358261",
+      "tm_url": "https://www.transfermarkt.com/konstantinos-doumtsios/profil/spieler/358261",
+      "query_used": "Konstantinos Doumtsios"
+    },
+    {
+      "name": "K. Keita",
+      "query_name": "Kader Keita",
+      "market_value": "€1.70m",
+      "tm_id": "658835",
+      "tm_url": "https://www.transfermarkt.com/kader-keita/profil/spieler/658835",
+      "query_used": "Kader Keita"
+    },
+    {
+      "name": "K. Kujabi",
+      "query_name": "Kalifa Kujabi",
+      "market_value": "€200k",
+      "tm_id": "679280",
+      "tm_url": "https://www.transfermarkt.com/kalifa-kujabi/profil/spieler/679280",
+      "query_used": "Kalifa Kujabi"
+    },
+    {
+      "name": "K. Luckassen",
+      "query_name": "Kevin Luckassen Brobbey",
+      "market_value": "€250k",
+      "tm_id": "187290",
+      "tm_url": "https://www.transfermarkt.com/kevin-brobbey/profil/spieler/187290",
+      "query_used": "Kevin Luckassen Brobbey"
+    },
+    {
+      "name": "K. Muhar",
+      "query_name": "Karlo Muhar",
+      "market_value": "€1.20m",
+      "tm_id": "388042",
+      "tm_url": "https://www.transfermarkt.com/karlo-muhar/profil/spieler/388042",
+      "query_used": "Karlo Muhar"
+    },
+    {
+      "name": "Kazu",
+      "query_name": "Christian Kendji Wagatsuma Ferreira",
+      "market_value": "€200k",
+      "tm_id": "428993",
+      "tm_url": "https://www.transfermarkt.com/kazu/profil/spieler/428993",
+      "query_used": "Christian Kendji Wagatsuma Ferreira"
+    },
+    {
+      "name": "L. Biliboc",
+      "query_name": "Lorenzo Biliboc",
+      "market_value": "€1.20m",
+      "tm_id": "993687",
+      "tm_url": "https://www.transfermarkt.com/lorenzo-biliboc/profil/spieler/993687",
+      "query_used": "Lorenzo Biliboc"
+    },
+    {
+      "name": "L. Băsceanu",
+      "query_name": "Luca Băsceanu",
+      "market_value": "€500k",
+      "tm_id": "937066",
+      "tm_url": "https://www.transfermarkt.com/luca-basceanu/profil/spieler/937066",
+      "query_used": "Luca Băsceanu"
+    },
+    {
+      "name": "L. Emërllahu",
+      "query_name": "Lindon Emërllahu",
+      "market_value": "€1.80m",
+      "tm_id": "892105",
+      "tm_url": "https://www.transfermarkt.com/lindon-emerllahu/profil/spieler/892105",
+      "query_used": "Lindon Emërllahu"
+    },
+    {
+      "name": "L. Gojković",
+      "query_name": "Luka Gojković",
+      "market_value": "€500k",
+      "tm_id": "652618",
+      "tm_url": "https://www.transfermarkt.com/luka-gojkovic/profil/spieler/652618",
+      "query_used": "Luka Gojković"
+    },
+    {
+      "name": "L. Houri",
+      "query_name": "Lyes Houri",
+      "market_value": "€600k",
+      "tm_id": "229007",
+      "tm_url": "https://www.transfermarkt.com/lyes-houri/profil/spieler/229007",
+      "query_used": "Lyes Houri"
+    },
+    {
+      "name": "L. Kramer",
+      "query_name": "Lars Kramer",
+      "market_value": "€1.50m",
+      "tm_id": "410897",
+      "tm_url": "https://www.transfermarkt.com/lars-kramer/profil/spieler/410897",
+      "query_used": "Lars Kramer"
+    },
+    {
+      "name": "L. Mihai",
+      "query_name": "Luca Mihai",
+      "market_value": "€250k",
+      "tm_id": "608487",
+      "tm_url": "https://www.transfermarkt.com/luca-mihai/profil/spieler/608487",
+      "query_used": "Luca Mihai"
+    },
+    {
+      "name": "L. Munteanu",
+      "query_name": "Louis Munteanu",
+      "market_value": "€5.00m",
+      "tm_id": "547786",
+      "tm_url": "https://www.transfermarkt.com/louis-munteanu/profil/spieler/547786",
+      "query_used": "Louis Munteanu"
+    },
+    {
+      "name": "L. Pellegrini",
+      "query_name": "Lucas Pellegrini",
+      "market_value": "€300k",
+      "tm_id": "601044",
+      "tm_url": "https://www.transfermarkt.com/lucas-pellegrini/profil/spieler/601044",
+      "query_used": "Lucas Pellegrini"
+    },
+    {
+      "name": "L. Popescu",
+      "query_name": "Laurenţiu Popescu",
+      "market_value": "€1.00m",
+      "tm_id": "271289",
+      "tm_url": "https://www.transfermarkt.com/laurentiu-popescu/profil/spieler/271289",
+      "query_used": "Laurenţiu Popescu"
+    },
+    {
+      "name": "L. Pászka",
+      "query_name": "Lóránd Pászka",
+      "market_value": "€400k",
+      "tm_id": "291976",
+      "tm_url": "https://www.transfermarkt.com/lorand-paszka/profil/spieler/291976",
+      "query_used": "Lóránd Pászka"
+    },
+    {
+      "name": "L. Sadriu",
+      "query_name": "Leard Sadriu",
+      "market_value": "€1.00m",
+      "tm_id": "482364",
+      "tm_url": "https://www.transfermarkt.com/leard-sadriu/profil/spieler/482364",
+      "query_used": "Leard Sadriu"
+    },
+    {
+      "name": "L. Stancu",
+      "query_name": "Luca Stancu",
+      "market_value": "€250k",
+      "tm_id": "1229554",
+      "tm_url": "https://www.transfermarkt.com/luca-stancu/profil/spieler/1229554",
+      "query_used": "Luca Stancu"
+    },
+    {
+      "name": "L. Zahovič",
+      "query_name": "Luka Zahovič",
+      "market_value": "€500k",
+      "tm_id": "169362",
+      "tm_url": "https://www.transfermarkt.com/luka-zahovic/profil/spieler/169362",
+      "query_used": "Luka Zahovič"
+    },
+    {
+      "name": "Léo Bolgado",
+      "query_name": "Leonardo Da Costa Bolgado",
+      "market_value": "€1.20m",
+      "tm_id": "712087",
+      "tm_url": "https://www.transfermarkt.com/leo-bolgado/profil/spieler/712087",
+      "query_used": "Leonardo Da Costa Bolgado"
+    },
+    {
+      "name": "M. Abbey",
+      "query_name": "Moses Abbey",
+      "market_value": "€150k",
+      "tm_id": "867947",
+      "tm_url": "https://www.transfermarkt.com/moses-abbey/profil/spieler/867947",
+      "query_used": "Moses Abbey"
+    },
+    {
+      "name": "M. Aioani",
+      "query_name": "Marian Aioani",
+      "market_value": "€1.50m",
+      "tm_id": "426724",
+      "tm_url": "https://www.transfermarkt.com/marian-aioani/profil/spieler/426724",
+      "query_used": "Marian Aioani"
+    },
+    {
+      "name": "M. Antoche",
+      "query_name": "Marius Antoche",
+      "market_value": "€225k",
+      "tm_id": "226545",
+      "tm_url": "https://www.transfermarkt.com/marius-antoche/profil/spieler/226545",
+      "query_used": "Marius Antoche"
+    },
+    {
+      "name": "M. Bordeianu",
+      "query_name": "Mihai Bordeianu",
+      "market_value": "€250k",
+      "tm_id": "210059",
+      "tm_url": "https://www.transfermarkt.com/mihai-bordeianu/profil/spieler/210059",
+      "query_used": "Mihai Bordeianu"
+    },
+    {
+      "name": "M. Briceag",
+      "query_name": "Marius Briceag",
+      "market_value": "€175k",
+      "tm_id": "209063",
+      "tm_url": "https://www.transfermarkt.com/marius-briceag/profil/spieler/209063",
+      "query_used": "Marius Briceag"
+    },
+    {
+      "name": "M. Coco",
+      "query_name": "Marcus Coco",
+      "market_value": "€850k",
+      "tm_id": "353365",
+      "tm_url": "https://www.transfermarkt.com/marcus-coco/profil/spieler/353365",
+      "query_used": "Marcus Coco"
+    },
+    {
+      "name": "M. Coman",
+      "query_name": "Marius Cătălin Coman",
+      "market_value": "€650k",
+      "tm_id": "394475",
+      "tm_url": "https://www.transfermarkt.com/marius-coman/profil/spieler/394475",
+      "query_used": "Marius Cătălin Coman"
+    },
+    {
+      "name": "M. Dulca",
+      "query_name": "Marco Dulca",
+      "market_value": "€250k",
+      "tm_id": "391445",
+      "tm_url": "https://www.transfermarkt.com/marco-dulca/profil/spieler/391445",
+      "query_used": "Marco Dulca"
+    },
+    {
+      "name": "M. Edjouma",
+      "query_name": "Malcom Sylas Edjouma",
+      "market_value": "€800k",
+      "tm_id": "468704",
+      "tm_url": "https://www.transfermarkt.com/malcom-edjouma/profil/spieler/468704",
+      "query_used": "Malcom Sylas Edjouma"
+    },
+    {
+      "name": "M. Eppel",
+      "query_name": "Márton Eppel",
+      "market_value": "€150k",
+      "tm_id": "109197",
+      "tm_url": "https://www.transfermarkt.com/marton-eppel/profil/spieler/109197",
+      "query_used": "Márton Eppel"
+    },
+    {
+      "name": "M. Etim",
+      "query_name": "Monday Bassey Etim",
+      "market_value": "€550k",
+      "tm_id": "505999",
+      "tm_url": "https://www.transfermarkt.com/monday-etim/profil/spieler/505999",
+      "query_used": "Monday Bassey Etim"
+    },
+    {
+      "name": "M. Gjorgjievski",
+      "query_name": "Marko Gjorgjievski",
+      "market_value": "€300k",
+      "tm_id": "584105",
+      "tm_url": "https://www.transfermarkt.com/marko-gjorgjievski/profil/spieler/584105",
+      "query_used": "Marko Gjorgjievski"
+    },
+    {
+      "name": "M. Ilie",
+      "query_name": "Matei Cristian Ilie",
+      "market_value": "€2.20m",
+      "tm_id": "615930",
+      "tm_url": "https://www.transfermarkt.com/matei-ilie/profil/spieler/615930",
+      "query_used": "Matei Cristian Ilie"
+    },
+    {
+      "name": "M. Karamoko",
+      "query_name": "Mamoudou Karamoko",
+      "market_value": "€550k",
+      "tm_id": "646782",
+      "tm_url": "https://www.transfermarkt.com/mamoudou-karamoko/profil/spieler/646782",
+      "query_used": "Mamoudou Karamoko"
+    },
+    {
+      "name": "M. Korenica",
+      "query_name": "Meriton Korenica",
+      "market_value": "€3.00m",
+      "tm_id": "412024",
+      "tm_url": "https://www.transfermarkt.com/meriton-korenica/profil/spieler/412024",
+      "query_used": "Meriton Korenica"
+    },
+    {
+      "name": "M. Kovtalyuk",
+      "query_name": "Mykola Kovtalyuk",
+      "market_value": "€300k",
+      "tm_id": "342609",
+      "tm_url": "https://www.transfermarkt.com/mykola-kovtalyuk/profil/spieler/342609",
+      "query_used": "Mykola Kovtalyuk"
+    },
+    {
+      "name": "M. Lis",
+      "query_name": "Marian Laurențiu Lis",
+      "market_value": "€100k",
+      "tm_id": "976495",
+      "tm_url": "https://www.transfermarkt.com/laurentiu-lis/profil/spieler/976495",
+      "query_used": "Marian Laurențiu Lis"
+    },
+    {
+      "name": "M. Lixandru",
+      "query_name": "Mihai Lixandru",
+      "market_value": "€1.00m",
+      "tm_id": "824915",
+      "tm_url": "https://www.transfermarkt.com/mihai-lixandru/profil/spieler/824915",
+      "query_used": "Mihai Lixandru"
+    },
+    {
+      "name": "M. Pavlović",
+      "query_name": "Michael Pavlović",
+      "market_value": "€850k",
+      "tm_id": "721631",
+      "tm_url": "https://www.transfermarkt.com/michael-pavlovic/profil/spieler/721631",
+      "query_used": "Michael Pavlović"
+    },
+    {
+      "name": "M. Popa",
+      "query_name": "Mihai Popa",
+      "market_value": "€700k",
+      "tm_id": "623412",
+      "tm_url": "https://www.transfermarkt.com/mihai-popa/profil/spieler/623412",
+      "query_used": "Mihai Popa"
+    },
+    {
+      "name": "M. Popa",
+      "query_name": "Matei Popa",
+      "market_value": "€250k",
+      "tm_id": "1350595",
+      "tm_url": "https://www.transfermarkt.com/matei-popa/profil/spieler/1350595",
+      "query_used": "Matei Popa"
+    },
+    {
+      "name": "M. Popescu",
+      "query_name": "Mihai Popescu",
+      "market_value": "€800k",
+      "tm_id": "361537",
+      "tm_url": "https://www.transfermarkt.com/mihai-popescu/profil/spieler/361537",
+      "query_used": "Mihai Popescu"
+    },
+    {
+      "name": "M. Rădulescu",
+      "query_name": "Mihnea Rădulescu",
+      "market_value": "€750k",
+      "tm_id": "1017320",
+      "tm_url": "https://www.transfermarkt.com/mihnea-radulescu/profil/spieler/1017320",
+      "query_used": "Mihnea Rădulescu"
+    },
+    {
+      "name": "M. Sivis",
+      "query_name": "Maxime Sivis",
+      "market_value": "€700k",
+      "tm_id": "580715",
+      "tm_url": "https://www.transfermarkt.com/maxime-sivis/profil/spieler/580715",
+      "query_used": "Maxime Sivis"
+    },
+    {
+      "name": "M. Thiam",
+      "query_name": "Mamadou Thiam",
+      "market_value": "€900k",
+      "tm_id": "368624",
+      "tm_url": "https://www.transfermarkt.com/mamadou-thiam/profil/spieler/368624",
+      "query_used": "Mamadou Thiam"
+    },
+    {
+      "name": "M. Toma",
+      "query_name": "Mihai Toma",
+      "market_value": "€500k",
+      "tm_id": "992820",
+      "tm_url": "https://www.transfermarkt.com/mihai-toma/profil/spieler/992820",
+      "query_used": "Mihai Toma"
+    },
+    {
+      "name": "M. Tudose",
+      "query_name": "Mario Tudose",
+      "market_value": "€1.50m",
+      "tm_id": "837239",
+      "tm_url": "https://www.transfermarkt.com/mario-tudose/profil/spieler/837239",
+      "query_used": "Mario Tudose"
+    },
+    {
+      "name": "M. Tzionis",
+      "query_name": "Marinos Tzionis",
+      "market_value": "€900k",
+      "tm_id": "511885",
+      "tm_url": "https://www.transfermarkt.com/marinos-tzionis/profil/spieler/511885",
+      "query_used": "Marinos Tzionis"
+    },
+    {
+      "name": "M. Zhelev",
+      "query_name": "Milen Zhelev",
+      "market_value": "€400k",
+      "tm_id": "381337",
+      "tm_url": "https://www.transfermarkt.com/milen-zhelev/profil/spieler/381337",
+      "query_used": "Milen Zhelev"
+    },
+    {
+      "name": "M. Čelić",
+      "query_name": "Maks Juraj Čelić",
+      "market_value": "€150k",
+      "tm_id": "348768",
+      "tm_url": "https://www.transfermarkt.com/maks-celic/profil/spieler/348768",
+      "query_used": "Maks Juraj Čelić"
+    },
+    {
+      "name": "M. Țuțu",
+      "query_name": "Mark Țuțu",
+      "market_value": "€550k",
+      "tm_id": "1287033",
+      "tm_url": "https://www.transfermarkt.com/mark-tutu/profil/spieler/1287033",
+      "query_used": "Mark Țuțu"
+    },
+    {
+      "name": "Mario Camora",
+      "query_name": "Mário Jorge Malico Paulino",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": "https://www.transfermarkt.com/talent-soccer-esporte-amp-eventos/beraterfirma/berater/7264",
+      "query_used": "Mário Jorge Malico Paulino"
+    },
+    {
+      "name": "N. Antwi",
+      "query_name": "Nana Kwame Antwi",
+      "market_value": "€500k",
+      "tm_id": "608977",
+      "tm_url": "https://www.transfermarkt.com/nana-antwi/profil/spieler/608977",
+      "query_used": "Nana Kwame Antwi"
+    },
+    {
+      "name": "N. Bancu",
+      "query_name": "Nicușor Bancu",
+      "market_value": "€1.00m",
+      "tm_id": "213195",
+      "tm_url": "https://www.transfermarkt.com/nicusor-bancu/profil/spieler/213195",
+      "query_used": "Nicușor Bancu"
+    },
+    {
+      "name": "N. Grigoryan",
+      "query_name": "Narek Grigoryan",
+      "market_value": "€900k",
+      "tm_id": "545546",
+      "tm_url": "https://www.transfermarkt.com/narek-grigoryan/profil/spieler/545546",
+      "query_used": "Narek Grigoryan"
+    },
+    {
+      "name": "N. Ilaș",
+      "query_name": "Narcis Ilaș",
+      "market_value": "€300k",
+      "tm_id": "992843",
+      "tm_url": "https://www.transfermarkt.com/narcis-ilas/profil/spieler/992843",
+      "query_used": "Narcis Ilaș"
+    },
+    {
+      "name": "N. Stevanović",
+      "query_name": "Nikola Stevanović",
+      "market_value": "€750k",
+      "tm_id": "425733",
+      "tm_url": "https://www.transfermarkt.com/nikola-stevanovic/profil/spieler/425733",
+      "query_used": "Nikola Stevanović"
+    },
+    {
+      "name": "N. Stoioanov",
+      "query_name": "Nikita Stoioanov",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": null
+    },
+    {
+      "name": "Né Lopes",
+      "query_name": "Manuel Alberto Cunha Lopes",
+      "market_value": "€300k",
+      "tm_id": "641153",
+      "tm_url": "https://www.transfermarkt.com/ne-lopes/profil/spieler/641153",
+      "query_used": "Manuel Alberto Cunha Lopes"
+    },
+    {
+      "name": "O. Hindrich",
+      "query_name": "Otto Hindrich",
+      "market_value": "€1.30m",
+      "tm_id": "744075",
+      "tm_url": "https://www.transfermarkt.com/otto-hindrich/profil/spieler/744075",
+      "query_used": "Otto Hindrich"
+    },
+    {
+      "name": "O. Moruţan",
+      "query_name": "Olimpiu Moruţan",
+      "market_value": "€2.00m",
+      "tm_id": "429551",
+      "tm_url": "https://www.transfermarkt.com/olimpiu-morutan/profil/spieler/429551",
+      "query_used": "Olimpiu Moruţan"
+    },
+    {
+      "name": "O. Pašagić",
+      "query_name": "Omar Pašagić",
+      "market_value": "€100k",
+      "tm_id": "281077",
+      "tm_url": "https://www.transfermarkt.com/omar-pasagic/profil/spieler/281077",
+      "query_used": "Omar Pašagić"
+    },
+    {
+      "name": "O. Popescu",
+      "query_name": "Ovidiu Popescu",
+      "market_value": "€600k",
+      "tm_id": "289017",
+      "tm_url": "https://www.transfermarkt.com/ovidiu-popescu/profil/spieler/289017",
+      "query_used": "Ovidiu Popescu"
+    },
+    {
+      "name": "O. Popescu",
+      "query_name": "Octavian Popescu",
+      "market_value": "€600k",
+      "tm_id": "797100",
+      "tm_url": "https://www.transfermarkt.com/octavian-popescu/profil/spieler/797100",
+      "query_used": "Octavian Popescu"
+    },
+    {
+      "name": "O. Romanchuk",
+      "query_name": "Oleksandr Romanchuk",
+      "market_value": "-",
+      "tm_id": "59893",
+      "tm_url": "https://www.transfermarkt.com/oleksandr-romanchuk/profil/spieler/59893",
+      "query_used": "Oleksandr Romanchuk"
+    },
+    {
+      "name": "O. Safronov",
+      "query_name": "Oleksandr Safronov",
+      "market_value": "€250k",
+      "tm_id": "467241",
+      "tm_url": "https://www.transfermarkt.com/oleksandr-safronov/profil/spieler/467241",
+      "query_used": "Oleksandr Safronov"
+    },
+    {
+      "name": "P. Dulcea",
+      "query_name": "Patrick Dulcea",
+      "market_value": "€150k",
+      "tm_id": "1038445",
+      "tm_url": "https://www.transfermarkt.com/patrick-dulcea/profil/spieler/1038445",
+      "query_used": "Patrick Dulcea"
+    },
+    {
+      "name": "P. Gál-Andrezly",
+      "query_name": "Peter Gál-Andrezly",
+      "market_value": "€100k",
+      "tm_id": "90872",
+      "tm_url": "https://www.transfermarkt.com/peter-gal-andrezly/profil/spieler/90872",
+      "query_used": "Peter Gál-Andrezly"
+    },
+    {
+      "name": "P. Iacob",
+      "query_name": "Paul Iacob",
+      "market_value": "€900k",
+      "tm_id": "303359",
+      "tm_url": "https://www.transfermarkt.com/paul-iacob/profil/spieler/303359",
+      "query_used": "Paul Iacob"
+    },
+    {
+      "name": "P. Isenko",
+      "query_name": "Pavlo Isenko",
+      "market_value": "€1.20m",
+      "tm_id": "726033",
+      "tm_url": "https://www.transfermarkt.com/pavlo-isenko/profil/spieler/726033",
+      "query_used": "Pavlo Isenko"
+    },
+    {
+      "name": "P. Papp",
+      "query_name": "Paul Papp",
+      "market_value": "€200k",
+      "tm_id": "112552",
+      "tm_url": "https://www.transfermarkt.com/paul-papp/profil/spieler/112552",
+      "query_used": "Paul Papp"
+    },
+    {
+      "name": "Patrick",
+      "query_name": "Fábio Patrick dos Reis dos Santos Fernandes",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": "https://www.transfermarkt.com/top-sport-group-assessoria-e-marketing/beraterfirma/berater/1311",
+      "query_used": "Fábio Patrick dos Reis dos Santos Fernandes"
+    },
+    {
+      "name": "Paulinho",
+      "query_name": "Paulo Rafael Pereira Araújo",
+      "market_value": "€450k",
+      "tm_id": "842718",
+      "tm_url": "https://www.transfermarkt.com/paulinho/profil/spieler/842718",
+      "query_used": "Paulo Rafael Pereira Araújo"
+    },
+    {
+      "name": "Pedro Nuno",
+      "query_name": "Pedro Nuno Fernandes Ferreira",
+      "market_value": "€400k",
+      "tm_id": "335380",
+      "tm_url": "https://www.transfermarkt.com/pedro-nuno/profil/spieler/335380",
+      "query_used": "Pedro Nuno Fernandes Ferreira"
+    },
+    {
+      "name": "R. Balbarau",
+      "query_name": "Raul Andrei Balbarau",
+      "market_value": "€350k",
+      "tm_id": "900040",
+      "tm_url": "https://www.transfermarkt.com/raul-balbarau/profil/spieler/900040",
+      "query_used": "Raul Andrei Balbarau"
+    },
+    {
+      "name": "R. Bădescu",
+      "query_name": "Robert Gabriel Bădescu",
+      "market_value": "€250k",
+      "tm_id": "912091",
+      "tm_url": "https://www.transfermarkt.com/robert-badescu/profil/spieler/912091",
+      "query_used": "Robert Gabriel Bădescu"
+    },
+    {
+      "name": "R. Creţ",
+      "query_name": "Răzvan Creţ",
+      "market_value": "€300k",
+      "tm_id": "1027042",
+      "tm_url": "https://www.transfermarkt.com/razvan-cret/profil/spieler/1027042",
+      "query_used": "Răzvan Creţ"
+    },
+    {
+      "name": "R. Deaconu",
+      "query_name": "Ronaldo Deaconu",
+      "market_value": "€250k",
+      "tm_id": "271281",
+      "tm_url": "https://www.transfermarkt.com/ronaldo-deaconu/profil/spieler/271281",
+      "query_used": "Ronaldo Deaconu"
+    },
+    {
+      "name": "R. Espinosa",
+      "query_name": "Renato Espinosa Torres",
+      "market_value": "€200k",
+      "tm_id": "483715",
+      "tm_url": "https://www.transfermarkt.com/renato-espinosa/profil/spieler/483715",
+      "query_used": "Renato Espinosa Torres"
+    },
+    {
+      "name": "R. Milea",
+      "query_name": "Răzvan Milea",
+      "market_value": "€75k",
+      "tm_id": "826143",
+      "tm_url": "https://www.transfermarkt.com/razvan-milea/profil/spieler/826143",
+      "query_used": "Răzvan Milea"
+    },
+    {
+      "name": "R. Moldoveanu",
+      "query_name": "Robert Moldoveanu",
+      "market_value": "€500k",
+      "tm_id": "319235",
+      "tm_url": "https://www.transfermarkt.com/robert-moldoveanu/profil/spieler/319235",
+      "query_used": "Robert Moldoveanu"
+    },
+    {
+      "name": "R. Munteanu",
+      "query_name": "Rafael-Stefan Munteanu",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": null
+    },
+    {
+      "name": "R. Neacşu",
+      "query_name": "Robert Cornel Neacşu",
+      "market_value": "€75k",
+      "tm_id": "511175",
+      "tm_url": "https://www.transfermarkt.com/robert-neacsu/profil/spieler/511175",
+      "query_used": "Robert Cornel Neacşu"
+    },
+    {
+      "name": "R. Odada",
+      "query_name": "Richard Odada",
+      "market_value": "€150k",
+      "tm_id": "675238",
+      "tm_url": "https://www.transfermarkt.com/richard-odada/profil/spieler/675238",
+      "query_used": "Richard Odada"
+    },
+    {
+      "name": "R. Onea",
+      "query_name": "Răzvan Onea",
+      "market_value": "€700k",
+      "tm_id": "536130",
+      "tm_url": "https://www.transfermarkt.com/razvan-onea/profil/spieler/536130",
+      "query_used": "Răzvan Onea"
+    },
+    {
+      "name": "R. Opruț",
+      "query_name": "Raul Opruț",
+      "market_value": "€1.70m",
+      "tm_id": "393806",
+      "tm_url": "https://www.transfermarkt.com/raul-oprut/profil/spieler/393806",
+      "query_used": "Raul Opruț"
+    },
+    {
+      "name": "R. Palmes",
+      "query_name": "Raul Ioan Palmes",
+      "market_value": "€350k",
+      "tm_id": "425399",
+      "tm_url": "https://www.transfermarkt.com/raul-palmes/profil/spieler/425399",
+      "query_used": "Raul Ioan Palmes"
+    },
+    {
+      "name": "R. Pop",
+      "query_name": "Rareș Pop",
+      "market_value": "€500k",
+      "tm_id": "837240",
+      "tm_url": "https://www.transfermarkt.com/rares-pop/profil/spieler/837240",
+      "query_used": "Rareș Pop"
+    },
+    {
+      "name": "R. Popa",
+      "query_name": "Robert Popa",
+      "market_value": "€150k",
+      "tm_id": "568618",
+      "tm_url": "https://www.transfermarkt.com/robert-popa/profil/spieler/568618",
+      "query_used": "Robert Popa"
+    },
+    {
+      "name": "R. Radunović",
+      "query_name": "Risto Radunović",
+      "market_value": "€800k",
+      "tm_id": "144339",
+      "tm_url": "https://www.transfermarkt.com/risto-radunovic/profil/spieler/144339",
+      "query_used": "Risto Radunović"
+    },
+    {
+      "name": "R. Rotund",
+      "query_name": "Raul Rotund",
+      "market_value": "€200k",
+      "tm_id": "1115189",
+      "tm_url": "https://www.transfermarkt.com/raul-rotund/profil/spieler/1115189",
+      "query_used": "Raul Rotund"
+    },
+    {
+      "name": "R. Sierra",
+      "query_name": "Rober Sierra",
+      "market_value": "€800k",
+      "tm_id": "381209",
+      "tm_url": "https://www.transfermarkt.com/rober-sierra/profil/spieler/381209",
+      "query_used": "Rober Sierra"
+    },
+    {
+      "name": "R. Sălceanu",
+      "query_name": "Robert Sălceanu",
+      "market_value": "€300k",
+      "tm_id": "809240",
+      "tm_url": "https://www.transfermarkt.com/robert-salceanu/profil/spieler/809240",
+      "query_used": "Robert Sălceanu"
+    },
+    {
+      "name": "R. Trif",
+      "query_name": "Răzvan Trif",
+      "market_value": "€450k",
+      "tm_id": "395799",
+      "tm_url": "https://www.transfermarkt.com/razvan-trif/profil/spieler/395799",
+      "query_used": "Răzvan Trif"
+    },
+    {
+      "name": "R. Tănasă",
+      "query_name": "Răzvan Andrei Tănasă",
+      "market_value": "€900k",
+      "tm_id": "798248",
+      "tm_url": "https://www.transfermarkt.com/razvan-tanasa/profil/spieler/798248",
+      "query_used": "Răzvan Andrei Tănasă"
+    },
+    {
+      "name": "R. Šuta",
+      "query_name": "Riad Šuta",
+      "market_value": "€400k",
+      "tm_id": "620963",
+      "tm_url": "https://www.transfermarkt.com/riad-suta/profil/spieler/620963",
+      "query_used": "Riad Šuta"
+    },
+    {
+      "name": "Rafinha",
+      "query_name": "Rafael Baldres Hermann",
+      "market_value": "€150k",
+      "tm_id": "566875",
+      "tm_url": "https://www.transfermarkt.com/rafinha/profil/spieler/566875",
+      "query_used": "Rafael Baldres Hermann"
+    },
+    {
+      "name": "Ricardinho",
+      "query_name": "Ricardo José Veiga Varzim Miranda",
+      "market_value": "€500k",
+      "tm_id": "337537",
+      "tm_url": "https://www.transfermarkt.com/ricardinho/profil/spieler/337537",
+      "query_used": "Ricardo José Veiga Varzim Miranda"
+    },
+    {
+      "name": "Ricardo Matos",
+      "query_name": "Ricardo Manuel Pinho Matos",
+      "market_value": "€850k",
+      "tm_id": "535958",
+      "tm_url": "https://www.transfermarkt.com/ricardo-matos/profil/spieler/535958",
+      "query_used": "Ricardo Manuel Pinho Matos"
+    },
+    {
+      "name": "S. Balaure",
+      "query_name": "Silviu Balaure",
+      "market_value": "€400k",
+      "tm_id": "296585",
+      "tm_url": "https://www.transfermarkt.com/silviu-balaure/profil/spieler/296585",
+      "query_used": "Silviu Balaure"
+    },
+    {
+      "name": "S. Buș",
+      "query_name": "Sergiu Florin Buș",
+      "market_value": "€200k",
+      "tm_id": "123671",
+      "tm_url": "https://www.transfermarkt.com/sergiu-bus/profil/spieler/123671",
+      "query_used": "Sergiu Florin Buș"
+    },
+    {
+      "name": "S. Dusinszki",
+      "query_name": "Szabolcs Dusinszki",
+      "market_value": "€100k",
+      "tm_id": "869975",
+      "tm_url": "https://www.transfermarkt.com/szabolcs-dusinszki/profil/spieler/869975",
+      "query_used": "Szabolcs Dusinszki"
+    },
+    {
+      "name": "S. Hanca",
+      "query_name": "Sergiu Hanca",
+      "market_value": "€150k",
+      "tm_id": "212806",
+      "tm_url": "https://www.transfermarkt.com/sergiu-hanca/profil/spieler/212806",
+      "query_used": "Sergiu Hanca"
+    },
+    {
+      "name": "S. Issah",
+      "query_name": "Seydou Saeed Issah",
+      "market_value": "€150k",
+      "tm_id": "610414",
+      "tm_url": "https://www.transfermarkt.com/saeed-issah/profil/spieler/610414",
+      "query_used": "Seydou Saeed Issah"
+    },
+    {
+      "name": "S. Jebari",
+      "query_name": "Soufiane Jebari Jebari",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": null
+    },
+    {
+      "name": "S. Krell",
+      "query_name": "Stefan Krell",
+      "market_value": "€150k",
+      "tm_id": "75919",
+      "tm_url": "https://www.transfermarkt.com/stefan-krell/profil/spieler/75919",
+      "query_used": "Stefan Krell"
+    },
+    {
+      "name": "S. Mailat",
+      "query_name": "Sebastian Mailat",
+      "market_value": "€1.20m",
+      "tm_id": "364697",
+      "tm_url": "https://www.transfermarkt.com/sebastian-mailat/profil/spieler/364697",
+      "query_used": "Sebastian Mailat"
+    },
+    {
+      "name": "S. Mino",
+      "query_name": "Sota Mino",
+      "market_value": "€350k",
+      "tm_id": "474909",
+      "tm_url": "https://www.transfermarkt.com/sota-mino/profil/spieler/474909",
+      "query_used": "Sota Mino"
+    },
+    {
+      "name": "S. Ngezana",
+      "query_name": "Siyabonga Ngezana",
+      "market_value": "€2.60m",
+      "tm_id": "445610",
+      "tm_url": "https://www.transfermarkt.com/siyabonga-ngezana/profil/spieler/445610",
+      "query_used": "Siyabonga Ngezana"
+    },
+    {
+      "name": "S. Nsimba",
+      "query_name": "Aimé Steven Nsimba Labe",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": "https://www.transfermarkt.com/montenegro-productions-lc/beraterfirma/berater/5457",
+      "query_used": "Aimé Steven Nsimba Labe"
+    },
+    {
+      "name": "S. Perica",
+      "query_name": "Stipe Perica",
+      "market_value": "€550k",
+      "tm_id": "245072",
+      "tm_url": "https://www.transfermarkt.com/stipe-perica/profil/spieler/245072",
+      "query_used": "Stipe Perica"
+    },
+    {
+      "name": "S. Sinyan",
+      "query_name": "Sheriff Sinyan",
+      "market_value": "€1.00m",
+      "tm_id": "394435",
+      "tm_url": "https://www.transfermarkt.com/sheriff-sinyan/profil/spieler/394435",
+      "query_used": "Sheriff Sinyan"
+    },
+    {
+      "name": "S. Szalay",
+      "query_name": "Szabolcs Szalay",
+      "market_value": "€250k",
+      "tm_id": "543776",
+      "tm_url": "https://www.transfermarkt.com/szabolcs-szalay/profil/spieler/543776",
+      "query_used": "Szabolcs Szalay"
+    },
+    {
+      "name": "S. Târnovanu",
+      "query_name": "Ştefan Târnovanu",
+      "market_value": "€3.80m",
+      "tm_id": "568544",
+      "tm_url": "https://www.transfermarkt.com/stefan-tarnovanu/profil/spieler/568544",
+      "query_used": "Ştefan Târnovanu"
+    },
+    {
+      "name": "S. Veres",
+      "query_name": "Szilárd Veres",
+      "market_value": "€350k",
+      "tm_id": "315471",
+      "tm_url": "https://www.transfermarkt.com/szilard-veres/profil/spieler/315471",
+      "query_used": "Szilárd Veres"
+    },
+    {
+      "name": "S. Visic",
+      "query_name": "Stefan Visic",
+      "market_value": "€75k",
+      "tm_id": "496631",
+      "tm_url": "https://www.transfermarkt.com/stefan-visic/profil/spieler/496631",
+      "query_used": "Stefan Visic"
+    },
+    {
+      "name": "Samuel Teles",
+      "query_name": "Samuel Teles Pereira Nunes Silva",
+      "market_value": "€800k",
+      "tm_id": "597165",
+      "tm_url": "https://www.transfermarkt.com/samuel-teles/profil/spieler/597165",
+      "query_used": "Samuel Teles Pereira Nunes Silva"
+    },
+    {
+      "name": "Steeve Furtado",
+      "query_name": "Steeve José Furtado Pereira",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": "https://www.transfermarkt.com/brasil4you/beraterfirma/berater/1408",
+      "query_used": "Steeve José Furtado Pereira"
+    },
+    {
+      "name": "T. Aggoun",
+      "query_name": "Tarek Aggoun",
+      "market_value": "€200k",
+      "tm_id": "836804",
+      "tm_url": "https://www.transfermarkt.com/tarek-aggoun/profil/spieler/836804",
+      "query_used": "Tarek Aggoun"
+    },
+    {
+      "name": "T. Băluţă",
+      "query_name": "Tudor Băluţă",
+      "market_value": "€1.40m",
+      "tm_id": "433976",
+      "tm_url": "https://www.transfermarkt.com/tudor-baluta/profil/spieler/433976",
+      "query_used": "Tudor Băluţă"
+    },
+    {
+      "name": "T. Christensen",
+      "query_name": "Tobias Christensen",
+      "market_value": "€2.50m",
+      "tm_id": "370894",
+      "tm_url": "https://www.transfermarkt.com/tobias-christensen/profil/spieler/370894",
+      "query_used": "Tobias Christensen"
+    },
+    {
+      "name": "T. Căpușă",
+      "query_name": "Tiberiu Căpușă",
+      "market_value": "€650k",
+      "tm_id": "340978",
+      "tm_url": "https://www.transfermarkt.com/tiberiu-capusa/profil/spieler/340978",
+      "query_used": "Tiberiu Căpușă"
+    },
+    {
+      "name": "T. Jambor",
+      "query_name": "Timotej Jambor",
+      "market_value": "€400k",
+      "tm_id": "582384",
+      "tm_url": "https://www.transfermarkt.com/timotej-jambor/profil/spieler/582384",
+      "query_used": "Timotej Jambor"
+    },
+    {
+      "name": "T. Jyry",
+      "query_name": "Tommi Jyry",
+      "market_value": "€700k",
+      "tm_id": "464308",
+      "tm_url": "https://www.transfermarkt.com/tommi-jyry/profil/spieler/464308",
+      "query_used": "Tommi Jyry"
+    },
+    {
+      "name": "T. Keita",
+      "query_name": "Tidiane Keita",
+      "market_value": "€650k",
+      "tm_id": "563614",
+      "tm_url": "https://www.transfermarkt.com/tidiane-keita/profil/spieler/563614",
+      "query_used": "Tidiane Keita"
+    },
+    {
+      "name": "T. Lungu",
+      "query_name": "Teodor Lungu",
+      "market_value": "€400k",
+      "tm_id": "577515",
+      "tm_url": "https://www.transfermarkt.com/teodor-lungu/profil/spieler/577515",
+      "query_used": "Teodor Lungu"
+    },
+    {
+      "name": "T. Seto",
+      "query_name": "Takayuki Seto",
+      "market_value": "€50k",
+      "tm_id": "97562",
+      "tm_url": "https://www.transfermarkt.com/takayuki-seto/profil/spieler/97562",
+      "query_used": "Takayuki Seto"
+    },
+    {
+      "name": "Talisson",
+      "query_name": "Talisson de Almeida",
+      "market_value": "€500k",
+      "tm_id": "1084074",
+      "tm_url": "https://www.transfermarkt.com/talisson/profil/spieler/1084074",
+      "query_used": "Talisson de Almeida"
+    },
+    {
+      "name": "V. Chiricheș",
+      "query_name": "Vlad Iulian Chiricheș",
+      "market_value": "€250k",
+      "tm_id": "123261",
+      "tm_url": "https://www.transfermarkt.com/vlad-chiriches/profil/spieler/123261",
+      "query_used": "Vlad Iulian Chiricheș"
+    },
+    {
+      "name": "V. Costache",
+      "query_name": "Valentin Costache",
+      "market_value": "€1.00m",
+      "tm_id": "341391",
+      "tm_url": "https://www.transfermarkt.com/valentin-costache/profil/spieler/341391",
+      "query_used": "Valentin Costache"
+    },
+    {
+      "name": "V. Crețu",
+      "query_name": "Valentin Crețu",
+      "market_value": "€150k",
+      "tm_id": "79507",
+      "tm_url": "https://www.transfermarkt.com/valentin-cretu/profil/spieler/79507",
+      "query_used": "Valentin Crețu"
+    },
+    {
+      "name": "V. Dican",
+      "query_name": "Victor Dican",
+      "market_value": "€700k",
+      "tm_id": "568540",
+      "tm_url": "https://www.transfermarkt.com/victor-dican/profil/spieler/568540",
+      "query_used": "Victor Dican"
+    },
+    {
+      "name": "V. Gheorghe",
+      "query_name": "Valentin Gheorghe",
+      "market_value": "€300k",
+      "tm_id": "453810",
+      "tm_url": "https://www.transfermarkt.com/valentin-gheorghe/profil/spieler/453810",
+      "query_used": "Valentin Gheorghe"
+    },
+    {
+      "name": "V. Hamdiu",
+      "query_name": "Valon Hamdiu",
+      "market_value": "€500k",
+      "tm_id": "410616",
+      "tm_url": "https://www.transfermarkt.com/valon-hamdiu/profil/spieler/410616",
+      "query_used": "Valon Hamdiu"
+    },
+    {
+      "name": "V. Kun",
+      "query_name": "Viktor Kun",
+      "market_value": "€300k",
+      "tm_id": "1043574",
+      "tm_url": "https://www.transfermarkt.com/viktor-kun/profil/spieler/1043574",
+      "query_used": "Viktor Kun"
+    },
+    {
+      "name": "V. Mogoș",
+      "query_name": "Vasile Mogoș",
+      "market_value": "€450k",
+      "tm_id": "324214",
+      "tm_url": "https://www.transfermarkt.com/vasile-mogos/profil/spieler/324214",
+      "query_used": "Vasile Mogoș"
+    },
+    {
+      "name": "V. Murria",
+      "query_name": "Vadik Murria Soriano",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": "https://www.transfermarkt.com/acrsoccer-sports-management-careers/beraterfirma/berater/3491",
+      "query_used": "Vadik Murria Soriano"
+    },
+    {
+      "name": "V. Pop",
+      "query_name": "Vlad Pop",
+      "market_value": "€400k",
+      "tm_id": "341374",
+      "tm_url": "https://www.transfermarkt.com/vlad-pop/profil/spieler/341374",
+      "query_used": "Vlad Pop"
+    },
+    {
+      "name": "V. Raţă",
+      "query_name": "Vadim Raţă",
+      "market_value": "€600k",
+      "tm_id": "136128",
+      "tm_url": "https://www.transfermarkt.com/vadim-rata/profil/spieler/136128",
+      "query_used": "Vadim Raţă"
+    },
+    {
+      "name": "V. Screciu",
+      "query_name": "Vladimir Screciu",
+      "market_value": "€2.00m",
+      "tm_id": "418219",
+      "tm_url": "https://www.transfermarkt.com/vladimir-screciu/profil/spieler/418219",
+      "query_used": "Vladimir Screciu"
+    },
+    {
+      "name": "V. Selimović",
+      "query_name": "Vahid Selimović",
+      "market_value": "€350k",
+      "tm_id": "351072",
+      "tm_url": "https://www.transfermarkt.com/vahid-selimovic/profil/spieler/351072",
+      "query_used": "Vahid Selimović"
+    },
+    {
+      "name": "W. Loeper",
+      "query_name": "Wilhelm Loeper",
+      "market_value": "€500k",
+      "tm_id": "405786",
+      "tm_url": "https://www.transfermarkt.com/wilhelm-loeper/profil/spieler/405786",
+      "query_used": "Wilhelm Loeper"
+    },
+    {
+      "name": "Y. Roche",
+      "query_name": "Yohan Roche",
+      "market_value": "€400k",
+      "tm_id": "524988",
+      "tm_url": "https://www.transfermarkt.com/yohan-roche/profil/spieler/524988",
+      "query_used": "Yohan Roche"
+    },
+    {
+      "name": "Y. Zakir",
+      "query_name": "Yassine Zakir",
+      "market_value": "€300k",
+      "tm_id": "341987",
+      "tm_url": "https://www.transfermarkt.com/yassine-zakir/profil/spieler/341987",
+      "query_used": "Yassine Zakir"
+    },
+    {
+      "name": "Z. Bödő",
+      "query_name": "Zoltán-Efraim Bödő",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": "https://www.transfermarkt.com/ogbodouk-sport-ltd/beraterfirma/berater/9661",
+      "query_used": "Zoltán-Efraim Bödő"
+    },
+    {
+      "name": "Z. Mitrov",
+      "query_name": "Zoran Mitrov",
+      "market_value": "€900k",
+      "tm_id": "740986",
+      "tm_url": "https://www.transfermarkt.com/zoran-mitrov/profil/spieler/740986",
+      "query_used": "Zoran Mitrov"
+    },
+    {
+      "name": "Z. Nagy",
+      "query_name": "Nagy Zoard Kornel",
+      "market_value": "€300k",
+      "tm_id": "638954",
+      "tm_url": "https://www.transfermarkt.com/zoard-nagy/profil/spieler/638954",
+      "query_used": "Nagy Zoard Kornel"
+    },
+    {
+      "name": "Ş. Baiaram",
+      "query_name": "Ştefan Baiaram",
+      "market_value": "€4.50m",
+      "tm_id": "686232",
+      "tm_url": "https://www.transfermarkt.com/stefan-baiaram/profil/spieler/686232",
+      "query_used": "Ştefan Baiaram"
+    },
+    {
+      "name": "Ş. Bodişteanu",
+      "query_name": "Ştefan Bodişteanu",
+      "market_value": "€850k",
+      "tm_id": "608448",
+      "tm_url": "https://www.transfermarkt.com/stefan-bodisteanu/profil/spieler/608448",
+      "query_used": "Ştefan Bodişteanu"
+    },
+    {
+      "name": "Ș. Bană",
+      "query_name": "Ștefan Daniel Bană",
+      "market_value": "€350k",
+      "tm_id": "963964",
+      "tm_url": "https://www.transfermarkt.com/stefan-bana/profil/spieler/963964",
+      "query_used": "Ștefan Daniel Bană"
+    },
+    {
+      "name": "Ș. Pănoiu",
+      "query_name": "Ștefan Pănoiu",
+      "market_value": "€150k",
+      "tm_id": "710063",
+      "tm_url": "https://www.transfermarkt.com/stefan-panoiu/profil/spieler/710063",
+      "query_used": "Ștefan Pănoiu"
+    },
+    {
+      "name": "A. Fábry",
+      "query_name": "Andrej Fábry",
+      "market_value": "€500k",
+      "tm_id": "406791",
+      "tm_url": "https://www.transfermarkt.com/andrej-fabry/profil/spieler/406791",
+      "query_used": "Andrej Fábry"
+    },
+    {
+      "name": "A. Gheorghiță",
+      "query_name": "Andrei Cosmin Gheorghiță",
+      "market_value": "€500k",
+      "tm_id": "880840",
+      "tm_url": "https://www.transfermarkt.com/andrei-gheorghita/profil/spieler/880840",
+      "query_used": "Andrei Cosmin Gheorghiță"
+    },
+    {
+      "name": "A. Chipciu",
+      "query_name": "Alexandru Chipciu",
+      "market_value": "€300k",
+      "tm_id": "64126",
+      "tm_url": "https://www.transfermarkt.com/alexandru-chipciu/profil/spieler/64126",
+      "query_used": "Alexandru Chipciu"
+    },
+    {
+      "name": "J. Stanojev",
+      "query_name": "Jug Stanojev",
+      "market_value": "€700k",
+      "tm_id": "477923",
+      "tm_url": "https://www.transfermarkt.com/jug-stanojev/profil/spieler/477923",
+      "query_used": "Jug Stanojev"
+    },
+    {
+      "name": "I. Cristea",
+      "query_name": "Iulian Cristea",
+      "market_value": "€1.00m",
+      "tm_id": "331971",
+      "tm_url": "https://www.transfermarkt.com/iulian-cristea/profil/spieler/331971",
+      "query_used": "Iulian Cristea"
+    },
+    {
+      "name": "D. Mikanović",
+      "query_name": "Dino Mikanović",
+      "market_value": "€300k",
+      "tm_id": "229625",
+      "tm_url": "https://www.transfermarkt.com/dino-mikanovic/profil/spieler/229625",
+      "query_used": "Dino Mikanović"
+    },
+    {
+      "name": "A. Murgia",
+      "query_name": "Alessandro Murgia",
+      "market_value": "€800k",
+      "tm_id": "289061",
+      "tm_url": "https://www.transfermarkt.com/alessandro-murgia/profil/spieler/289061",
+      "query_used": "Alessandro Murgia"
+    },
+    {
+      "name": "A. Chintes",
+      "query_name": "Alin Chintes",
+      "market_value": "€100k",
+      "tm_id": "1040558",
+      "tm_url": "https://www.transfermarkt.com/alin-chintes/profil/spieler/1040558",
+      "query_used": "Alin Chintes"
+    },
+    {
+      "name": "D. Codrea",
+      "query_name": "Dorin Marian Codrea",
+      "market_value": "€750k",
+      "tm_id": "605547",
+      "tm_url": "https://www.transfermarkt.com/dorin-codrea/profil/spieler/605547",
+      "query_used": "Dorin Marian Codrea"
+    },
+    {
+      "name": "O. Mendy",
+      "query_name": "Oucasse N'Dayanthane Mendy",
+      "market_value": "€750k",
+      "tm_id": "859536",
+      "tm_url": "https://www.transfermarkt.com/oucasse-mendy/profil/spieler/859536",
+      "query_used": "Oucasse N'Dayanthane Mendy"
+    },
+    {
+      "name": "Miguel Silva",
+      "query_name": "Miguel Ângelo Gomes da Silva",
+      "market_value": "-",
+      "tm_id": null,
+      "tm_url": "https://www.transfermarkt.com/antonio-silva/beraterfirma/berater/730",
+      "query_used": "Miguel Ângelo Gomes da Silva"
+    },
+    {
+      "name": "I. Macalou",
+      "query_name": "Issouf Macalou",
+      "market_value": "€900k",
+      "tm_id": "798972",
+      "tm_url": "https://www.transfermarkt.com/issouf-macalou/profil/spieler/798972",
+      "query_used": "Issouf Macalou"
+    },
+    {
+      "name": "E. Capradossi",
+      "query_name": "Elio Capradossi",
+      "market_value": "€300k",
+      "tm_id": "238947",
+      "tm_url": "https://www.transfermarkt.com/elio-capradossi/profil/spieler/238947",
+      "query_used": "Elio Capradossi"
+    },
+    {
+      "name": "J. Cissé",
+      "query_name": "Jonathan Cissé",
+      "market_value": "€500k",
+      "tm_id": "566068",
+      "tm_url": "https://www.transfermarkt.com/jonathan-cisse/profil/spieler/566068",
+      "query_used": "Jonathan Cissé"
+    },
+    {
+      "name": "O. El Sawy",
+      "query_name": "Omar El Sawy",
+      "market_value": "€550k",
+      "tm_id": "863557",
+      "tm_url": "https://www.transfermarkt.com/omar-el-sawy/profil/spieler/863557",
+      "query_used": "Omar El Sawy"
+    },
+    {
+      "name": "O. Bic",
+      "query_name": "Ovidiu Bic",
+      "market_value": "€1.00m",
+      "tm_id": "220816",
+      "tm_url": "https://www.transfermarkt.com/ovidiu-bic/profil/spieler/220816",
+      "query_used": "Ovidiu Bic"
+    },
+    {
+      "name": "G. Simion",
+      "query_name": "Gabriel Simion",
+      "market_value": "€850k",
+      "tm_id": "447557",
+      "tm_url": "https://www.transfermarkt.com/gabriel-simion/profil/spieler/447557",
+      "query_used": "Gabriel Simion"
+    },
+    {
+      "name": "V. Postolachi",
+      "query_name": "Virgiliu Postolachi",
+      "market_value": "€650k",
+      "tm_id": "536519",
+      "tm_url": "https://www.transfermarkt.com/virgiliu-postolachi/profil/spieler/536519",
+      "query_used": "Virgiliu Postolachi"
+    },
+    {
+      "name": "A. Trică",
+      "query_name": "Atanas Trică",
+      "market_value": "€300k",
+      "tm_id": "896370",
+      "tm_url": "https://www.transfermarkt.com/atanas-trica/profil/spieler/896370",
+      "query_used": "Atanas Trică"
+    },
+    {
+      "name": "M. Drammeh",
+      "query_name": "Mouhamadou Drammeh",
+      "market_value": "€350k",
+      "tm_id": "399551",
+      "tm_url": "https://www.transfermarkt.com/mouhamadou-drammeh/profil/spieler/399551",
+      "query_used": "Mouhamadou Drammeh"
+    },
+    {
+      "name": "J. Lukić",
+      "query_name": "Jovo Lukić",
+      "market_value": "€1.50m",
+      "tm_id": "457738",
+      "tm_url": "https://www.transfermarkt.com/jovo-lukic/profil/spieler/457738",
+      "query_used": "Jovo Lukić"
+    },
+    {
+      "name": "A. Artean",
+      "query_name": "Andrei Artean",
+      "market_value": "€550k",
+      "tm_id": "241254",
+      "tm_url": "https://www.transfermarkt.com/andrei-artean/profil/spieler/241254",
+      "query_used": "Andrei Artean"
+    },
+    {
+      "name": "Ş. Lefter",
+      "query_name": "Ştefan Daniel Lefter",
+      "market_value": "€400k",
+      "tm_id": "935015",
+      "tm_url": "https://www.transfermarkt.com/stefan-lefter/profil/spieler/935015",
+      "query_used": "Ştefan Daniel Lefter"
+    },
+    {
+      "name": "E. Gertmonas",
+      "query_name": "Edvinas Gertmonas",
+      "market_value": "€1.40m",
+      "tm_id": "229292",
+      "tm_url": "https://www.transfermarkt.com/edvinas-gertmonas/profil/spieler/229292",
+      "query_used": "Edvinas Gertmonas"
+    },
+    {
+      "name": "A. Coubis",
+      "query_name": "Andrei Coubis",
+      "market_value": "€500k",
+      "tm_id": "692349",
+      "tm_url": "https://www.transfermarkt.com/andrei-coubis/profil/spieler/692349",
+      "query_used": "Andrei Coubis"
+    },
+    {
+      "name": "D. Nistor",
+      "query_name": "Dan Nistor",
+      "market_value": "€300k",
+      "tm_id": "156639",
+      "tm_url": "https://www.transfermarkt.com/dan-nistor/profil/spieler/156639",
+      "query_used": "Dan Nistor"
+    }
+  ],
+  "by_name": {
+    "A. Abeid": "€700k",
+    "A. Al Hamlawi": "€1.40m",
+    "A. Albu": "€275k",
+    "A. Aliev": "€500k",
+    "A. Baroan": "€600k",
+    "A. Benga": "€100k",
+    "A. Bettaieb": "€700k",
+    "A. Borza": "€2.50m",
+    "A. Boțogan": "€200k",
+    "A. Buzbuchi": "€600k",
+    "A. Camara": "€150k",
+    "A. Caragea": "€300k",
+    "A. Chica-Rosa": "€550k",
+    "A. Chițu": "€250k",
+    "A. Cicâldău": "€2.50m",
+    "A. Constantin Pop": "€800k",
+    "A. Cordea": "€2.40m",
+    "A. Crețu": "€450k",
+    "A. Csuros": "€150k",
+    "A. Dinu": "€450k",
+    "A. Dobre": "-",
+    "A. Dorobanțu": "€300k",
+    "A. Dragu": "€400k",
+    "A. Dumiter": "€350k",
+    "A. Dumitrescu": "€300k",
+    "A. Fică": "€1.00m",
+    "A. Friday": "-",
+    "A. Gheorghe": "€100k",
+    "A. Gorcea": "€350k",
+    "A. Irimia": "€100k",
+    "A. Ivanov": "€600k",
+    "A. Ișfan": "€750k",
+    "A. Karo": "€250k",
+    "A. Marginean": "€550k",
+    "A. Mateiu": "€100k",
+    "A. Mazilu": "€800k",
+    "A. Mekvabishvili": "€1.50m",
+    "A. Miron": "€600k",
+    "A. Musi": "€1.30m",
+    "A. Oroian": "€300k",
+    "A. Padula": "€400k",
+    "A. Pantea": "€850k",
+    "A. Pașcanu": "€1.30m",
+    "A. Păun": "€500k",
+    "A. Roman": "€600k",
+    "A. Rus": "€200k",
+    "A. Said": "€50k",
+    "A. Sava": "€50k",
+    "A. Sfait": "€400k",
+    "A. Stoian": "€650k",
+    "A. Sîrbu": "€50k",
+    "A. Tirlea": "€100k",
+    "A. Tofan": "€150k",
+    "A. Zargari": "€200k",
+    "A. Şut": "€3.80m",
+    "A. Țigănașu": "€100k",
+    "Alberto Soro": "€700k",
+    "Aldaír": "-",
+    "Alexandru Rosca": "€450k",
+    "Anderson Ceará": "€650k",
+    "Andrei Ciobanu": "€300k",
+    "Andrezinho": "€750k",
+    "André Duarte": "€800k",
+    "B. Chorbadzhiyski": "€350k",
+    "B. Doukansy": "€250k",
+    "B. Hadžić": "-",
+    "B. Szabó": "€300k",
+    "B. Van Durmen": "€500k",
+    "B. Végh": "€400k",
+    "B. Țîru": "€250k",
+    "Baba Alhassan": "€900k",
+    "Bruno Carvalho": "€100k",
+    "Bruno Paz": "€400k",
+    "C. Afalna": "€550k",
+    "C. Biceanu": "€200k",
+    "C. Braun": "€200k",
+    "C. Bărbuţ": "€200k",
+    "C. Chira": "€50k",
+    "C. Cîrjan": "€2.50m",
+    "C. Căbuz": "€850k",
+    "C. Dur-Bozoancă": "€750k",
+    "C. Ganea": "€300k",
+    "C. Grameni": "€1.30m",
+    "C. Kouadio": "-",
+    "C. Kyriakou": "€600k",
+    "C. Manea": "€1.50m",
+    "C. Micovschi": "€350k",
+    "C. Mihai": "€900k",
+    "C. Mora": "-",
+    "C. Neguţ": "€450k",
+    "C. Petrila": "€2.70m",
+    "C. Petro": "€800k",
+    "C. Pirvu": "-",
+    "C. Sima": "€350k",
+    "C. Vulturar": "€700k",
+    "Caio Ferreira": "€800k",
+    "Conrado": "€650k",
+    "Cristian Ponde": "€75k",
+    "D. Albu": "€550k",
+    "D. Alibec": "€400k",
+    "D. Alomerović": "€700k",
+    "D. Armstrong": "€900k",
+    "D. Barbu": "€250k",
+    "D. Bordun": "€150k",
+    "D. Bota": "€50k",
+    "D. Bîrligea": "€4.50m",
+    "D. Ciobotariu": "€1.00m",
+    "D. Djoković": "€150k",
+    "D. Dongmo": "€300k",
+    "D. Epassy": "€400k",
+    "D. Graovac": "€450k",
+    "D. Hazrollaj": "€500k",
+    "D. Hrezdac": "€450k",
+    "D. Huiban": "€100k",
+    "D. Iliev": "€450k",
+    "D. Irimia": "€250k",
+    "D. Lazar": "€200k",
+    "D. Maftei": "€500k",
+    "D. Matei": "€900k",
+    "D. Miculescu": "€2.50m",
+    "D. Oancea": "€850k",
+    "D. Olaru": "€5.00m",
+    "D. Paraschiv": "€100k",
+    "D. Politic": "€900k",
+    "D. Pospelov": "€250k",
+    "D. Rusu": "€100k",
+    "D. Sabater": "€250k",
+    "D. Sandu": "€200k",
+    "D. Sîrbu": "€650k",
+    "D. Taroi": "€150k",
+    "D. Ubbink": "-",
+    "D. Şerbănică": "€400k",
+    "D. Živulić": "€250k",
+    "Diogo Ramalho": "€400k",
+    "E. Bakoș": "-",
+    "E. Bloj": "€150k",
+    "E. Diaw": "-",
+    "E. Florescu": "€450k",
+    "E. Gnahoré": "€750k",
+    "E. Koljič": "€700k",
+    "E. López": "€400k",
+    "E. Pap": "€300k",
+    "E. Papa": "€400k",
+    "E. Rădăslăvescu": "€700k",
+    "Ely Fernandes": "€50k",
+    "Esteban Orozco": "€250k",
+    "F. Bejan": "€100k",
+    "F. Borța": "€600k",
+    "F. Iacob": "€350k",
+    "F. Poulolo": "€700k",
+    "F. Prce": "€300k",
+    "F. Purece": "€175k",
+    "F. Tănase": "€2.00m",
+    "F. Ștefan": "€700k",
+    "G. Anestis": "€300k",
+    "G. Caramalău": "-",
+    "G. Cîmpanu": "€550k",
+    "G. Dahan": "€250k",
+    "G. David": "€250k",
+    "G. Debeljuh": "€400k",
+    "G. Dumitru": "-",
+    "G. Gavrilaş": "-",
+    "G. Ghimfus": "-",
+    "G. Grozav": "€350k",
+    "G. Milanov": "€450k",
+    "Guilherme Garutti": "€200k",
+    "Guilherme Soares": "€400k",
+    "Gustavo Cabral": "€50k",
+    "Gustavo Marins": "€600k",
+    "H. Abdallah": "€550k",
+    "H. Ongenda": "€450k",
+    "I. Cercel": "€500k",
+    "I. Coadă": "-",
+    "I. Cojocaru": "€300k",
+    "I. Gurău": "-",
+    "I. Larie": "€100k",
+    "I. Rădescu": "€250k",
+    "I. Slimani": "€400k",
+    "I. Stoica": "€50k",
+    "I. Vînă": "€700k",
+    "J. Badelj": "€1.00m",
+    "J. Blagaić": "€400k",
+    "J. Cisotti": "€800k",
+    "J. Dolný": "€100k",
+    "J. Ferenczi": "€225k",
+    "J. Hegedűs": "€300k",
+    "J. Hromada": "€500k",
+    "J. Ikoko": "€400k",
+    "J. Jeno": "-",
+    "J. Marković": "€500k",
+    "J. Papeau": "€450k",
+    "J. Vojtuš": "€150k",
+    "Jair": "-",
+    "João Lameira": "€900k",
+    "João Paulo": "€700k",
+    "K. Boateng": "€1.20m",
+    "K. Ciubotaru": "€400k",
+    "K. Doumtsios": "€250k",
+    "K. Keita": "€1.70m",
+    "K. Kujabi": "€200k",
+    "K. Luckassen": "€250k",
+    "K. Muhar": "€1.20m",
+    "Kazu": "€200k",
+    "L. Biliboc": "€1.20m",
+    "L. Băsceanu": "€500k",
+    "L. Emërllahu": "€1.80m",
+    "L. Gojković": "€500k",
+    "L. Houri": "€600k",
+    "L. Kramer": "€1.50m",
+    "L. Mihai": "€250k",
+    "L. Munteanu": "€5.00m",
+    "L. Pellegrini": "€300k",
+    "L. Popescu": "€1.00m",
+    "L. Pászka": "€400k",
+    "L. Sadriu": "€1.00m",
+    "L. Stancu": "€250k",
+    "L. Zahovič": "€500k",
+    "Léo Bolgado": "€1.20m",
+    "M. Abbey": "€150k",
+    "M. Aioani": "€1.50m",
+    "M. Antoche": "€225k",
+    "M. Bordeianu": "€250k",
+    "M. Briceag": "€175k",
+    "M. Coco": "€850k",
+    "M. Coman": "€650k",
+    "M. Dulca": "€250k",
+    "M. Edjouma": "€800k",
+    "M. Eppel": "€150k",
+    "M. Etim": "€550k",
+    "M. Gjorgjievski": "€300k",
+    "M. Ilie": "€2.20m",
+    "M. Karamoko": "€550k",
+    "M. Korenica": "€3.00m",
+    "M. Kovtalyuk": "€300k",
+    "M. Lis": "€100k",
+    "M. Lixandru": "€1.00m",
+    "M. Pavlović": "€850k",
+    "M. Popa": "€250k",
+    "M. Popescu": "€800k",
+    "M. Rădulescu": "€750k",
+    "M. Sivis": "€700k",
+    "M. Thiam": "€900k",
+    "M. Toma": "€500k",
+    "M. Tudose": "€1.50m",
+    "M. Tzionis": "€900k",
+    "M. Zhelev": "€400k",
+    "M. Čelić": "€150k",
+    "M. Țuțu": "€550k",
+    "Mario Camora": "-",
+    "N. Antwi": "€500k",
+    "N. Bancu": "€1.00m",
+    "N. Grigoryan": "€900k",
+    "N. Ilaș": "€300k",
+    "N. Stevanović": "€750k",
+    "N. Stoioanov": "-",
+    "Né Lopes": "€300k",
+    "O. Hindrich": "€1.30m",
+    "O. Moruţan": "€2.00m",
+    "O. Pašagić": "€100k",
+    "O. Popescu": "€600k",
+    "O. Romanchuk": "-",
+    "O. Safronov": "€250k",
+    "P. Dulcea": "€150k",
+    "P. Gál-Andrezly": "€100k",
+    "P. Iacob": "€900k",
+    "P. Isenko": "€1.20m",
+    "P. Papp": "€200k",
+    "Patrick": "-",
+    "Paulinho": "€450k",
+    "Pedro Nuno": "€400k",
+    "R. Balbarau": "€350k",
+    "R. Bădescu": "€250k",
+    "R. Creţ": "€300k",
+    "R. Deaconu": "€250k",
+    "R. Espinosa": "€200k",
+    "R. Milea": "€75k",
+    "R. Moldoveanu": "€500k",
+    "R. Munteanu": "-",
+    "R. Neacşu": "€75k",
+    "R. Odada": "€150k",
+    "R. Onea": "€700k",
+    "R. Opruț": "€1.70m",
+    "R. Palmes": "€350k",
+    "R. Pop": "€500k",
+    "R. Popa": "€150k",
+    "R. Radunović": "€800k",
+    "R. Rotund": "€200k",
+    "R. Sierra": "€800k",
+    "R. Sălceanu": "€300k",
+    "R. Trif": "€450k",
+    "R. Tănasă": "€900k",
+    "R. Šuta": "€400k",
+    "Rafinha": "€150k",
+    "Ricardinho": "€500k",
+    "Ricardo Matos": "€850k",
+    "S. Balaure": "€400k",
+    "S. Buș": "€200k",
+    "S. Dusinszki": "€100k",
+    "S. Hanca": "€150k",
+    "S. Issah": "€150k",
+    "S. Jebari": "-",
+    "S. Krell": "€150k",
+    "S. Mailat": "€1.20m",
+    "S. Mino": "€350k",
+    "S. Ngezana": "€2.60m",
+    "S. Nsimba": "-",
+    "S. Perica": "€550k",
+    "S. Sinyan": "€1.00m",
+    "S. Szalay": "€250k",
+    "S. Târnovanu": "€3.80m",
+    "S. Veres": "€350k",
+    "S. Visic": "€75k",
+    "Samuel Teles": "€800k",
+    "Steeve Furtado": "-",
+    "T. Aggoun": "€200k",
+    "T. Băluţă": "€1.40m",
+    "T. Christensen": "€2.50m",
+    "T. Căpușă": "€650k",
+    "T. Jambor": "€400k",
+    "T. Jyry": "€700k",
+    "T. Keita": "€650k",
+    "T. Lungu": "€400k",
+    "T. Seto": "€50k",
+    "Talisson": "€500k",
+    "V. Chiricheș": "€250k",
+    "V. Costache": "€1.00m",
+    "V. Crețu": "€150k",
+    "V. Dican": "€700k",
+    "V. Gheorghe": "€300k",
+    "V. Hamdiu": "€500k",
+    "V. Kun": "€300k",
+    "V. Mogoș": "€450k",
+    "V. Murria": "-",
+    "V. Pop": "€400k",
+    "V. Raţă": "€600k",
+    "V. Screciu": "€2.00m",
+    "V. Selimović": "€350k",
+    "W. Loeper": "€500k",
+    "Y. Roche": "€400k",
+    "Y. Zakir": "€300k",
+    "Z. Bödő": "-",
+    "Z. Mitrov": "€900k",
+    "Z. Nagy": "€300k",
+    "Ş. Baiaram": "€4.50m",
+    "Ş. Bodişteanu": "€850k",
+    "Ș. Bană": "€350k",
+    "Ș. Pănoiu": "€150k",
+    "A. Fábry": "€500k",
+    "A. Gheorghiță": "€500k",
+    "A. Chipciu": "€300k",
+    "J. Stanojev": "€700k",
+    "I. Cristea": "€1.00m",
+    "D. Mikanović": "€300k",
+    "A. Murgia": "€800k",
+    "A. Chintes": "€100k",
+    "D. Codrea": "€750k",
+    "O. Mendy": "€750k",
+    "Miguel Silva": "-",
+    "I. Macalou": "€900k",
+    "E. Capradossi": "€300k",
+    "J. Cissé": "€500k",
+    "O. El Sawy": "€550k",
+    "O. Bic": "€1.00m",
+    "G. Simion": "€850k",
+    "V. Postolachi": "€650k",
+    "A. Trică": "€300k",
+    "M. Drammeh": "€350k",
+    "J. Lukić": "€1.50m",
+    "A. Artean": "€550k",
+    "Ş. Lefter": "€400k",
+    "E. Gertmonas": "€1.40m",
+    "A. Coubis": "€500k",
+    "D. Nistor": "€300k"
+  }
+}

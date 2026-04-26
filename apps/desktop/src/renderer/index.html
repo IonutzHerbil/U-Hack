@@ -12,8 +12,7 @@
     <nav class="sidebar">
       <div class="logo">
         <img src="../../../../resources/logo.png" alt="U Cluj Logo" style="width: 100px; height: auto; margin-bottom: 10px;">
-        <h1>U Cluj</h1>
-        <p data-i18n="sidebar.tagline">Tablou de analiza</p>
+        <h1 class="brand-title">C.L.U.J. Scout</h1>
       </div>
       <ul class="nav-menu">
         <li class="nav-item active" data-view="overview" data-i18n="nav.overview">Prezentare echipa</li>
@@ -114,6 +113,33 @@
           </div>
         </header>
 
+        <!-- Squad Metrics Overview -->
+        <div class="squad-metrics-strip">
+          <div class="squad-metric">
+            <span class="metric-value" id="totalPlayers">-</span>
+            <span class="metric-label">Total Players</span>
+          </div>
+          <div class="metric-divider"></div>
+          <div class="squad-metric">
+            <span class="metric-value" id="avgAge">-</span>
+            <span class="metric-label">Total Apps</span>
+          </div>
+          <div class="squad-metric">
+            <span class="metric-value" id="avgRating">-</span>
+            <span class="metric-label">Avg Rating</span>
+          </div>
+          <div class="metric-divider"></div>
+          <div class="squad-metric">
+            <span class="metric-value" id="totalGoals">-</span>
+            <span class="metric-label">Total Goals</span>
+          </div>
+          <div class="squad-metric">
+            <span class="metric-value" id="totalAssists">-</span>
+            <span class="metric-label">Total Assists</span>
+          </div>
+        </div>
+
+        <!-- Pitch View Container -->
         <div id="pitchViewContainer" class="pitch-view-container">
           <div class="pitch-controls">
             <div class="control-group">
@@ -194,25 +220,38 @@
         </div>
 
         <div id="tableViewContainer" class="table-view-container" style="display: none;">
-          <div class="search-bar">
-            <input type="text" id="playerSearch" placeholder="Cauta jucatori..." />
+          <div class="squad-controls">
+            <div class="search-bar">
+              <input type="text" id="playerSearch" placeholder="Search players..." />
+            </div>
+            <div class="filter-bar">
+              <select id="positionFilterTable" onchange="app.filterTableByPosition(this.value)">
+                <option value="ALL">All Positions</option>
+                <option value="GK">Goalkeeper</option>
+                <option value="DEF">Defenders</option>
+                <option value="MID">Midfielders</option>
+                <option value="FWD">Forwards</option>
+              </select>
+            </div>
           </div>
           <div class="table-container">
             <table class="data-table" id="playersTable">
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Position</th>
-                  <th>Rating</th>
-                  <th>Apps</th>
-                  <th>Goals</th>
-                  <th>Assists</th>
-                  <th>Minutes</th>
+                  <th class="sortable" data-sort="name">Name ↕</th>
+                  <th class="sortable" data-sort="position">Position ↕</th>
+                  <th class="sortable" data-sort="overall">Rating ↕</th>
+                  <th class="sortable" data-sort="apps">Apps ↕</th>
+                  <th class="sortable" data-sort="goals">Goals ↕</th>
+                  <th class="sortable" data-sort="assists">Assists ↕</th>
+                  <th class="sortable" data-sort="minutes">Minutes ↕</th>
+                  <th class="sortable" data-sort="goals90">G/90 ↕</th>
+                  <th class="sortable" data-sort="assists90">A/90 ↕</th>
                 </tr>
               </thead>
               <tbody id="playersTableBody">
                 <tr>
-                  <td colspan="7" class="loading">Se incarca jucatorii...</td>
+                  <td colspan="9" class="loading">Se incarca jucatorii...</td>
                 </tr>
               </tbody>
             </table>
@@ -227,22 +266,95 @@
         </div>
       </div>
 
-      <div id="matchesView" class="view">
+      <!-- Scouting View -->
+      <div id="scoutingView" class="view">
         <header class="view-header">
-          <h2 data-i18n="matches.title">Statistici meci</h2>
-          <button class="btn-refresh" onclick="app.loadMatches()" data-i18n="common.refresh">Reincarca</button>
+          <h2>Player Scouting Database</h2>
+          <button id="scoutingActionBtn" class="btn-refresh" onclick="app.scoutingAction()">Refresh</button>
         </header>
+
+        <!-- Source Toggle -->
+        <div class="squad-controls" style="margin-bottom: 16px;">
+          <div class="filter-bar">
+            <select id="scoutingSource" onchange="app.switchScoutingSource()" style="padding: 10px 16px; background-color: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); font-size: 14px; border-radius: 0; font-weight: 500;">
+              <option value="liga1">Liga 1 Players (Current Season)</option>
+              <option value="transfermarkt">Transfermarkt Database</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Liga 1 Filters -->
+        <div id="liga1Filters" class="squad-controls" style="flex-wrap: wrap; display: flex;">
+          <div class="search-bar">
+            <input type="text" id="liga1PlayerSearch" placeholder="Search by name or team..." />
+          </div>
+          <div class="filter-bar">
+            <select id="liga1PositionFilter">
+              <option value="ALL">All Positions</option>
+              <option value="GK">Goalkeeper</option>
+              <option value="DEF">Defender</option>
+              <option value="MID">Midfielder</option>
+              <option value="ATT">Attacker</option>
+            </select>
+          </div>
+          <div class="filter-bar">
+            <select id="liga1TeamFilter">
+              <option value="ALL">All Teams</option>
+            </select>
+          </div>
+          <div class="filter-bar">
+            <select id="liga1RatingFilter">
+              <option value="ALL">All Ratings</option>
+              <option value="75+">75+</option>
+              <option value="70-75">70-75</option>
+              <option value="65-70">65-70</option>
+              <option value="60-65">60-65</option>
+              <option value="60-">Below 60</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Transfermarkt Filters -->
+        <div id="transfermarktFilters" class="squad-controls" style="flex-wrap: wrap; display: none;">
+          <div class="search-bar">
+            <input type="text" id="tmPlayerSearch" placeholder="Search by name..." />
+          </div>
+          <div class="filter-bar">
+            <select id="tmLeagueFilter">
+              <option value="">All Leagues</option>
+              <option value="romania2">Romanian Liga 2</option>
+              <option value="england_u21">Premier League 2 (U21)</option>
+              <option value="spain_u21">Primera Federación (Spain)</option>
+              <option value="germany_u23">Regionalliga West (Germany)</option>
+              <option value="italy_u23">Serie C Group A (Italy)</option>
+              <option value="netherlands_u21">Eerste Divisie (Jong teams)</option>
+              <option value="belgium_u21">Challenger Pro League (Belgium)</option>
+              <option value="france_u23">Championnat National 2 (France)</option>
+              <option value="portugal_u23">Liga Revelação U23</option>
+              <option value="austria_u23">2. Liga Austria</option>
+              <option value="usa_u23">MLS Next Pro</option>
+            </select>
+          </div>
+          <div class="filter-bar">
+            <input type="text" id="tmPositionInput" placeholder="Position (e.g. Forward)" style="padding: 10px 16px; background-color: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); font-size: 14px; border-radius: 0;" />
+          </div>
+          <div class="filter-bar">
+            <input type="text" id="tmNationalityInput" placeholder="Nationality (e.g. Romania)" style="padding: 10px 16px; background-color: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); font-size: 14px; border-radius: 0;" />
+          </div>
+          <div class="filter-bar">
+            <input type="text" id="tmAgeInput" placeholder="Age" style="padding: 10px 16px; background-color: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); font-size: 14px; border-radius: 0; width: 80px;" />
+          </div>
+        </div>
+
+        <!-- Players Table -->
         <div class="table-container">
-          <table class="data-table" id="matchesTable">
-            <thead>
-              <tr>
-                <th>Statistic</th>
-                <th colspan="4">Value</th>
-              </tr>
+          <table class="data-table" id="scoutingPlayersTable">
+            <thead id="scoutingTableHead">
+              <!-- Table headers will be dynamically updated based on source -->
             </thead>
-            <tbody id="matchesTableBody">
+            <tbody id="scoutingPlayersTableBody">
               <tr>
-                <td colspan="5" class="loading">Se incarca datele meciurilor...</td>
+                <td colspan="9" class="loading">Loading players...</td>
               </tr>
             </tbody>
           </table>

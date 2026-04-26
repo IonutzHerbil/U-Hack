@@ -68,19 +68,79 @@ class APIClient {
     return response.data;
   }
 
-  async getRecruitmentRecommendations(): Promise<RecruitmentRecommendationResponse> {
-    const response = await this.client.get<RecruitmentRecommendationResponse>('/recruitment/recommendations', {
-      timeout: 70000,
-    });
-    return response.data;
+  async getLiga1MarketValues(names: string[]): Promise<Record<string, string>> {
+    try {
+      const response = await this.client.post<Record<string, string>>('/players/market-values/batch', { names });
+      return response.data || {};
+    } catch (error) {
+      console.warn('Market values endpoint not available:', error);
+      return {};
+    }
   }
 
-  async getRecruitmentShortlist(limitPerNeed = 4): Promise<RecruitmentShortlistResponse> {
-    const response = await this.client.get<RecruitmentShortlistResponse>('/recruitment/shortlist', {
-      params: { limit_per_need: limitPerNeed },
-      timeout: 70000,
-    });
-    return response.data;
+  async getTransferNeeds(): Promise<any[]> {
+    try {
+      const response = await this.client.get('/ucluj/transfer-needs');
+      return response.data;
+    } catch (error) {
+      console.warn('Transfer needs endpoint not available, returning empty');
+      return [];
+    }
+  }
+
+  async getRecommendations(): Promise<any[]> {
+    try {
+      const response = await this.client.get('/recruitment/recommendations');
+      return response.data;
+    } catch (error) {
+      console.warn('Recommendations endpoint not available, returning empty');
+      return [];
+    }
+  }
+
+  async getShortlist(limitPerNeed: number = 4): Promise<any> {
+    try {
+      const response = await this.client.get(`/recruitment/shortlist?limit_per_need=${limitPerNeed}`);
+      return response.data;
+    } catch (error) {
+      console.warn('Shortlist endpoint not available:', error);
+      return { priority_needs: [], shortlist: [] };
+    }
+  }
+
+  async searchTransfermarktPlayers(filters?: {
+    age?: string;
+    nationality?: string;
+    position?: string;
+    value?: string;
+    league?: string;
+  }): Promise<any> {
+    try {
+      const params = new URLSearchParams();
+      if (filters?.age) params.append('age', filters.age);
+      if (filters?.nationality) params.append('nationality', filters.nationality);
+      if (filters?.position) params.append('position', filters.position);
+      if (filters?.value) params.append('value', filters.value);
+      if (filters?.league) params.append('league', filters.league);
+
+      // Use axios directly with full URL since scraper is not under /api/v1
+      const response = await axios.get(`http://localhost:8000/api/scraper/players?${params.toString()}`);
+      return response.data;
+    } catch (error) {
+      console.warn('Transfermarkt scraper endpoint not available:', error);
+      return { total: 0, players: [] };
+    }
+  }
+
+  async getTransfermarktPlayerProfile(tmId: string): Promise<any> {
+    try {
+      // Use axios directly with full URL since scraper is not under /api/v1
+      const response = await axios.get(`http://localhost:8000/api/scraper/player/${tmId}`);
+      return response.data;
+    } catch (error) {
+      console.warn('Failed to fetch player profile:', error);
+      return null;
+    }
   }
 
   async getPlayerRisk(playerName: string): Promise<any> {
