@@ -4,14 +4,24 @@ import * as path from 'path';
 let mainWindow: BrowserWindow | null = null;
 
 function createWindow(): void {
+  const isMac = process.platform === 'darwin';
+
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
+    titleBarStyle: isMac ? 'hiddenInset' : 'hidden',
+    titleBarOverlay: isMac
+      ? false
+      : {
+          color: '#111111',
+          symbolColor: '#ffffff',
+          height: 34,
+        },
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
     },
-    title: 'U Cluj Analytics',
+    title: 'CLUJ Scout',
     backgroundColor: '#1a1a1a',
   });
 
