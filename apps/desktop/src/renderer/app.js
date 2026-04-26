@@ -18,6 +18,8 @@ class App {
     this.selectedA = null;
     this.selectedB = null;
     this.activePos = 'ALL';
+    this.recruitmentRequestId = 0;
+    this.recruitmentLoaded = false;
 
     // Pitch View State
     this.isPitchView = true;
@@ -162,6 +164,8 @@ class App {
       this.loadMatches();
     } else if (viewName === 'comparison') {
       this.loadComparisonView();
+    } else if (viewName === 'recruitment' && !this.recruitmentLoaded) {
+      this.loadRecruitment();
     }
   }
 
@@ -1802,6 +1806,163 @@ class App {
         document.getElementById('comparisonView').scrollTop = document.getElementById('comparisonView').scrollHeight;
       });
     });
+  }
+
+  getPriorityClass(priority) {
+    const normalized = (priority || '').toLowerCase();
+    if (normalized === 'high') return 'priority-high';
+    if (normalized === 'medium') return 'priority-medium';
+    return 'priority-low';
+  }
+
+  parseTraits(traits) {
+    if (Array.isArray(traits)) return traits;
+    if (typeof traits !== 'string') return [];
+    try {
+      const parsed = JSON.parse(traits.replace(/'/g, '"'));
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+      return [];
+    }
+  }
+
+  formatMetricValue(value) {
+    if (typeof value !== 'number' || Number.isNaN(value)) return '-';
+    return value >= 10 ? value.toFixed(1) : value.toFixed(2);
+  }
+
+  async loadRecruitment() {
+    const statusEl = document.getElementById('recruitmentStatus');
+    const needsEl = document.getElementById('recruitmentNeeds');
+    const shortlistEl = document.getElementById('recruitmentShortlist');
+    const shortlistLimit = Number(document.getElementById('shortlistLimit')?.value || 4);
+
+    if (!statusEl || !needsEl || !shortlistEl) return;
+
+    statusEl.textContent = 'Loading recruitment data...';
+    needsEl.innerHTML = '<div class="loading">Loading priority needs...</div>';
+    shortlistEl.innerHTML = '<div class="loading">Loading shortlist...</div>';
+
+    const requestId = ++this.recruitmentRequestId;
+    const withTimeout = (promise, label, ms = 75000) => Promise.race([
+      promise,
+      new Promise((_, reject) => {
+        setTimeout(() => reject(new Error(`${label} timed out after ${ms / 1000}s`)), ms);
+      }),
+    ]);
+
+    const [recommendationsResult, shortlistResult] = await Promise.allSettled([
+      withTimeout(apiClient.getRecruitmentRecommendations(), 'Recommendations'),
+      withTimeout(apiClient.getRecruitmentShortlist(shortlistLimit), 'Shortlist'),
+    ]);
+
+    // Ignore stale responses if user clicked refresh/apply multiple times quickly.
+    if (requestId !== this.recruitmentRequestId) return;
+
+    const failures = [];
+
+    if (recommendationsResult.status === 'fulfilled') {
+      this.renderRecruitmentNeeds(recommendationsResult.value?.priority_needs || []);
+    } else {
+      console.error('Failed to load recruitment recommendations:', recommendationsResult.reason);
+      needsEl.innerHTML = '<div style="color: var(--danger);">Could not load priority needs.</div>';
+      failures.push('priority needs');
+    }
+
+    if (shortlistResult.status === 'fulfilled') {
+      this.renderRecruitmentShortlist(shortlistResult.value?.shortlist || []);
+    } else {
+      console.error('Failed to load recruitment shortlist:', shortlistResult.reason);
+      shortlistEl.innerHTML = '<div style="color: var(--danger);">Could not load shortlist.</div>';
+      failures.push('shortlist');
+    }
+
+    if (failures.length === 0) {
+      statusEl.textContent = `Updated shortlist with up to ${shortlistLimit} candidates per role.`;
+    } else {
+      statusEl.textContent = `Loaded with issues: ${failures.join(' and ')} unavailable.`;
+    }
+    this.recruitmentLoaded = true;
+  }
+
+  renderRecruitmentNeeds(needs) {
+    const el = document.getElementById('recruitmentNeeds');
+    if (!el) return;
+
+    if (!needs.length) {
+      el.innerHTML = '<div class="loading">No recruitment needs returned.</div>';
+      return;
+    }
+
+    el.innerHTML = needs.map((need) => `
+      <article class="need-card">
+        <div class="need-card-header">
+          <span class="need-position">${need.position}</span>
+          <span class="need-priority ${this.getPriorityClass(need.priority)}">${need.priority || 'n/a'}</span>
+        </div>
+        <p class="need-reason">${need.reason || 'No reason provided.'}</p>
+        <div class="need-meta">
+          <span>Min minutes: <strong>${need.min_minutes ?? '-'}</strong></span>
+          <span>Max age: <strong>${need.age_max ?? '-'}</strong></span>
+        </div>
+        <div class="need-section-label">Desired traits</div>
+        <div class="need-tags">
+          ${(need.desired_traits || []).map((trait) => `<span class="need-tag">${trait}</span>`).join('')}
+        </div>
+        <div class="need-section-label">Target metrics</div>
+        <div class="need-tags">
+          ${(need.target_metrics || []).map((metric) => `<span class="need-tag metric-tag">${metric}</span>`).join('')}
+        </div>
+      </article>
+    `).join('');
+  }
+
+  renderRecruitmentShortlist(shortlist) {
+    const el = document.getElementById('recruitmentShortlist');
+    if (!el) return;
+
+    if (!shortlist.length) {
+      el.innerHTML = '<div class="loading">No shortlist candidates returned.</div>';
+      return;
+    }
+
+    el.innerHTML = shortlist.map((item) => `
+      <section class="shortlist-group">
+        <div class="shortlist-group-header">
+          <span class="need-position">${item.position}</span>
+          <span class="need-priority ${this.getPriorityClass(item.priority)}">${item.priority || 'n/a'}</span>
+        </div>
+        <p class="need-reason">${item.reason || 'No reason provided.'}</p>
+        <div class="candidate-list">
+          ${(item.candidates || []).map((candidate) => {
+            const traits = this.parseTraits(candidate.strengths);
+            const topMetrics = (candidate.fit_metrics || []).slice(0, 3);
+            return `
+              <article class="candidate-card">
+                <div class="candidate-main">
+                  <div class="candidate-identity">
+                    ${this._playerAvatar(candidate, '#8df5e6', 40)}
+                    <div>
+                    <div class="candidate-name">${candidate.name || 'Unknown'}</div>
+                    <div class="candidate-meta">${candidate.team_slug || 'Unknown team'} · ${(candidate.position || '-').toUpperCase()} · ${candidate.minutes || 0} mins</div>
+                    </div>
+                  </div>
+                  <div class="candidate-score">${this.formatMetricValue(candidate.fit_score)}</div>
+                </div>
+                <div class="candidate-rating">Overall: ${this.formatMetricValue(candidate.overall)}</div>
+                ${traits.length ? `<div class="need-tags">${traits.map((trait) => `<span class="need-tag">${trait}</span>`).join('')}</div>` : ''}
+                ${topMetrics.length ? `
+                  <div class="candidate-metrics">
+                    ${topMetrics.map((metric) => `<span class="metric-item">${metric.metric}: ${this.formatMetricValue(metric.value)}</span>`).join('')}
+                  </div>
+                ` : ''}
+                ${candidate.verdict ? `<div class="candidate-verdict">${candidate.verdict}</div>` : ''}
+              </article>
+            `;
+          }).join('')}
+        </div>
+      </section>
+    `).join('');
   }
 
   showError(elementId, message) {

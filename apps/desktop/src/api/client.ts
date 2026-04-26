@@ -1,5 +1,15 @@
 import axios, { AxiosInstance } from 'axios';
-import type { SquadPlayer, AllPlayer, TeamOverview, Match, TacticalDimension, APIConfig, MatchRecord } from '../types/api';
+import type {
+  SquadPlayer,
+  AllPlayer,
+  TeamOverview,
+  Match,
+  TacticalDimension,
+  APIConfig,
+  MatchRecord,
+  RecruitmentRecommendationResponse,
+  RecruitmentShortlistResponse,
+} from '../types/api';
 
 class APIClient {
   private client: AxiosInstance;
@@ -55,6 +65,21 @@ class APIClient {
 
   async getAllPlayers(): Promise<AllPlayer[]> {
     const response = await this.client.get<AllPlayer[]>('/players/');
+    return response.data;
+  }
+
+  async getRecruitmentRecommendations(): Promise<RecruitmentRecommendationResponse> {
+    const response = await this.client.get<RecruitmentRecommendationResponse>('/recruitment/recommendations', {
+      timeout: 70000,
+    });
+    return response.data;
+  }
+
+  async getRecruitmentShortlist(limitPerNeed = 4): Promise<RecruitmentShortlistResponse> {
+    const response = await this.client.get<RecruitmentShortlistResponse>('/recruitment/shortlist', {
+      params: { limit_per_need: limitPerNeed },
+      timeout: 70000,
+    });
     return response.data;
   }
 }
