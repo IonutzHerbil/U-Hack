@@ -1966,3 +1966,260 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* ─── Risk Scout (Web Scraper) ─────────────────────────────────────────────── */
+
+.scraper-search-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  max-width: 540px;
+}
+
+.scraper-search-bar input {
+  flex: 1;
+  padding: 10px 16px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.scraper-search-bar input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.scraper-status {
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  min-height: 20px;
+}
+
+.scraper-status.loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-style: italic;
+}
+
+.scraper-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--border-color);
+  border-top-color: var(--text-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.scraper-status.error {
+  color: #f87171;
+}
+
+/* Profile card */
+.scraper-profile-card {
+  margin-bottom: 16px;
+}
+
+.scraper-profile-header {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.scraper-player-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.scraper-profile-subtitle {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+
+/* Trait rows */
+.scraper-traits {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.scraper-trait-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.scraper-trait-label {
+  width: 140px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+.scraper-trait-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background-color: var(--bg-dark);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.scraper-trait-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+.scraper-trait-bar-fill.level-High   { background: #f87171; }
+.scraper-trait-bar-fill.level-Medium { background: #facc15; }
+.scraper-trait-bar-fill.level-Low    { background: #4ade80; }
+
+.scraper-trait-score {
+  width: 46px;
+  text-align: right;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+.scraper-trait-level {
+  width: 60px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.scraper-trait-level.level-High   { background: rgba(248,113,113,0.2); color: #f87171; }
+.scraper-trait-level.level-Medium { background: rgba(250,204,21,0.2);  color: #facc15; }
+.scraper-trait-level.level-Low    { background: rgba(74,222,128,0.2);  color: #4ade80; }
+
+.scraper-trait-desc {
+  font-size: 11px;
+  color: var(--text-secondary);
+  flex: 0 0 240px;
+}
+
+.scraper-no-traits {
+  color: #4ade80;
+  font-size: 14px;
+  padding: 8px 0;
+}
+
+/* Reports list */
+.scraper-reports-card {
+  margin-bottom: 20px;
+}
+
+.scraper-reports-card h3 {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+}
+
+.scraper-reports-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.scraper-report-item {
+  border: 1px solid #2b2b2b;
+  border-radius: 10px;
+  padding: 14px 16px;
+  background: #101010;
+}
+
+.scraper-report-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.scraper-report-url {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.scraper-report-url a {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.scraper-report-url a:hover {
+  color: var(--text-primary);
+  text-decoration: underline;
+}
+
+.scraper-issue-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.scraper-issue {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.scraper-issue-type {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.scraper-issue-type.type-discipline { background: rgba(248,113,113,0.2); color: #f87171; }
+.scraper-issue-type.type-injury     { background: rgba(250,204,21,0.2);  color: #facc15; }
+.scraper-issue-type.type-conflict   { background: rgba(251,146,60,0.2);  color: #fb923c; }
+.scraper-issue-type.type-scandal    { background: rgba(167,139,250,0.2); color: #a78bfa; }
+
+.scraper-issue-summary {
+  color: #c8c8c8;
+  line-height: 1.5;
+}
+
+.scraper-issue-sev {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.scraper-clean {
+  color: #4ade80;
+  font-size: 13px;
+}

@@ -82,6 +82,13 @@ class APIClient {
     });
     return response.data;
   }
+
+  async getPlayerRisk(playerName: string): Promise<any> {
+    const response = await this.client.get(`/scraper/player/${encodeURIComponent(playerName)}`, {
+      timeout: 120000,
+    });
+    return response.data;
+  }
 }
 
 export const apiClient = new APIClient();

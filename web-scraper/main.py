@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 from ddgs import DDGS
 from newspaper import Article
 from collections import defaultdict
@@ -6,8 +8,13 @@ import json
 import time
 import re
 
+load_dotenv()
+
+
 # ── Gemini setup ──────────────────────────────────────────────────────────────
-genai.configure(api_key="API_KEY")
+api_key2 =  os.getenv("GEMINI_API_KEY")
+print(f"[scraper] Gemini API key loaded: {'Yes' if api_key2 else 'No'}")
+genai.configure(api_key=api_key2)
 model = genai.GenerativeModel("gemini-2.5-flash-lite")
 
 # ── Config ────────────────────────────────────────────────────────────────────
